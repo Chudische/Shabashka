@@ -1,0 +1,32 @@
+{% extends 'main/layout.html' %}
+
+{% block body %}
+<div class="center">
+<h2>Вход</h2>
+{% if user.is_authenticated %}
+<p> Вы уже выполнили вход</p>
+{% else %}
+
+    
+    
+    <div class="item">
+       <div class="content-item">
+        <form  class="form center" method="POST">
+            {{form.error}}
+            {% csrf_token %}
+            <div class="form-group">        
+            <label for="inputEmail" class="sr-only">Email адрес</label>
+            <input type="text" id="inputEmail" class="form-control" placeholder="Email адрес" required="" autofocus="">
+            </div>
+            <div class="form-group">
+            <label for="inputPassword" class="sr-only">Пароль</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Пароль" required="">
+            </div> 
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Вход</button>   
+        </form>
+     </div>
+    </div>
+
+{% endif %}
+</div>
+{% endblock %}

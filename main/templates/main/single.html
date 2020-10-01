@@ -1,0 +1,35 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block body %}
+    <header>
+		<div class="logo">
+			<a href="index.html"><img src="{% static 'main/images/logo.png' %}"></a>
+		</div>
+    </header>
+	
+    <div id="page-content" class="sub-page">
+		<div class="container">
+			<center><article>
+				<a class="example-image-link" href="{% static 'main/images/01.jpg' %}" data-lightbox="example-set" data-title="Click the right half of the image to move forward."><img class="example-image" src="{% static 'main/images/01.jpg' %}" alt=""/></a>
+				<div class="content-item">
+					<span class="time"><a class="btn btn-1">More</a> SEPTEMBER 30TH</span>
+					<h3 class="title-item"><a href="#">Agfa</a></h3>
+					<ul class="list-inline">
+						<li><a href="#"><i class="fa fa-eye"></i> 260</a></li>
+						<li><a href="#"><i class="fa fa-comment"></i> 260</a></li>
+						<li><a href="#"><i class="fa fa-heart"></i> 260</a></li>
+						<li><a href="#"><i class="fa fa-share"></i> 260</a></li>
+					</ul>
+					<p class="info">Aenean feugiat in ante et blandit. Vestibulum posuere molestie risus, ac interdum magna porta non. Pellentesque rutrum fringilla elementum. Curabitur tincidunt porta lorem vitae accumsan.Aenean feugiat in ante et blandit. Vestibulum posuere molestie risus, ac interdum magna porta non. Pellentesque rutrum fringilla elementum. Curabitur tincidunt porta lorem vitae accumsan.Aenean feugiat in ante et blandit. Vestibulum posuere molestie risus, ac interdum magna porta non. Pellentesque rutrum fringilla elementum. Curabitur tincidunt porta lorem vitae accumsan.</p>
+					<h3>Heading Text</h3>
+					<p class="info">Aenean feugiat in ante et blandit. Vestibulum posuere molestie risus, ac interdum magna porta non. Pellentesque rutrum fringilla elementum. Curabitur tincidunt porta lorem vitae accumsan.Aenean feugiat in ante et blandit. Vestibulum posuere molestie risus, ac interdum magna porta non. Pellentesque rutrum fringilla elementum. Curabitur tincidunt porta lorem vitae accumsan.</p>
+				</div>
+				<div class="bottom-item">
+					<a href="#" class="btn btn-share share"><i class="fa fa-share-alt"></i> Share</a>
+					<span class="user f-right">Posted by <a href="#">Jason Lemon</a><img src="{% static 'main/images/ava-1.jpg' %}" class="img-circle"></span>
+				</div>
+			</article></center>
+		</div>
+	</div>
+
+{% endblock %}
