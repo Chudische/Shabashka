@@ -107,7 +107,7 @@ article h3{margin: 0;padding: 0;}
 /* ---------------------------------------------------------------------------- */
 /* -------------------------------------Btn------------------------------------ */
 /* ---------------------------------------------------------------------------- */
-.btn{color: #fff;padding: 0px 10px;font-weight: bold;}
+.btn-small{color: #fff;padding: 0px 10px;font-weight: bold;}
 .btn-share{font-weight: 500;color: #555;border-right: 1px solid #ddd;margin: 0;border-radius: none;height: 51px; width: 75px;margin-top: -1px;padding: 14px;}
 .btn-search{color: #333333;
   background-color: #ddd;

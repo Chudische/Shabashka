@@ -3,7 +3,8 @@ from django.http import HttpResponse, Http404
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.contrib.auth.views import LoginView, LogoutView 
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import ShaUser
 # Create your views here.
@@ -24,7 +25,16 @@ def other_page(request, page):
         raise Http404
     return HttpResponse(template.render(request=request))
 
+
 class ShaLogin(LoginView):
     template_name = 'main/login.html'
+
+
+class ShaLogout(LoginRequiredMixin, LoginView):
+    template_name = 'main/logout.html'
+
+
+def profile(request):
+    return render(request, "main/profile.html")
 
     
