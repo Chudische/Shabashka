@@ -2,15 +2,16 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.urls import reverse_lazy
 from django.template import TemplateDoesNotExist
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, CreateView
+from django.views.generic.base import TemplateView
 from django.template.loader import get_template
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView 
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView  
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
 from .models import ShaUser
-from .forms import ChangeProfileForm
+from .forms import ChangeProfileForm, RegisterUserForm
 # Create your views here.
 
 
@@ -62,6 +63,13 @@ class ShaPassChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeV
     success_url = reverse_lazy('main:profile')
     success_message = "Пароль был изменен"
 
-
+class RegisterUserView(CreateView):
+    model = ShaUser
+    template_name = 'main/reister_user.html'
+    form_class = RegisterUserForm
+    success_url = reverse_lazy('main:register_done')
+    
+class RegisterDone(TemplateView):
+    template_name = 'main/register_done.html'
 
     

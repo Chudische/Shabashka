@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+{% load bootstrap4 %}
+
+{% block title %} Регистрация {% endblock %}
+
+{% block body %}
+<div class="container p-5">
+<h2>Регистрация</h2>
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form layout="vertical"%}
+    {% buttons submit='Зарегистрироваться' %}{% endbuttons %}
+</form>
+</div>
+{% endblock %}

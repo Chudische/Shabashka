@@ -86,7 +86,7 @@
               <a class="dropdown-item" href="{% url 'main:logout' %}">Выйти</a>
               {% else %}
               <a class="dropdown-item" href="{% url 'main:login' %}">Войти</a>
-              <a class="dropdown-item" href="#">Регистрация</a>
+              <a class="dropdown-item" href="{% url 'main:reister_user' %}">Регистрация</a>
               {% endif %}
             </div>
             
