@@ -3,5 +3,9 @@
 {% block title %} Профиль {% endblock %}
 
 {% block body %}
+<div class="container p-5">
 <h3>Профиль пользователя {{ user.username }}</h3>
+<a href="{% url 'main:profile_change' %}" class="btn btn-primary">Изменить профиль</a>
+<a href="{% url 'main:password_change' %}" class="btn btn-primary">Изменить пароль</a>
+</div>
 {% endblock %}

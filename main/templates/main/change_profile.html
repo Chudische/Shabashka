@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+{% load bootstrap4 %}
+
+{% block title %} Настройка профиля {% endblock %}
+
+{% block body %}
+<div class="container p-5">
+<h2>Настройка профиля пользователя {{ user.username }}</h2>
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form layout="vertical"%}
+    {% buttons submit='Сохранить' %}{% endbuttons %}
+</form>
+</div>
+{% endblock %}
