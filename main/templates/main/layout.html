@@ -10,13 +10,9 @@
     <meta name="author" content="https://www.Zerotheme.com">
 	
     <title>Shabashka {% block title %}{% endblock %}</title>
-	
-    <!-- Bootstrap Core CSS -->
-    <!-- <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %} "  type="text/css"> -->
-  {% bootstrap_css %}
-  
-	<!-- SmartMenus jQuery Bootstrap Addon CSS -->
-    <link href="{% static 'main/css/jquery.smartmenus.bootstrap.css' %}" rel="stylesheet">
+
+	{% bootstrap_css %}
+ 
 	
 	<!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}">
@@ -26,8 +22,7 @@
 	
 	<link rel="stylesheet" href="{% static 'main/css/lightbox.css' %}">
 	
-	<!-- Core JavaScript Files -->  	 
-    <!-- <script src="{% static 'main/js/bootstrap.min.js' %}"></script> -->
+	
   {% bootstrap_javascript jquery="slim" %}
 	
 
@@ -51,22 +46,28 @@
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'main:index' %}"><i class="fa fa-home"></i> Главная <span class="sr-only">(current)</span></a>
           </li> 
-          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'main:index' %}"><i class="fa fa-plus"></i> Создать</a>
+          </li> 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-list"></i> Категории
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>              
-              <a class="dropdown-item" href="#">Something else here</a>
+              {% for category in categories %}
+              {% ifchanged category.super_category.pk %}
+              <a class="dropdown-item" href="{url 'main:by_category' pk=category.pk}">{{category.super_category.name}}</a>
+              {% endifchanged %}
+              {% endfor %}                        
+                
             </div>
-          </li>
-           <li class="nav-item">
-              <a class="nav-link" href="#"><i class="fa fa-envelope"></i> Связаться</a>
-          </li>
-
           
+          </li>
+          
+                   
+          <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fa fa-envelope"></i> Связаться</a>
+          </li>         
         
           <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -86,7 +87,7 @@
               <a class="dropdown-item" href="{% url 'main:logout' %}">Выйти</a>
               {% else %}
               <a class="dropdown-item" href="{% url 'main:login' %}">Войти</a>
-              <a class="dropdown-item" href="{% url 'main:reister_user' %}">Регистрация</a>
+              <a class="dropdown-item" href="{% url 'main:register_user' %}">Регистрация</a>
               {% endif %}
             </div>
             
@@ -103,20 +104,15 @@
     {% endblock %}
 
     <!-- Once the page is loaded, initialized the plugin. -->
-    <script type="text/javascript" src="{% static 'main/js/jquery-2.1.1.js' %}" ></script>    
-    <script src="{% static 'main/js/bootstrap.min.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'main/js/jquery-2.1.1.js' %}" ></script>     -->
+    <!-- <script src="{% static 'main/js/bootstrap.min.js' %}"></script> -->
     
 	
 	<!-- jQuery Pinterest -->
     <script type="text/javascript" src="{% static 'main/js/jquery.pinto.js' %}"></script>
     <script type="text/javascript" src="{% static 'main/js/main.js' %}"></script>
 	
-	<!-- SmartMenus jQuery plugin -->
-    <script type="text/javascript" src="{% static 'main/js/jquery.smartmenus.js' %}"></script>
 
-    <!-- SmartMenus jQuery Bootstrap Addon -->
-    <script type="text/javascript" src="{% static 'main/js/jquery.smartmenus.bootstrap.js' %}"></script>
-	
 	<script src="{% static 'main/js/lightbox-plus-jquery.min.js' %}"></script>
 </body>
 </html>

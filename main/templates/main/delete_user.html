@@ -1,0 +1,14 @@
+{% extends 'main/layout.html' %}
+{% load bootstrap4 %}
+
+{% block title %} Удаление профиля {% endblock %}
+
+{% block body %}
+<div class="container p-5">
+<h2>Удаление профиля пользователя {{ object.username }}</h2>
+<form method="POST">
+    {% csrf_token %}    
+    {% buttons submit='Удалить' %}{% endbuttons %}
+</form>
+</div>
+{% endblock %}

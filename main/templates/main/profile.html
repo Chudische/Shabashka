@@ -7,5 +7,6 @@
 <h3>Профиль пользователя {{ user.username }}</h3>
 <a href="{% url 'main:profile_change' %}" class="btn btn-primary">Изменить профиль</a>
 <a href="{% url 'main:password_change' %}" class="btn btn-primary">Изменить пароль</a>
+<a href="{% url 'main:profile_delete' %}" class="btn btn-primary">Удалить профиль</a>
 </div>
 {% endblock %}

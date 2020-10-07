@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 
-from .models import ShaUser, user_registrated
+from .models import ShaUser, user_registrated, SuperCategory, SubCategory
 
 class ChangeProfileForm(forms.ModelForm):
     email = forms.EmailField(required=True, label="Адрес электронной почты")
@@ -49,3 +49,11 @@ class RegisterUserForm(forms.ModelForm):
         model = ShaUser
         fields = ('username', 'email', 'password1', 'password2', 
             'first_name', 'last_name', 'send_message')
+
+
+class SubCategoryForm(forms.ModelForm):
+    super_category = forms.ModelChoiceField(queryset=SuperCategory.objects.all(),
+                    empty_label=None, label="Надкатегория", required=True)
+    class Meta:
+        model = SubCategory
+        fields = '__all__'

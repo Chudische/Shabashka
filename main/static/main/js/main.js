@@ -16,4 +16,7 @@ $(document).ready(function($) {
     $("#pintoDestroy").click(function(){
         $('#container').pinto("destroy");
     });
+    
+    
+
 });
