@@ -6,9 +6,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Free Bootstrap Themes by Zerotheme dot com - Free Responsive Html5 Templates">
-    <meta name="author" content="https://www.Zerotheme.com">
-	
+   
     <title>Shabashka {% block title %}{% endblock %}</title>
 
 	{% bootstrap_css %}
@@ -56,8 +54,9 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               {% for category in categories %}
               {% ifchanged category.super_category.pk %}
-              <a class="dropdown-item" href="{url 'main:by_category' pk=category.pk}">{{category.super_category.name}}</a>
+              <span class="nav-link font-weight-bold">{{category.super_category.name}}</span>
               {% endifchanged %}
+              <a class="dropdown-item font-weight-bold" href="{url 'main:by_category' pk=category.pk}">{{category.name}}</a>
               {% endfor %}                        
                 
             </div>
@@ -103,10 +102,7 @@
     {% block body %}
     {% endblock %}
 
-    <!-- Once the page is loaded, initialized the plugin. -->
-    <!-- <script type="text/javascript" src="{% static 'main/js/jquery-2.1.1.js' %}" ></script>     -->
-    <!-- <script src="{% static 'main/js/bootstrap.min.js' %}"></script> -->
-    
+  <!-- Once the page is loaded, initialized the plugin. -->    
 	
 	<!-- jQuery Pinterest -->
     <script type="text/javascript" src="{% static 'main/js/jquery.pinto.js' %}"></script>

@@ -34,9 +34,11 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'main.ShaUser'
 
-INSTALLED_APPS = [    
-    'main.apps.MainConfig',
-    'bootstrap4',    
+INSTALLED_APPS = [
+    'easy_thumbnails',
+    'django_cleanup',   
+    'bootstrap4',
+    'main.apps.MainConfig',    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -131,3 +133,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'meida')
+MEDIA_URL = '/media/'
+
+THUMBNAILS_ALIASES = {
+    '': {
+        'default': {
+            'size': (96, 96),
+            'crop': 'scale',
+        },
+    },
+}
+
+THUMBNAILS_BASEDIR = 'thumbnails'

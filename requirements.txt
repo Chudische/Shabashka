@@ -1,0 +1,4 @@
+django-bootstrap4
+pillow
+easy-thumbnails
+django-cleanup

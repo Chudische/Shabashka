@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.dispatch import Signal
 
-from .utilities import send_activation_notification
+from .utilities import send_activation_notification, get_timestamp_path
 
 # Create your models here.
 
@@ -50,11 +50,16 @@ class SubCategory(Category):
 
 
 
-
 class ShaUser(AbstractUser):
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name="Активирован")
     send_message = models.BooleanField(default=True, db_index=True, verbose_name="Отправлять оповещения?")
     
+    def delete(self, *args, **kwargs):
+        for offer in self.offer_set.all():
+            offer.delete()
+        super().delete(*args, **kwargs)
+
+
     class Meta(AbstractUser.Meta):
         pass
 
@@ -64,3 +69,31 @@ def user_registrated_dispather(sender, **kwargs):
     send_activation_notification(kwargs['instance'])
 
 user_registrated.connect(user_registrated_dispather)
+
+class Offer(models.Model):
+    category = models.ForeignKey(SubCategory, on_delete=models.PROTECT, verbose_name="Категория")
+    title = models.CharField(max_length=40, verbose_name="Предложение")
+    content = models.TextField(verbose_name="Описание")
+    price = models.FloatField(default=0, verbose_name="Цена")
+    image = models.ImageField(blank=True, upload_to=get_timestamp_path, verbose_name="Фото")
+    author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, verbose_name="Автор")
+    is_active = models.BooleanField(default=True, db_index=True, verbose_name="Активное")
+    created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано", )
+    
+    def delete(self, *args, **kwargs):
+        for image in self.additionalimage_set.all():
+            image.delete()
+        super().delete(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Предложение"
+        verbose_name_plural = "Предложения"
+        ordering = ["-created"]
+
+class Additionlalimage(models.Model):
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, verbose_name="Предложение")
+    image = models.ImageField(upload_to=get_timestamp_path, verbose_name="Фото")
+
+    class Meta:
+        verbose_name = ""
+        verbose_name_plural = "Дополнительные фото"
