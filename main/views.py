@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404
 from django.urls import reverse_lazy
 from django.template import TemplateDoesNotExist
@@ -12,22 +12,49 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
+from django.core.paginator import Paginator
+from django.db.models import Q
 
-from .models import ShaUser
-from .forms import ChangeProfileForm, RegisterUserForm
+from .models import ShaUser, SubCategory, Offer
+from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet
 from .utilities import signer
 # Create your views here.
 
 
 def index(request):
-    return render(request, "main/index.html")
+    offers = Offer.objects.all()
+    context = {"offers": offers}
+    return render(request, "main/index.html", context)
 
 
 # def single(request):
 #     return render(request, "main/single.html")
 
 def by_category(request, pk):
-    pass
+    category = get_object_or_404(SubCategory, pk=pk)
+    offers = Offer.objects.filter(is_active=True, category=pk)
+    if 'keyword' in request.GET:
+        keyword = request.GET["keyword"]
+        q = Q(title__icontains=keyword) | Q(content__icontains=keyword)
+        offers = offers.filter(q)
+    else:
+        keyword = ''
+    form = SearchForm(initial={'keyword': keyword})
+    paginator = Paginator(offers, 20)
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+    page = paginator.get_page(page_num)
+    context = {'category': category, 'page': page, 'offers': page.object_list, 'searchForm': form}
+    return render(request, 'main/by_category.html', context)
+    
+
+def detail(request, category_pk, pk):
+    offer = get_object_or_404(Offer, pk=pk)
+    additional_images = offer.additionalimage_set.all()
+    context = {'offer': offer, 'additional_images': additional_images}
+    return render(request, 'main/detail.html', context)
 
 
 def other_page(request, page):
@@ -38,8 +65,37 @@ def other_page(request, page):
     return HttpResponse(template.render(request=request))
 
 
+@login_required
 def profile(request):
-    return render(request, "main/profile.html")
+    offers = Offer.objects.filter(author=request.user.pk)
+    context = {"offers": offers}
+    return render(request, "main/profile.html", context)
+
+@login_required
+def profile_by_id(request, pk):
+    user = get_object_or_404(ShaUser, pk=pk)
+    offers = Offer.objects.filter(author=user.pk)    
+    context = {"offers": offers, "user": user}
+    return render(request, "main/profile.html", context)
+
+
+@login_required
+def add_new_offer(request):
+    if request.method == 'POST':
+        form = OfferForm(request.POST, request.FILES)
+        if form.is_valid():
+            offer = form.save()
+            formset = AIFormSet(request.POST, request.FILES, instance=offer)
+            if formset.is_valid():
+                messages.add_message(request, messages.SUCCESS, 'Предложение добавлено')
+                return redirect('main:profile')
+    else:
+        form = OfferForm(initial={'author': request.user.pk})
+        formset = AIFormSet
+        context = {'form': form, 'formset': formset}
+        return render(request, 'main/add_new_offer.html', context)
+
+    
 
 
 def user_activate(request, sign):

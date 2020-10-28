@@ -90,7 +90,7 @@ class Offer(models.Model):
         verbose_name_plural = "Предложения"
         ordering = ["-created"]
 
-class Additionlalimage(models.Model):
+class AdditionalImage(models.Model):
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, verbose_name="Предложение")
     image = models.ImageField(upload_to=get_timestamp_path, verbose_name="Фото")
 

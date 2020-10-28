@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 
-from .models import ShaUser, user_registrated, SuperCategory, SubCategory
+from .models import ShaUser, user_registrated, SuperCategory, SubCategory, Offer, AdditionalImage
 
 class ChangeProfileForm(forms.ModelForm):
     email = forms.EmailField(required=True, label="Адрес электронной почты")
@@ -57,3 +57,17 @@ class SubCategoryForm(forms.ModelForm):
     class Meta:
         model = SubCategory
         fields = '__all__'
+
+
+class SearchForm(forms.Form):
+    keyword = forms.CharField(required=False, max_length=20, label='')
+
+
+class OfferForm(forms.ModelForm):
+    class Meta:
+        model = Offer
+        fields = '__all__'
+        widgets = {'author': forms.HiddenInput}
+
+AIFormSet = forms.inlineformset_factory(Offer, AdditionalImage, fields='__all__')
+

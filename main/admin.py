@@ -2,7 +2,7 @@ import datetime
 
 from django.contrib import admin
 
-from .models import ShaUser, SubCategory, SuperCategory
+from .models import ShaUser, SubCategory, SuperCategory, Offer, AdditionalImage
 from .utilities import send_activation_notification
 from .forms import SubCategoryForm
 
@@ -55,11 +55,22 @@ class SuperCategoryAdmin(admin.ModelAdmin):
     exclude = ('super_category',)
     inlines = (SubCategoryInline,)
 
+
 class SubCategoryAdmin(admin.ModelAdmin):
     form = SubCategoryForm
 
+
+class AdditionalImageInline(admin.TabularInline):
+    model = AdditionalImage
+
+
+class OfferAdmin(admin.ModelAdmin):
+    list_display = ('category', 'title', 'content', 'author', 'created')
+    fields = (('category', 'author'), 'title', 'content', 'price', 'image', 'is_active')
+    inlines = (AdditionalImageInline,)
 
 # Register your models here.
 admin.site.register(ShaUser, ShaUserAdmin)
 admin.site.register(SuperCategory, SuperCategoryAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)
+admin.site.register(Offer, OfferAdmin)

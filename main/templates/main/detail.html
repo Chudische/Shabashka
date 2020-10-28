@@ -1,0 +1,44 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block body %}
+    
+	
+    <div id="page-content" class="sub-page">
+		<div class="container">
+			<center><article>
+				{% if offer.image %}				
+				<a class="main-image-link item" href="{{ offer.image.url }}" data-lightbox="example-set" data-title="Click the right half of the image to move forward."><img class="main-image" src="{{ offer.image.url }}" alt=""/></a>
+				
+					{% for img in additional_images %}					
+					<a class="main-image-link" href="{{ img.image.url }}" data-lightbox="example-set" data-title="Click the right half of the image to move forward."><img class="additional-image" src="{{img.image.url}}" alt=""/></a>					
+					{% endfor %}
+				{% endif %}
+				<div class="content-item">
+					<span class="time"><a class="btn btn-small btn-{{offer.category.super_category.order}}" href="{% url 'main:by_category' pk=offer.category.pk %}">{{offer.category.name}}</a> {{ offer.created }}</span>
+					<h3 class="title-item"><a href="#">{{offer.title}}</a></h3>
+					<ul class="list-inline">
+						<li class="list-inline-item"><a href="#"><i class="fa fa-eye"></i> 0</a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-comment"></i> 0</a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-heart"></i> 0</a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-share"></i> 0</a></li>
+					</ul>
+					<p class="info">{{ offer.content }}</p>
+					<h3>Heading Text</h3>
+					<p class="info">Aenean feugiat in ante et blandit. Vestibulum posuere molestie risus, ac interdum magna porta non. Pellentesque rutrum fringilla elementum. Curabitur tincidunt porta lorem vitae accumsan.Aenean feugiat in ante et blandit. Vestibulum posuere molestie risus, ac interdum magna porta non. Pellentesque rutrum fringilla elementum. Curabitur tincidunt porta lorem vitae accumsan.</p>
+				</div>
+				<div class="bottom-item">
+					<a href="#" class="btn btn-share share"><i class="fa fa-share-alt"></i> </a>
+					<span class="user f-right">Размещено 
+						<a href="#">
+							{% if offer.author.first_name and offer.author.last_name %}
+                        		{{offer.author.first_name}} {{offer.author.last_name}}
+                        	{% else %}
+                        		{{offer.author}}
+                        	{% endif %}
+						</a><img src="{% static 'main/images/ava-1.jpg' %}" class="rounded-circle"></span>
+				</div>
+			</article></center>
+		</div>
+	</div>
+
+{% endblock %}

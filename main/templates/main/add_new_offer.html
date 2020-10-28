@@ -1,0 +1,18 @@
+{% extends 'main/layout.html' %}
+
+{% load bootstrap4 %}
+
+{% block title %} Новое предложение {% endblock %}
+
+{% block body %}
+<div class="container p-5">
+    <h2>Добавить новое предложение</h2>
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form layout='horizontal' show_label=False%}
+    <h3>Дополнительные фотографии</h3>
+    {% bootstrap_formset formset layout='horizontal' show_label=False%}
+    {% buttons submit="Добавить" %} {% endbuttons %}
+    </form>
+</div>
+{% endblock %}

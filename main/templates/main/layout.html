@@ -31,10 +31,12 @@
         <script src="js/respond.min.js"></script>
     <![endif]-->
 </head>
+
 <body>
+
     {% block navbar %}
     <!-- Static navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Shabashka</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -45,18 +47,18 @@
             <a class="nav-link" href="{% url 'main:index' %}"><i class="fa fa-home"></i> Главная <span class="sr-only">(current)</span></a>
           </li> 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'main:index' %}"><i class="fa fa-plus"></i> Создать</a>
+            <a class="nav-link" href="{% url 'main:add_new_offer' %}"><i class="fa fa-plus"></i> Создать</a>
           </li> 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-list"></i> Категории
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <div class="dropdown-menu scrolable-menu" aria-labelledby="navbarDropdownMenuLink">
               {% for category in categories %}
               {% ifchanged category.super_category.pk %}
               <span class="nav-link font-weight-bold">{{category.super_category.name}}</span>
               {% endifchanged %}
-              <a class="dropdown-item font-weight-bold" href="{url 'main:by_category' pk=category.pk}">{{category.name}}</a>
+              <a class="dropdown-item font-weight-bold" href="{% url 'main:by_category' pk=category.pk %}">{{category.name}}</a>
               {% endfor %}                        
                 
             </div>
@@ -67,11 +69,29 @@
           <li class="nav-item">
               <a class="nav-link" href="#"><i class="fa fa-envelope"></i> Связаться</a>
           </li>         
-        
+          
           <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-search my-2 my-sm-0" type="submit">Поиск</button>            
-            <button class="btn btn-search my-2 ml-2 my-sm-0" type="button">Разширеный Поиск</button>            
+            {% if searchForm %}
+            {% bootstrap_form searchForm show_label=False %}
+            {% else %}
+            <input class="form-control mr-sm-2" type="search" name="keyword" placeholder="Search" aria-label="Search">
+            {% endif %}
+            <div class="input-group">
+            
+            <button class="btn btn-search my-2 ml-2 my-sm-0" type="submit">Поиск</button>
+            <div class="input-group-append"></div> 
+            <button type="button" class="btn btn-search my-2 my-sm-0 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Разширеный поиск</a>              
+              <div class="form-check ml-2">            
+              <input class="form-check-input" type="checkbox" name="sity" id="sity-checkbox" checked>
+              <label class="form-check-label" for="sity-checkbox">Искать в моем городе</label> 
+              </div>   
+            </div> 
+            </div>       
+                     
           </form>
           
         </ul>   
@@ -97,6 +117,11 @@
         </ul>
       </div>
     </nav>
+    <header>
+      <div class="logo">
+        <a href="index.html"><img src="{% static 'main/images/logo.png' %}"></a>
+      </div>
+    </header>
     {% endblock %}
     {% bootstrap_messages %}
     {% block body %}

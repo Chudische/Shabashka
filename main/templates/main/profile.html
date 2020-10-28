@@ -1,12 +1,67 @@
 {% extends 'main/layout.html' %}
+{% load static %}
 
 {% block title %} Профиль {% endblock %}
 
 {% block body %}
-<div class="container p-5">
-<h3>Профиль пользователя {{ user.username }}</h3>
-<a href="{% url 'main:profile_change' %}" class="btn btn-primary">Изменить профиль</a>
-<a href="{% url 'main:password_change' %}" class="btn btn-primary">Изменить пароль</a>
-<a href="{% url 'main:profile_delete' %}" class="btn btn-primary">Удалить профиль</a>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <img class="border profile-img" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
+        </div>
+        <div class="col-lg-9">
+            <h3>Профиль пользователя {{ user.username }}</h3>
+            <div><b> Имя:</b> {{user.first_name}} {{user.last_name}} </div>
+            <div><b>Город:</b>  Скадовск</div>
+            <div><b>Рейтинг:</b> 5.0</div>
+            <div><a href="#" class="btn btn-primary my-2">Отзывы</a></div>
+            <div></div>
+            {% if user == request.user %}
+            <a href="{% url 'main:profile_change' %}" class="btn btn-primary">Изменить профиль</a>
+            <a href="{% url 'main:profile_change' %}" class="btn btn-primary">Изменить профиль</a>
+            <a href="{% url 'main:password_change' %}" class="btn btn-primary">Изменить пароль</a>
+            <a href="{% url 'main:profile_delete' %}" class="btn btn-primary">Удалить профиль</a>
+            {% else %}                
+                <a href="#" class="btn btn-primary">Подписаться</a>
+            {% endif %}
+        </div>
+    </div>
+<hr>
+<div id="page-content" class="index-page">
+<div id="container">
+{% for offer in offers %}
+<div class="item">            
+    <div class="content-item">
+        {% url 'main:detail' category_pk=offer.category.pk pk=offer.pk as url %}
+        <a href="{% url 'main:by_category' pk=offer.category.pk %}" class="btn btn-small btn-{{offer.category.super_category.order}}">{{offer.category.name}}</a>
+        <div class="time"> {{offer.created}}</div>
+        <h3 class="title-item"><a href="{{url}}{{all}}">{{offer.title}}</a></h3>
+        <p class="info">{{offer.content}}</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#"><i class="fa fa-eye"></i> 0</a></li>
+            <li class="list-inline-item"><a href="#"><i class="fa fa-comment"></i> 0</a></li>
+            <li class="list-inline-item"><a href="#"><i class="fa fa-heart"></i> 0</a></li>
+            <li class="list-inline-item"  class="list-inline-item"  class="list-inline-item"><a href="#"><i class="fa fa-share"></i> 260</a></li>
+        </ul>
+    </div>
+    <div class="bottom-item">
+        <a href="#" class="btn btn-share share"><i class="fa fa-share-alt"></i> </a>
+        <span class="mx-3"><i class="fa fa-money"></i> {{offer.price}}</span>
+        <span class="user f-right">Размещено 
+            <a href="#">
+                {% if offer.author.first_name and offer.author.last_name %}
+                {{offer.author.first_name}} {{offer.author.last_name}}
+                {% else %}
+                {{offer.author}}
+                {% endif %}
+            </a><img src="{% static 'main/images/ava-1.jpg' %}" class="rounded-circle"></span>
+    </div>
+</div>
+
+
+{% endfor %}
+</div>
+</div>
 </div>
 {% endblock %}

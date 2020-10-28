@@ -14,12 +14,14 @@ urlpatterns = [
     path('accounts/logout/', views.ShaLogout.as_view(), name='logout'),
     path('accounts/profile/delete', views.DeleteUserView.as_view(), name="profile_delete"),
     path('accounts/profile/change', views.ChangeProfileView.as_view(), name="profile_change"),
+    path('accounts/profile/add/', views.add_new_offer, name="add_new_offer"),
+    path('accounts/profile/<int:pk>', views.profile_by_id, name="profile_by_id"),
     path('accounts/profile/', views.profile, name="profile"),
     path('accounts/password/change', views.ShaPassChangeView.as_view(), name="password_change"),
     path('accounts/register/activate/<str:sign>/', views.user_activate, name="register_activate"),
     path('accounts/register/done', views.RegisterDone.as_view(), name="register_done"),
     path('accounts/register/', views.RegisterUserView.as_view(), name="register_user"),
-    # path('single', views.single, name="single"),
+    path('<int:category_pk>/<int:pk>/', views.detail, name="detail"),
     path('<int:pk>/', views.by_category, name="by_category"),
     path('<str:page>/', views.other_page, name="other")
 

@@ -6,7 +6,7 @@
 /* ------------------------------------Html-Body------------------------------- */
 /* ---------------------------------------------------------------------------- */
 body {font-family: 'Ek Mukta', sans-serif;color: #666;background: #EBEBEB;font-size: 16px;line-height: 1.6em;font-weight: 400;}
-html, body {width:100%; padding:0; margin:30px 0 0 0 ;}
+html, body {width:100%; padding:0;}
 
 ::-moz-selection{background:red;color:#fff;text-shadow:none}
 ::selection{background:red;color:#fff;text-shadow:none}
@@ -69,13 +69,18 @@ header{text-align: center;}
  ul.top-social  li{height: 38px; width: 38px; margin-right: 5px;}
  ul.top-social a i{color: #fff;line-height: 1.9;height: 38px; width: 38px;border-radius: 50%;background-color: #252628;}
  ul.top-social a i:hover{background-color:#555;}
+ .scrolable-menu{
+   height: auto;
+   max-height: 200px;
+   overflow-x: hidden;
+ }
 /* ---------------------------------------------------------------------------- */
 /* ----------------------------------Container--------------------------------- */
 /* ---------------------------------------------------------------------------- */
 .index-page, .sub-page {margin: 20px 10px 60px;}
 #page-content .item {background-color: #fff;width:220px;box-shadow: 2px 5px 5px 0 rgba(0, 0, 0, 0.18);}
 #page-content .item span.time{color: #999;font-size: 14px;}
-#page-content .item img {padding: 0px;display: block;max-width: 100%;}
+#page-content .item img {padding: 0px;display: block;max-width: 100%; margin: 0 auto;}
 #page-content .content-item{padding: 10px 20px;}
 #page-content h3.title-item {font-family: 'Ek Mukta', sans-serif;font-size: 28px;margin: 7px 0 5px;}
 #page-content .content-item ul{margin: 0;font-size: 14px;}
@@ -83,7 +88,7 @@ header{text-align: center;}
 #page-content .bottom-item{border-top: 1px solid #ddd;min-height: 50px;}
 #page-content .share{}
 #page-content .user{color: #777;font-size: 13px;line-height: 2.8;padding: 5px;}
-#page-content .user img{width: 38px; height: 38px;float:right;display: inline-block;margin-left: 7px;}
+#page-content .user img{width: 38px; height: 38px;float: right;display: inline-block;margin-left: 7px;}
 
 article {background-color: #fff;max-width: 750px;box-shadow: 2px 5px 5px 0 rgba(0, 0, 0, 0.18);text-align: justify;}
 article h2{padding-top: 50px;}
@@ -115,6 +120,8 @@ article h3{margin: 0;padding: 0;}
 .btn-search:hover{color: #333333;
   background-color: #adadad;
   }
+.btn-0{background-color: #E24D1E; }
+.btn-1:hover{background-color: transparent; color: #E24D1E;}
 .btn-1{background-color: #E52E2E; }
 .btn-1:hover{background-color: transparent; color: #E52E2E;}
 .btn-2{background-color: #76C75D; }
@@ -128,3 +135,10 @@ article h3{margin: 0;padding: 0;}
 
 .form {max-width: 250px;}
 
+.additional-image{
+  width: 120px;
+}
+
+.profile-img {
+  width: 250px;  
+}
