@@ -1,0 +1,16 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %} Редактирование предложения {% endblock %}
+
+{% block body %}
+<div class="container p-5">
+    <h2>Редактирование предложеиня: {{ offer.title }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form layout="vertical"%}
+        {% buttons submit='Сохранить' %}{% endbuttons %}
+    </form>
+</div>
+{% endblock %}

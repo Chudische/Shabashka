@@ -14,16 +14,24 @@
             <h3>Профиль пользователя {{ user.username }}</h3>
             <div><b> Имя:</b> {{user.first_name}} {{user.last_name}} </div>
             <div><b>Город:</b>  Скадовск</div>
-            <div><b>Рейтинг:</b> 5.0</div>
+            <div><b>Рейтинг:</b> 
+            <i class="fa fa-star" style="color: yellow;"></i>
+                <i class="fa fa-star" style="color: yellow;"></i>
+                <i class="fa fa-star" style="color: yellow;"></i>
+                <i class="fa fa-star" style="color: yellow;"></i>
+                <i class="fa fa-star" style="color: yellow;"></i>
+            </div>
+            <div><b>Успешных сделок:</b> 22</div>
             <div><a href="#" class="btn btn-primary my-2">Отзывы</a></div>
             <div></div>
             {% if user == request.user %}
-            <a href="{% url 'main:profile_change' %}" class="btn btn-primary">Изменить профиль</a>
-            <a href="{% url 'main:profile_change' %}" class="btn btn-primary">Изменить профиль</a>
-            <a href="{% url 'main:password_change' %}" class="btn btn-primary">Изменить пароль</a>
-            <a href="{% url 'main:profile_delete' %}" class="btn btn-primary">Удалить профиль</a>
+
+            <a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-user"></i> Сменить аватар </a>
+            <a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-pencil"></i> Редактировать профиль </a>
+            <a href="{% url 'main:password_change' %}" class="mx-1"><i class="fa fa-lock"></i> Изменить пароль </a>
+            <a href="{% url 'main:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Удалить профиль </a>
             {% else %}                
-                <a href="#" class="btn btn-primary">Подписаться</a>
+                <a href="#"><i class="fa fa-user-plus"></i> Подписаться</a>
             {% endif %}
         </div>
     </div>
@@ -42,14 +50,14 @@
             <li class="list-inline-item"><a href="#"><i class="fa fa-eye"></i> 0</a></li>
             <li class="list-inline-item"><a href="#"><i class="fa fa-comment"></i> 0</a></li>
             <li class="list-inline-item"><a href="#"><i class="fa fa-heart"></i> 0</a></li>
-            <li class="list-inline-item"  class="list-inline-item"  class="list-inline-item"><a href="#"><i class="fa fa-share"></i> 260</a></li>
+            <li class="list-inline-item"  class="list-inline-item"  class="list-inline-item"><a href="#"><i class="fa fa-share"></i>0</a></li>
         </ul>
     </div>
     <div class="bottom-item">
         <a href="#" class="btn btn-share share"><i class="fa fa-share-alt"></i> </a>
         <span class="mx-3"><i class="fa fa-money"></i> {{offer.price}}</span>
         <span class="user f-right">Размещено 
-            <a href="#">
+            <a href="{% url 'main:profile_by_id' pk=offer.author.pk %}">
                 {% if offer.author.first_name and offer.author.last_name %}
                 {{offer.author.first_name}} {{offer.author.last_name}}
                 {% else %}

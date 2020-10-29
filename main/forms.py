@@ -70,4 +70,3 @@ class OfferForm(forms.ModelForm):
         widgets = {'author': forms.HiddenInput}
 
 AIFormSet = forms.inlineformset_factory(Offer, AdditionalImage, fields='__all__')
-

@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %} Удаление предложения{% endblock %}
+
+{% block body %}
+<div class="container p-5">
+    <h2>Удаление предложения:  {{ offer.title }}</h2>
+    <form method="POST">
+        {% csrf_token %}    
+        {% buttons submit='Удалить' %}{% endbuttons %}
+    </form>
+    </div>
+{% endblock %}

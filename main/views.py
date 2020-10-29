@@ -23,7 +23,13 @@ from .utilities import signer
 
 def index(request):
     offers = Offer.objects.all()
-    context = {"offers": offers}
+    paginator = Paginator(offers, 30)
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+    page = paginator.get_page(page_num)
+    context = {"offers": offers, "page": page}
     return render(request, "main/index.html", context)
 
 
@@ -95,8 +101,42 @@ def add_new_offer(request):
         context = {'form': form, 'formset': formset}
         return render(request, 'main/add_new_offer.html', context)
 
-    
 
+@login_required
+def offer_change(request, pk):
+    offer = get_object_or_404(Offer, pk=pk)
+    if request.user != offer.author:
+        messages.add_message(request, messages.ERROR, "Вы можете управлять только своими предложениями")
+        return redirect("main:profile")
+    if request.method == "POST":
+        form = OfferForm(request.POST, request.FILES, instance=offer)
+        if form.is_valid():
+            offer = form.save()
+            formset = AIFormSet(request.POST, request.FILES, instance=offer)
+            if formset.is_valid():
+                formset.save()
+                messages.add_message(request, messages.SUCCESS, "Предложение исправлено")
+                return redirect("main:profile")
+    else:
+        form = OfferForm(instance=offer)
+        formset = AIFormSet(instance=offer)
+        context = {'form': form, 'formset': formset}
+        return render(request, "main/change_offer.html", context)
+
+
+@login_required
+def offer_delete(request, pk):
+    offer = get_object_or_404(Offer, pk=pk)
+    if request.user != offer.author:
+        messages.add_message(request, messages.ERROR, "Вы можете управлять только своими предложениями")
+        return redirect("main:profile")
+    if request.method == "POST":
+        offer.delete()
+        messages.add_message(request, messages.SUCCESS, "Предложение удалено")
+        return redirect("main:profile")
+    else:
+        context = {'offer': offer}
+        return render(request, "main/delete_offer.html", context)
 
 def user_activate(request, sign):
     try:
@@ -173,4 +213,3 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
             queryset = self.get_queryset()
         return get_object_or_404(queryset, pk=self.user_id)
 
-    
