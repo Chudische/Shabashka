@@ -1,5 +1,6 @@
 {% extends 'main/layout.html' %}
 {% load static %}
+{% load bootstrap4 %}
 
 {% block title %} Детали {% endblock %}
 
@@ -44,8 +45,20 @@
                         	{% endif %}
 						</a><img src="{% static 'main/images/ava-1.jpg' %}" class="rounded-circle"></span>
 				</div>
+			</article>
+			{% for comment in comments %}
+			<article>
+				<p>{{comment.content}}</p>
+			</article>
+			{% endfor %}
+			<article>
+				<form method="POST">
+					{% csrf_token %}
+					{% bootstrap_form form layout="vertical" show_label=False %}
+					{% buttons subnit="Отправить" %} {% endbuttons %}
+				</form>
 			</article></center>
 		</div>
 	</div>
-
+	
 {% endblock %}

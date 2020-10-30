@@ -15,8 +15,8 @@ from django.core.signing import BadSignature
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from .models import ShaUser, SubCategory, Offer
-from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet
+from .models import ShaUser, SubCategory, Offer, Comment
+from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
 from .utilities import signer
 # Create your views here.
 
@@ -59,7 +59,22 @@ def by_category(request, pk):
 def detail(request, category_pk, pk):
     offer = get_object_or_404(Offer, pk=pk)
     additional_images = offer.additionalimage_set.all()
-    context = {'offer': offer, 'additional_images': additional_images}
+    comments = Comment.objects.filter(offer=pk, is_active=True)
+    form = CommetForm(initial={'offer': offer, "author": request.user})
+    if request.method == "POST":
+        comment_form = form(request.POST)
+        if comment_form.is_valid():
+            comment_form.save()
+            messages.add_message(request, messages.SUCCESS, "Коментарий добавлен")
+        else:
+            form = comment_form
+            messages.add_message(request, messages.WARNING, "Коментарий не добавлен")
+
+            
+    context = {'offer': offer, 
+               'additional_images': additional_images,
+               'comments': comments, 
+               'form': form}
     return render(request, 'main/detail.html', context)
 
 

@@ -3,6 +3,7 @@ from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 
 from .models import ShaUser, user_registrated, SuperCategory, SubCategory, Offer, AdditionalImage
+from .models import Comment 
 
 class ChangeProfileForm(forms.ModelForm):
     email = forms.EmailField(required=True, label="Адрес электронной почты")
@@ -70,3 +71,11 @@ class OfferForm(forms.ModelForm):
         widgets = {'author': forms.HiddenInput}
 
 AIFormSet = forms.inlineformset_factory(Offer, AdditionalImage, fields='__all__')
+
+class CommetForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        exclude = ("is_active",)
+        widgets = {"offer": forms.HiddenInput}
+        
