@@ -132,9 +132,18 @@ article h3{margin: 0;padding: 0;}
 .btn-4:hover{background-color: transparent; color: #9E76C2;}
 .btn-5{background-color: #5DB4C7; }
 .btn-5:hover{background-color: transparent; color: #5DB4C7;}
+.edit-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: x-large;
+}
 
 .form {max-width: 250px;}
 
+/* ---------------------------------------------------------------------------- */
+/* -------------------------------------Image---------------------------------- */
+/* ---------------------------------------------------------------------------- */
 .additional-image{
   width: 120px;
 }
@@ -143,9 +152,11 @@ article h3{margin: 0;padding: 0;}
   width: 250px;  
 }
 
-.edit-buttons {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: x-large;
+.comment-img {
+  width: 100px;
+}
+
+.uah {
+  font-weight: bold;
+  font-size: large;
 }

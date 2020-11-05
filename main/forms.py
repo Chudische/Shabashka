@@ -76,6 +76,7 @@ class CommetForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        exclude = ("is_active",)
-        widgets = {"offer": forms.HiddenInput}
+        exclude = ("is_active", )
+        widgets = {"offer": forms.HiddenInput,
+                   "author": forms.HiddenInput}
         

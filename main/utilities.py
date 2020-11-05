@@ -22,6 +22,20 @@ def send_activation_notification(user):
     print(subject, body_text)
 
 
+def send_comment_notification(comment):
+    if ALLOWED_HOSTS:
+        host = 'http://' + ALLOWED_HOSTS[0]
+    else:
+        host = 'http://localhost:8000'
+    author = comment.offer.author
+    context = {'author': author, 'host': host, 'comment': comment}
+    subject = render_to_string('email/new_comment_subject.txt', context)
+    body_text = render_to_string('email/new_comment_body.txt', context)
+    # author.email_user(subject, body_text)
+    print(subject, body_text)
+
+
+
 def get_timestamp_path(instanse, filename):
     """
     Create filename with timestamp

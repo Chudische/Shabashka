@@ -33,9 +33,6 @@ def index(request):
     return render(request, "main/index.html", context)
 
 
-# def single(request):
-#     return render(request, "main/single.html")
-
 def by_category(request, pk):
     category = get_object_or_404(SubCategory, pk=pk)
     offers = Offer.objects.filter(is_active=True, category=pk)
@@ -58,11 +55,13 @@ def by_category(request, pk):
 
 def detail(request, category_pk, pk):
     offer = get_object_or_404(Offer, pk=pk)
+    offer.rewievs += 1
+    offer.save()
     additional_images = offer.additionalimage_set.all()
     comments = Comment.objects.filter(offer=pk, is_active=True)
     form = CommetForm(initial={'offer': offer, "author": request.user})
     if request.method == "POST":
-        comment_form = form(request.POST)
+        comment_form = CommetForm(request.POST)
         if comment_form.is_valid():
             comment_form.save()
             messages.add_message(request, messages.SUCCESS, "Коментарий добавлен")

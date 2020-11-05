@@ -1,0 +1,8 @@
+Уважаемый {{author.username}}
+
+На Ваше предложение {{comment.offer}} пришел новый комментарий
+
+{{comment.author}} предложил {{comment.price}}
+
+Перейдите по ссылке ниже, чтобы просмотреть
+{{host}}{% url 'main:detail' category_pk=comment.offer.category pk=comment.pk  %} 

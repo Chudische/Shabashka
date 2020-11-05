@@ -1,8 +1,9 @@
 from django.db import models
+from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 from django.dispatch import Signal
 
-from .utilities import send_activation_notification, get_timestamp_path
+from .utilities import send_activation_notification, get_timestamp_path, send_comment_notification
 
 # Create your models here.
 
@@ -47,6 +48,7 @@ class SubCategory(Category):
         ordering = ('super_category__order', 'super_category__name', 'order', 'name')
         verbose_name = "Подкатегория"
         verbose_name_plural = "Подкатегории"
+
 
 class LocationRegion(models.Model):
     name = models.CharField(max_length=64, unique=True, db_index=True, verbose_name="Область")
@@ -102,6 +104,7 @@ class ShaUser(AbstractUser):
     class Meta(AbstractUser.Meta):
         pass
 
+
 class ShaUserAvatar(models.Model):
     user = models.OneToOneField(ShaUser, on_delete=models.CASCADE, related_name="avatar", verbose_name="Пользователь",)
     avatar = models.ImageField(verbose_name="Аватар")
@@ -114,6 +117,7 @@ def user_registrated_dispather(sender, **kwargs):
 
 user_registrated.connect(user_registrated_dispather)
 
+
 class Offer(models.Model):
     category = models.ForeignKey(SubCategory, on_delete=models.PROTECT, verbose_name="Категория")
     title = models.CharField(max_length=40, verbose_name="Предложение")
@@ -122,12 +126,18 @@ class Offer(models.Model):
     image = models.ImageField(blank=True, upload_to=get_timestamp_path, verbose_name="Фото")
     author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, verbose_name="Автор")
     is_active = models.BooleanField(default=True, db_index=True, verbose_name="Активное")
-    created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано", )
+    created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано" )
+    rewievs = models.IntegerField(default=0, verbose_name="Просмотров")
+    shared = models.IntegerField(default=0, verbose_name="Поделились")
     
     def delete(self, *args, **kwargs):
         for image in self.additionalimage_set.all():
             image.delete()
         super().delete(*args, **kwargs)
+
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = "Предложение"
@@ -144,13 +154,32 @@ class AdditionalImage(models.Model):
 
 
 class Comment(models.Model):
+    MEASUREMENTS = [
+                ('h', 'Час'),
+                ('d', 'День'),
+                ('w', 'Неделя'),
+                ('m', 'Месяц')
+               ] 
+
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, verbose_name="Предложение")
-    author = models.CharField(max_length=30, verbose_name="Автор")
-    content = models.TextField(verbose_name="Содержание")
+    author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, verbose_name="Автор")
+    content = models.TextField(verbose_name="Коментарий")
     is_active = models.BooleanField(default=True, db_index=True, verbose_name="Выводить на экран")
+    price = models.FloatField(default=0, verbose_name="Предложить цену")
+    time_amount = models.SmallIntegerField(default=0, verbose_name="Сделаю за")
+    measure = models.CharField(max_length=1, null=True, blank=True, choices=MEASUREMENTS, verbose_name="Еденица времени")
     created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Написан")
+
 
     class Meta:
         ordering = ['created']
         verbose_name = "Коментарий"
         verbose_name_plural = "Коментарии"
+
+
+def post_save_dispatcher(sender, **kwargs):
+    author = kwargs['instance'].offer.author
+    if kwargs['created'] and author.send_message:
+        send_comment_notification(kwargs['instance'])
+
+post_save.connect(post_save_dispatcher, sender=Comment)

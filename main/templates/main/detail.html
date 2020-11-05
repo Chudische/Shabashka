@@ -1,6 +1,7 @@
 {% extends 'main/layout.html' %}
 {% load static %}
 {% load bootstrap4 %}
+{% load custom_tags %}
 
 {% block title %} Детали {% endblock %}
 
@@ -10,10 +11,12 @@
     <div id="page-content" class="sub-page">
 		<div class="container">
 			<center><article>
+				{% if user == offer.author %}
 				<div class="edit-buttons">
 					<a href="{% url 'main:offer_change' pk=offer.pk %}"><i class="fa fa-pencil"></i></a>
 					<a href="{% url 'main:offer_delete' pk=offer.pk %}"><i class="fa fa-close"></i></a>
 				</div>
+				{% endif %}
 				{% if offer.image %}				
 				<a class="main-image-link item" href="{{ offer.image.url }}" data-lightbox="example-set" data-title="Click the right half of the image to move forward."><img class="main-image" src="{{ offer.image.url }}" alt=""/></a>
 				
@@ -25,10 +28,10 @@
 					<span class="time"><a class="btn btn-small btn-{{offer.category.super_category.order}}" href="{% url 'main:by_category' pk=offer.category.pk %}">{{offer.category.name}}</a> {{ offer.created }}</span>
 					<h3 class="title-item"><a href="#">{{offer.title}}</a></h3>
 					<ul class="list-inline">
-						<li class="list-inline-item"><a href="#"><i class="fa fa-eye"></i> 0</a></li>
-						<li class="list-inline-item"><a href="#"><i class="fa fa-comment"></i> 0</a></li>
-						<li class="list-inline-item"><a href="#"><i class="fa fa-heart"></i> 0</a></li>
-						<li class="list-inline-item"><a href="#"><i class="fa fa-share"></i> 0</a></li>
+						<li class="list-inline-item"><i class="fa fa-eye"></i> {{ offer.rewievs }} </li>
+						<li class="list-inline-item"><i class="fa fa-comment"></i> {{offer.comment_set.count}}</li>
+						<li class="list-inline-item"><i class="fa fa-heart"></i>  0</li>
+						<li class="list-inline-item"><i class="fa fa-share"></i> {{offer.shared}}</li>
 					</ul>
 					<p class="info">{{ offer.content }}</p>
 					<h3>Heading Text</h3>
@@ -45,19 +48,70 @@
                         	{% endif %}
 						</a><img src="{% static 'main/images/ava-1.jpg' %}" class="rounded-circle"></span>
 				</div>
-			</article>
+				</article></center>
+				
+						
 			{% for comment in comments %}
-			<article>
-				<p>{{comment.content}}</p>
-			</article>
-			{% endfor %}
-			<article>
-				<form method="POST">
-					{% csrf_token %}
-					{% bootstrap_form form layout="vertical" show_label=False %}
-					{% buttons subnit="Отправить" %} {% endbuttons %}
-				</form>
+			<center><article class="my-2 p-1">
+				<div class="comment"> 
+					<div class="comment-head border-bottom-1">
+						<b>{{comment.author}}</b>
+						<span class="small text-muted">{{comment.created}}</span>
+										
+					</div>
+					<div class="row">
+						<div class="col-lg-3 col-md-3">
+							<div class="d-flex justify-content-center align-item-center ">
+							
+								<a href="{% url 'main:profile_by_id' pk=comment.author.pk %}"><img src="{% static 'main/images/ava-1.jpg' %}" class="comment-img">
+							</div>
+							<div class="center">
+							{% if comment.author.first_name and comment.author.last_name %}
+							{{comment.author.first_name}} {{comment.author.last_name}}                       	
+							{% endif %}
+							<div>
+							<i class="fa fa-star" style="color: #ddad10;"></i>
+							<i class="fa fa-star" style="color: #ddad10;"></i>
+							<i class="fa fa-star" style="color: #ddad10;"></i>
+							<i class="fa fa-star" style="color: #ddad10;"></i>
+							<i class="fa fa-star-half-full" style="color: #ddad10;"></i>							
+							</div>
+							</div>
+						</a>
+						</div>
+						<div class="col-lg-6 col-md-6">
+							<p>{{comment.content}} </p>
+							
+						</div>	
+						<div class="col-lg-3 col-md-3">
+							<div class="center">									
+									<div class="comment-price">
+										<span class="uah">&#8372</span>
+										{{comment.price}}
+										{% if comment.time_amount and comment.measure %}
+										<span class="comment-time">/ {{comment.time_amount }} {% time_measure pk=comment.pk %}</span>
+										{% endif %}
+									</div>
+									
+									<button class="btn btn-success">Принять</button>
+							</div>
+						</div>
+						
+					</div>
+				</div>
 			</article></center>
+			{% endfor %}
+			<center><article class="my-2">
+				<h3 class="center">Откликнуться</h3>
+				<div class="comment-form p-5">
+					<form method="POST">
+						{% csrf_token %}
+						{% bootstrap_form form layout="vertical" %}
+						{% buttons submit="Отправить" %} {% endbuttons %}
+					</form>
+				</div>
+			
+			</article></center> 
 		</div>
 	</div>
 	
