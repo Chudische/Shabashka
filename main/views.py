@@ -15,6 +15,7 @@ from django.core.signing import BadSignature
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+
 from .models import ShaUser, SubCategory, Offer, Comment
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
 from .utilities import signer
@@ -43,7 +44,7 @@ def by_category(request, pk):
     else:
         keyword = ''
     form = SearchForm(initial={'keyword': keyword})
-    paginator = Paginator(offers, 20)
+    paginator = Paginator(offers, 30)
     if 'page' in request.GET:
         page_num = request.GET['page']
     else:
@@ -55,7 +56,7 @@ def by_category(request, pk):
 
 def detail(request, category_pk, pk):
     offer = get_object_or_404(Offer, pk=pk)
-    offer.rewievs += 1
+    offer.reviews += 1
     offer.save()
     additional_images = offer.additionalimage_set.all()
     comments = Comment.objects.filter(offer=pk, is_active=True)

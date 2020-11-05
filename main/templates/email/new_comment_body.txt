@@ -1,8 +1,8 @@
-Уважаемый {{author.username}}
+Уважаемый {% if author.first_name and author.last_name  %} {{author.first_name }} {{author.last_name}} {% else %} {{author.username}} {% endif %}
 
-На Ваше предложение {{comment.offer}} пришел новый комментарий
+На Ваше предложение "{{comment.offer}}" пришел новый комментарий
 
 {{comment.author}} предложил {{comment.price}}
 
 Перейдите по ссылке ниже, чтобы просмотреть
-{{host}}{% url 'main:detail' category_pk=comment.offer.category pk=comment.pk  %} 
+{{host}}{% url 'main:detail' category_pk=comment.offer.category.pk pk=comment.offer.pk  %} 

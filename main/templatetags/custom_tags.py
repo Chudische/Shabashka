@@ -15,6 +15,8 @@ def time_measure(pk):
             return "часа"
         elif time > 4 and time < 21 or time % 10 > 4 and time % 10 < 10:
             return "часов"
+        else:
+            return 'ч'
     if comment.measure == 'd':
         if time == 1 or time % 10 == 1:
             return "день"
@@ -22,6 +24,8 @@ def time_measure(pk):
             return "дня"
         elif time > 4 and time < 21 or time % 10 > 4 and time % 10 < 10:
             return "дней"
+        else:
+            return 'д'
     if comment.measure == 'w':
         if time == 1 or time % 10 == 1:
             return "неделя"
@@ -29,6 +33,8 @@ def time_measure(pk):
             return "недели"
         elif time > 4 and time < 21 or time % 10 > 4 and time % 10 < 10:
             return "недель"
+        else:
+            return 'н'
     if comment.measure == 'm':
         if time == 1 or time % 10 == 1:
             return "месяц"
@@ -36,6 +42,8 @@ def time_measure(pk):
             return "месяца"
         elif time > 4 and time < 21 or time % 10 > 4 and time % 10 < 10:
             return "месяцов"
+        else:
+            return 'м'
 
 
 @register.simple_tag()

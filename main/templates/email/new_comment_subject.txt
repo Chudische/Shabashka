@@ -1,1 +1,1 @@
-Shabashka: Новый коментарий на странице {{comment.offer}} 
+Shabashka: Новый коментарий к предложеиню "{{comment.offer}}" 

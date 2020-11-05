@@ -119,6 +119,12 @@ user_registrated.connect(user_registrated_dispather)
 
 
 class Offer(models.Model):
+    STATUS = [
+        ('n', 'Новое'),
+        ('a', 'Принято'),
+        ('d', 'Выполнено')
+    ]
+
     category = models.ForeignKey(SubCategory, on_delete=models.PROTECT, verbose_name="Категория")
     title = models.CharField(max_length=40, verbose_name="Предложение")
     content = models.TextField(verbose_name="Описание")
@@ -127,8 +133,9 @@ class Offer(models.Model):
     author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, verbose_name="Автор")
     is_active = models.BooleanField(default=True, db_index=True, verbose_name="Активное")
     created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано" )
-    rewievs = models.IntegerField(default=0, verbose_name="Просмотров")
+    reviews = models.IntegerField(default=0, verbose_name="Просмотров")
     shared = models.IntegerField(default=0, verbose_name="Поделились")
+    status = models.CharField(max_length=1, default='n', null=True, blank=True, db_index=True, choices=STATUS, verbose_name="Статус")
     
     def delete(self, *args, **kwargs):
         for image in self.additionalimage_set.all():
@@ -143,6 +150,7 @@ class Offer(models.Model):
         verbose_name = "Предложение"
         verbose_name_plural = "Предложения"
         ordering = ["-created"]
+
 
 class AdditionalImage(models.Model):
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, verbose_name="Предложение")

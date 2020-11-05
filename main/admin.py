@@ -65,8 +65,8 @@ class AdditionalImageInline(admin.TabularInline):
 
 
 class OfferAdmin(admin.ModelAdmin):
-    list_display = ('category', 'title', 'content', 'author', 'created')
-    fields = (('category', 'author'), 'title', 'content', 'price', 'image', 'is_active')
+    list_display = ('category', 'title', 'content', 'author', 'created', 'status')
+    fields = (('category', 'author', 'status'), 'title', 'content', 'price', 'image', 'is_active')
     inlines = (AdditionalImageInline,)
 
 class CommentAdmin(admin.ModelAdmin):
