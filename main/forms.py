@@ -2,8 +2,11 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 
+
 from .models import ShaUser, user_registrated, SuperCategory, SubCategory, Offer, AdditionalImage
 from .models import Comment 
+
+
 
 class ChangeProfileForm(forms.ModelForm):
     email = forms.EmailField(required=True, label="Адрес электронной почты")
@@ -51,6 +54,17 @@ class RegisterUserForm(forms.ModelForm):
         fields = ('username', 'email', 'password1', 'password2', 
             'first_name', 'last_name', 'send_message')
 
+class PasswordRegenerationForm(forms.ModelForm):    
+    password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput, 
+        help_text=password_validation._password_validators_help_text_html()
+    )
+    password2 = forms.CharField(label="Подтверждение пароля", widget=forms.PasswordInput, 
+        help_text="Введите Ваш пароль повторно"
+    ) 
+
+    class Meta:
+        model = ShaUser
+        fields = ('password1', 'password2')
 
 class SubCategoryForm(forms.ModelForm):
     super_category = forms.ModelChoiceField(queryset=SuperCategory.objects.all(),
@@ -76,7 +90,11 @@ class CommetForm(forms.ModelForm):
 
     class Meta:
         model = Comment
+        fields = ('author', 'offer', 'price', 'time_amount', 'measure', 'content')
         exclude = ("is_active", )
-        widgets = {"offer": forms.HiddenInput,
-                   "author": forms.HiddenInput}
-        
+        widgets = {
+            "offer": forms.HiddenInput,
+            "author": forms.HiddenInput,
+            'content': forms.Textarea(attrs={'rows': 4})
+        }
+                   

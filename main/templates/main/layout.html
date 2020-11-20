@@ -16,12 +16,14 @@
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}">
 	
 	<!-- Custom Fonts -->
-    <link rel="stylesheet" href="{% static 'main/font-awesome-4.4.0/css/font-awesome.min.css' %}"  type="text/css">
-	
+  <!-- <link rel="stylesheet" href="{% static 'main/font-awesome-4.4.0/css/font-awesome.min.css' %}"  type="text/css"> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
 	<link rel="stylesheet" href="{% static 'main/css/lightbox.css' %}">
 	
 	
-  {% bootstrap_javascript jquery="slim" %}
+  {% bootstrap_javascript jquery="min" %}
 	
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -51,24 +53,15 @@
             <a class="nav-link" href="{% url 'main:add_new_offer' %}"><i class="fa fa-plus"></i> Создать</a>
           </li> 
           <li class="nav-item dropdown {% if url_name == 'by_category' %} active {% endif %}">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="categories-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-list"></i> Категории
-            </a>
-            <div class="dropdown-menu scrolable-menu" aria-labelledby="navbarDropdownMenuLink">
-              {% for category in categories %}
-              {% ifchanged category.super_category.pk %}
-              <span class="nav-link font-weight-bold">{{category.super_category.name}}</span>
-              {% endifchanged %}
-              <a class="dropdown-item font-weight-bold" href="{% url 'main:by_category' pk=category.pk %}">{{category.name}}</a>
-              {% endfor %}                        
-                
-            </div>
+            </a>         
           
           </li>
           
                    
           <li class="nav-item {% if url_name == 'feedback' %} active {% endif %}">
-              <a class="nav-link" href="#"><i class="fa fa-envelope"></i> Связаться</a>
+              <a class="nav-link" href="#"><i class="fa fa-heart"></i> Избранное</a>
           </li>         
           
           <form class="form-inline my-2 my-lg-0">
@@ -95,23 +88,25 @@
                      
           </form>
           
-        </ul>   
+        </ul>
+            
           <ul class="navbar-nav ml-auto">
+          {% if user.is_authenticated %}  
           <li class="nav-item dropdown {% if url_name == 'profile' %} active {% endif %}">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-user"></i> Аккаунт
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              {% if user.is_authenticated %}
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">             
               <a class="dropdown-item" href="{% url 'main:profile' %}">Профиль</a>
-              <a class="dropdown-item" href="{% url 'main:logout' %}">Выйти</a>
-              {% else %}
-              <a class="dropdown-item" href="{% url 'main:login' %}">Войти</a>
-              <a class="dropdown-item" href="{% url 'main:register_user' %}">Регистрация</a>
-              {% endif %}
-            </div>
-            
+              <a class="dropdown-item" href="{% url 'main:logout' %}">Выйти</a>              
+            </div>            
           </li>
+          {% else %}
+            <li class="nav-item {% if url_name == 'login' %} active {% endif %}">
+              <a class="nav-link" href="{% url 'main:login' %}">Войти</a>
+            </li>  
+              
+          {% endif %}
           <li class="nav-item {% if url_name == 'other' %} active {% endif %}">
             <a class="nav-link" href="{% url 'main:other' page='about' %}"><i class="fa fa-info"></i> О сайте</a>
           </li>
@@ -119,13 +114,29 @@
         {% endwith %}
       </div>
     </nav>
+    <div class="categories-hidden">
+    <div class="dropdown categories d-flex flex-wrap justify-content-around" aria-labelledby="categories-dropdown">
+      
+      {% for category in categories %}
+      {% ifchanged category.super_category.pk %}
+      {% if forloop.first %}      
+      <div class="categories-item">
+      {% else %}
+      </div> 
+      <div class="categories-item">
+      {% endif %}
+      <h6>{{category.super_category.name}}</h6>
+      {% endifchanged %}      
+      <div><a class="font-weight-bold" href="{% url 'main:by_category' pk=category.pk %}">{{category.name}}</a></div>
+      {% endfor %} 
+    </div>     
+    </div>
+    </div>
+    <div class="center">
     {% bootstrap_messages %}
-    <header>
-      <div class="logo">
-        <a href="index.html"><img src="{% static 'main/images/logo.png' %}"></a>
-      </div>
-    </header>
+    </div>
     {% endblock %}
+    
     
     {% block body %}
     {% endblock %}
@@ -135,8 +146,6 @@
 	<!-- jQuery Pinterest -->
     <script type="text/javascript" src="{% static 'main/js/jquery.pinto.js' %}"></script>
     <script type="text/javascript" src="{% static 'main/js/main.js' %}"></script>
-	
-
-	<script src="{% static 'main/js/lightbox-plus-jquery.min.js' %}"></script>
+	  <script src="{% static 'main/js/lightbox.js' %}"></script>
 </body>
 </html>

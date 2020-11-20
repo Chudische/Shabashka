@@ -17,6 +17,12 @@ $(document).ready(function($) {
         $('#container').pinto("destroy");
     });
     
-    
+    $("#categories-dropdown").click(function(){
+        if ($(".categories-hidden").css("display") == 'none'){
+            $(".categories-hidden").slideDown();
+        } else {
+            $(".categories-hidden").slideUp();
+        }
+    })
 
 });

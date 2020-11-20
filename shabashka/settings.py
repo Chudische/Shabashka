@@ -36,10 +36,18 @@ CORS_URL_REGEX = r'^/api/.*$'
 
 AUTH_USER_MODEL = 'main.ShaUser'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'shabashka.info@gmail.com'
+# EMAIL_HOST_PASSWORD = 'Password'
+# EMAIL_USE_TLS = True
+
 INSTALLED_APPS = [
     'easy_thumbnails',
     'django_cleanup',   
-    'bootstrap4',   
+    'bootstrap4',
+    'crispy_forms',   
     'main.apps.MainConfig',    
     'django.contrib.admin',
     'django.contrib.auth',
@@ -51,6 +59,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'api.apps.ApiConfig',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,6 +79,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
+            os.path.join(BASE_DIR, "templates"),
             os.path.join(BASE_DIR, "static"),
             '../static/main/images/',
         ],

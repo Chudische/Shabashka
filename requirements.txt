@@ -1,4 +1,8 @@
+django
 django-bootstrap4
 pillow
 easy-thumbnails
 django-cleanup
+djangorestframework
+django-cores-headers
+django-crispy-forms

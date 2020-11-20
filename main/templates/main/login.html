@@ -1,22 +1,70 @@
 {% extends 'main/layout.html' %}
+{% load static %}
 {% load bootstrap4 %}
 
 {% block title %} Вход {% endblock %}
 
+
+
+
 {% block body %}
-<div class="center">
-<h2>Вход</h2>
+<header>
+	<div class="logo">
+	  <a href="index.html"><img src="{% static 'main/images/logo.png' %}"></a>
+	</div>
+</header>
+
 {% if user.is_authenticated %}
 <p> Вы уже выполнили вход</p>
 {% else %}       
-    <form class="form center" method="POST">
-    {{form.error}}
-    {% csrf_token %}
-    {% bootstrap_form form layout="vertical" show_label=False %}
-    <input type="hidden" name="next" value="{{next}}"> 
-    <button type="submit" class="btn btn-outline-primary btn-block " >Войти</button>
-    </form>     
+<!-- Modal HTML -->
+<div id="loginModal" class="modal fade">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="avatar">
+					<img src="{% static 'main/images/profile-ph.png' %}" alt="Avatar">
+				</div>				
+				<h4 class="modal-title">Вход</h4>	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form action="/accounts/login/" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="next" value="{{next}}">					
+					
+					<div class="form-group">
+						<input type="text" class="form-control" name="username" placeholder="Имя пользователя" required="required">		
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" name="password" placeholder="Пароль" required="required">	
+					</div>        
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-lg btn-block login-btn">Войти</button>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a href="{% url 'main:password_reset' %}">Забыли пароль?</a>
+				
+			</div>
+			<div class="text-center">Еще не зарегистрированы? <a href="{% url 'main:register_user' %}">Регистрация</a>.</div>
+		</div>
+	</div>
+</div>     
+<div class="container">
+   
+        <center><article class="p-5 center">                  
+			<h1>Мы рады Вас приветствовать!</h1>
+    	</article> </center> 
+    
+</div>
 
 {% endif %}
-</div>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		$("#loginModal").modal("show");
+	});
+</script>
 {% endblock %}
+

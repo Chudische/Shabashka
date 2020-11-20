@@ -2,6 +2,7 @@
 {% load static %}
 {% load bootstrap4 %}
 {% load custom_tags %}
+{% load crispy_forms_tags %}
 
 {% block title %} Детали {% endblock %}
 
@@ -86,8 +87,10 @@
 						<div class="col-lg-3 col-md-3">
 							<div class="center">									
 									<div class="comment-price">
+										{% if comment.price %}
 										<span class="uah">&#8372</span>
 										{{comment.price}}
+										{% endif %}
 										{% if comment.time_amount and comment.measure %}
 										<span class="comment-time">/ {{comment.time_amount }} {% time_measure pk=comment.pk %}</span>
 										{% endif %}
@@ -101,17 +104,34 @@
 				</div>
 			</article></center>
 			{% endfor %}
+			{% if user != offer.author or offer.status == 'a'%}
 			<center><article class="my-2">
 				<h3 class="center">Откликнуться</h3>
-				<div class="comment-form p-5">
+				<div class="comment-form p-2">
 					<form method="POST">
 						{% csrf_token %}
-						{% bootstrap_form form layout="vertical" %}
+						{{form.author }}
+						{{form.offer }}
+						<div class="form-row mb-0">
+							<div class="form-group col-lg-4 mb-0">
+								{{ form.price|as_crispy_field  }}
+							</div>
+							<div class="form-group col-lg-4 mb-0">
+								{{ form.time_amount|as_crispy_field  }}
+							</div>
+							<div class="form-group col-lg-4 mb-0">
+								{{ form.measure|as_crispy_field  }}
+							</div>
+						</div>
+						<div class="form-group">						
+							{{ form.content|as_crispy_field  }}
+						</div>
+						
 						{% buttons submit="Отправить" %} {% endbuttons %}
 					</form>
-				</div>
-			
-			</article></center> 
+				</div>			
+			</article></center>
+			{% endif %} 
 		</div>
 	</div>
 	

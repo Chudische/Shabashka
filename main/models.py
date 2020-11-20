@@ -173,8 +173,8 @@ class Comment(models.Model):
     author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, verbose_name="Автор")
     content = models.TextField(verbose_name="Коментарий")
     is_active = models.BooleanField(default=True, db_index=True, verbose_name="Выводить на экран")
-    price = models.FloatField(default=0, verbose_name="Предложить цену")
-    time_amount = models.SmallIntegerField(default=0, verbose_name="Сделаю за")
+    price = models.FloatField(default=0, null=True, blank=True, verbose_name="Предложить цену")
+    time_amount = models.SmallIntegerField(default=0, null=True, blank=True, verbose_name="Сделаю за")
     measure = models.CharField(max_length=1, null=True, blank=True, choices=MEASUREMENTS, verbose_name="Еденица времени")
     created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Написан")
 

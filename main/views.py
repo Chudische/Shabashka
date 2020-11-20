@@ -7,18 +7,21 @@ from django.views.generic.base import TemplateView
 from django.template.loader import get_template
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView  
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView 
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, PasswordResetCompleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 
 
 from .models import ShaUser, SubCategory, Offer, Comment
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
-from .utilities import signer
+from .forms import PasswordRegenerationForm 
+from .utilities import signer, send_password_restore_link
 # Create your views here.
 
 
@@ -169,14 +172,57 @@ def user_activate(request, sign):
     return render(request, template)
 
 
+def password_restore(request):
+    if request.method == "POST":
+        if request.POST.get("email", ''):
+            try:
+                user = ShaUser.objects.get(email=request.POST.get("email", ''))
+                send_password_restore_link(user)
+                return render(request, 'main/password_restore_sended.html')
+
+            except ObjectDoesNotExist:            
+                messages.add_message(request, messages.ERROR, "Пользователь с такой электронной почтой не зарегистрирован")
+        else:
+            messages.add_message(request, messages.ERROR, "Требуется адрес почты")
+    
+
+    return render(request, 'main/password_restore.html')
+
+def password_regenerate(request, sign):
+    if request.method == 'POST':
+        user = ShaUser.objects.get(pk=request.POST.get('userid', ''))
+        password1 = request.POST.get('password1', '')
+        password2 = request.POST.get('password2', '')
+        if not password1 or not password2 or password1 != password2:
+            messages.add_message(request, messages.ERROR, "Не коректный пароль или пароли не совпадают")
+            return render(request, 'main/password_regenerate.html')
+        
+        
+    try:
+        username = signer.unsign(sign)
+    except BadSignature:
+        return render(request, 'main/bad_signature.html')
+    user = get_object_or_404(ShaUser, username=username)
+    if user:
+        context = {'user': user, 'form': PasswordRegenerationForm}
+        return render(request, 'main/password_regenerate.html', context)
+    else:
+        return render(request, 'main/bad_signature.html')
+
 
 
 class ShaLogin(LoginView):
     template_name = 'main/login.html'
+   
 
-
-class ShaLogout(LoginRequiredMixin, LogoutView):
+class ShaLogout(SuccessMessageMixin, LoginRequiredMixin, LogoutView):
     template_name = 'main/logout.html'
+    next_page = 'main:index'
+   
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+             messages.add_message(request, messages.SUCCESS, "Вы успешно вышли. До новых встреч!")
+        return super().dispatch(request, *args, **kwargs)
 
 class ChangeProfileView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = ShaUser
@@ -198,6 +244,23 @@ class ShaPassChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeV
     template_name = 'main/password_change.html'
     success_url = reverse_lazy('main:profile')
     success_message = "Пароль был изменен"
+
+class ShaPassResetView(PasswordResetView):
+    template_name = 'main/password_reset.html'
+    email_template_name = 'main/password_reset_email.html'
+    email_subject_name = 'main/password_reset_email_subject.html'
+    success_url = reverse_lazy('main:password_reset_done')
+
+class ShaPassResetDoneView(PasswordResetDoneView):
+    template_name = 'main/password_reset_sent.html'
+
+class ShaPassResetConfirmView(PasswordResetConfirmView):
+    template_name = 'main/password_regenerate.html'
+    success_url = reverse_lazy('main:password_reset_complete')
+
+
+class ShaPassResetCompleteView(PasswordResetCompleteView):
+    template_name = 'main/password_reset_done.html'
 
 class RegisterUserView(CreateView):
     model = ShaUser
