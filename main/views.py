@@ -172,44 +172,6 @@ def user_activate(request, sign):
     return render(request, template)
 
 
-def password_restore(request):
-    if request.method == "POST":
-        if request.POST.get("email", ''):
-            try:
-                user = ShaUser.objects.get(email=request.POST.get("email", ''))
-                send_password_restore_link(user)
-                return render(request, 'main/password_restore_sended.html')
-
-            except ObjectDoesNotExist:            
-                messages.add_message(request, messages.ERROR, "Пользователь с такой электронной почтой не зарегистрирован")
-        else:
-            messages.add_message(request, messages.ERROR, "Требуется адрес почты")
-    
-
-    return render(request, 'main/password_restore.html')
-
-def password_regenerate(request, sign):
-    if request.method == 'POST':
-        user = ShaUser.objects.get(pk=request.POST.get('userid', ''))
-        password1 = request.POST.get('password1', '')
-        password2 = request.POST.get('password2', '')
-        if not password1 or not password2 or password1 != password2:
-            messages.add_message(request, messages.ERROR, "Не коректный пароль или пароли не совпадают")
-            return render(request, 'main/password_regenerate.html')
-        
-        
-    try:
-        username = signer.unsign(sign)
-    except BadSignature:
-        return render(request, 'main/bad_signature.html')
-    user = get_object_or_404(ShaUser, username=username)
-    if user:
-        context = {'user': user, 'form': PasswordRegenerationForm}
-        return render(request, 'main/password_regenerate.html', context)
-    else:
-        return render(request, 'main/bad_signature.html')
-
-
 
 class ShaLogin(LoginView):
     template_name = 'main/login.html'
