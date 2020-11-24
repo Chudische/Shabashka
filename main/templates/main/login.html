@@ -48,14 +48,72 @@
 				<a href="{% url 'main:password_reset' %}">Забыли пароль?</a>
 				
 			</div>
-			<div class="text-center">Еще не зарегистрированы? <a href="{% url 'main:register_user' %}">Регистрация</a>.</div>
+			<div class="text-center">Еще не зарегистрированы? <a href="#" class="registerShow">Регистрация</a>.</div>
 		</div>
 	</div>
-</div>     
+</div> 
+<!-- Modal HTML -->
+<div id="registerModal" class="modal fade signup-modal">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="avatar">
+					<img src="{% static 'main/images/profile-ph.png' %}" alt="Avatar">
+				</div>				
+				<h4 class="modal-title">Регистрация</h4>	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body si">
+				<form action="/accounts/login/" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="next" value="{{next}}">					
+					
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-user"></i></span>
+							<input type="text" class="form-control" name="username" placeholder="Имя пользователя" required="required">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-paper-plane"></i></span>
+							<input type="email" class="form-control" name="email" placeholder="Email адрес" required="required">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+							<input type="password" class="form-control" name="password1" placeholder="Пароль" required="required">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="fa fa-lock"></i>
+								<i class="fa fa-check"></i>
+							</span>
+							<input type="password" class="form-control" name="password2" placeholder="Подтверждение пароля" required="required">
+						</div>
+					</div>        
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-block btn-lg">Зарегистрироваться</button>
+					</div>
+					
+				</form>
+			</div>
+			<div class="modal-footer">
+				<p class="small text-center">By clicking the Sign Up button, you agree to our <br><a href="#">Terms &amp; Conditions</a>, and <a href="#">Privacy Policy</a>.</p>
+				
+			</div>
+			<div class="text-center">Уже зарегитрированы? <a href="#" class="loginShow">Войти</a>.</div>
+		</div>
+	</div>
+</div>    
 <div class="container">
    
-        <center><article class="p-5 center">                  
+        <center><article class="py-5 center">                  
 			<h1>Мы рады Вас приветствовать!</h1>
+			<a href="#" class="loginShow mx-2">Вход</a> <a href="#" class="registerShow mx-2">Регистрация</a>
     	</article> </center> 
     
 </div>
@@ -64,6 +122,18 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		$("#loginModal").modal("show");
+
+		$(".loginShow").click(function(){
+			$("#registerModal").modal("hide");
+			$("#loginModal").modal("show");
+			return false;
+		})
+		
+		$(".registerShow").click(function(){
+			$("#loginModal").modal("hide");
+			$("#registerModal").modal("show");
+			return false;
+    	})
 	});
 </script>
 {% endblock %}

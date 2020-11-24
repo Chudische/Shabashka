@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseNotAllowed
 from django.urls import reverse_lazy
 from django.template import TemplateDoesNotExist
 from django.views.generic.edit import UpdateView, CreateView, DeleteView

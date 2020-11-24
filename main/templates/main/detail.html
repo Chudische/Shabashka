@@ -55,15 +55,13 @@
 			{% for comment in comments %}
 			<center><article class="my-2 p-1">
 				<div class="comment"> 
-					<div class="comment-head border-bottom-1">
-						<b>{{comment.author}}</b>
+					<div class="comment-head border-bottom-1">						
 						<span class="small text-muted">{{comment.created}}</span>
 										
 					</div>
 					<div class="row">
 						<div class="col-lg-3 col-md-3">
-							<div class="d-flex justify-content-center align-item-center ">
-							
+							<div class="d-flex justify-content-center align-item-center ">							
 								<a href="{% url 'main:profile_by_id' pk=comment.author.pk %}"><img src="{% static 'main/images/ava-1.jpg' %}" class="comment-img">
 							</div>
 							<div class="center">
@@ -95,8 +93,14 @@
 										<span class="comment-time">/ {{comment.time_amount }} {% time_measure pk=comment.pk %}</span>
 										{% endif %}
 									</div>
-									
-									<button class="btn btn-success">Принять</button>
+									{% if offer.status == 'n' %}									
+										<button id="acceptButton" class="btn btn-success" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Принять</button>									
+									{% elif offer.status == 'a' %}
+									<button id="chatButton" class="btn btn-outline-primary my-2" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Чат</button>
+									<button id="cancelButton" class="btn btn-outline-danger" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Отклонить</button>
+									<a href="#"class="btn btn-success">Выполнен</a>								
+
+									{% endif %}
 							</div>
 						</div>
 						
