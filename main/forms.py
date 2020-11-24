@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 
 
 from .models import ShaUser, user_registrated, SuperCategory, SubCategory, Offer, AdditionalImage
-from .models import Comment 
+from .models import Comment, ShaUserAvatar
 
 
 
@@ -54,17 +54,6 @@ class RegisterUserForm(forms.ModelForm):
         fields = ('username', 'email', 'password1', 'password2', 
             'first_name', 'last_name', 'send_message')
 
-class PasswordRegenerationForm(forms.ModelForm):    
-    password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput, 
-        help_text=password_validation._password_validators_help_text_html()
-    )
-    password2 = forms.CharField(label="Подтверждение пароля", widget=forms.PasswordInput, 
-        help_text="Введите Ваш пароль повторно"
-    ) 
-
-    class Meta:
-        model = ShaUser
-        fields = ('password1', 'password2')
 
 class SubCategoryForm(forms.ModelForm):
     super_category = forms.ModelChoiceField(queryset=SuperCategory.objects.all(),
@@ -80,8 +69,8 @@ class SearchForm(forms.Form):
 
 class OfferForm(forms.ModelForm):
     class Meta:
-        model = Offer
-        fields = '__all__'
+        model = Offer        
+        exclude = ['reviews', 'shared', 'status', "is_active"]
         widgets = {'author': forms.HiddenInput}
 
 AIFormSet = forms.inlineformset_factory(Offer, AdditionalImage, fields='__all__')
@@ -98,3 +87,11 @@ class CommetForm(forms.ModelForm):
             'content': forms.Textarea(attrs={'rows': 4})
         }
                    
+
+class AvatarForm(forms.ModelForm):
+    class Meta:
+        fields = "__all__"
+        model = ShaUserAvatar
+        widgets = {
+            "user": forms.HiddenInput
+        }

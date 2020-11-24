@@ -20,7 +20,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import ShaUser, SubCategory, Offer, Comment
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
-from .forms import PasswordRegenerationForm 
+from .forms import AvatarForm
 from .utilities import signer, send_password_restore_link
 # Create your views here.
 
@@ -92,7 +92,8 @@ def other_page(request, page):
 @login_required
 def profile(request):
     offers = Offer.objects.filter(author=request.user.pk)
-    context = {"offers": offers}
+    avatar_form = AvatarForm(initial={"user": request.user})
+    context = {"offers": offers, 'avatar_form': avatar_form}    
     return render(request, "main/profile.html", context)
 
 @login_required
