@@ -2,7 +2,7 @@ import datetime
 
 from django.contrib import admin
 
-from .models import ShaUser, SubCategory, SuperCategory, Offer, AdditionalImage, Comment
+from .models import ShaUser, SubCategory, SuperCategory, Offer, AdditionalImage, Comment, ShaUserAvatar
 from .utilities import send_activation_notification
 from .forms import SubCategoryForm
 
@@ -80,3 +80,4 @@ admin.site.register(SuperCategory, SuperCategoryAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)
 admin.site.register(Offer, OfferAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(ShaUserAvatar)

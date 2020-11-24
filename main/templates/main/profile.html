@@ -1,17 +1,49 @@
 {% extends 'main/layout.html' %}
 {% load static %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
 {% load custom_tags %}
+
 
 {% block title %} Профиль {% endblock %}
 
 {% block body %}
+<div id="avatarModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Сменить аватар</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="POST">
+        <div class="modal-body">
+        <div>
+            <img class="border profile-img" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
+        </div>
+            {% csrf_token %}
+            {% bootstrap_form avatar_form %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-3">
+            {% if user.avatar.avatar %}
+            <img class="border profile-img"  src="{{user.avatar.avatar.url}}" alt="">
+            {% else %}
             <img class="border profile-img" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
+            {% endif %}
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-9">            
             <h3>Профиль пользователя {{ user.username }}</h3>
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-6">           
@@ -25,12 +57,13 @@
                         <i class="fa fa-star-half-full" style="color: #ddad10;"></i>
                         <a href="#">(5 отзывов)</a>
                     </div>            
-                    <div><b>Успешных сделок:</b> 22</div>                               
+                    <div><b>Успешных сделок:</b> 22</div>
+                                               
                 </div>
                 {% if user == request.user %}
                 <div class="col-lg-4 col-md-4 col-sm 6">
-                    <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-user"></i> Сменить аватар </a></div>
-                    <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-pencil"></i> Редактировать профиль </a></div>
+                    <div><a href="#avatarModal" class="mx-1" data-toggle="modal" data-target="#avatarModal"><i class="fa fa-pencil"></i> Сменить аватар </a></div>
+                    <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-user"></i> Редактировать профиль </a></div>
                     <div><a href="{% url 'main:password_change' %}" class="mx-1"><i class="fa fa-lock"></i> Изменить пароль </a></div>
                     <div><a href="{% url 'main:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Удалить профиль </a></div>           
                 {% else %}                

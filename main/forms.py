@@ -89,9 +89,9 @@ class CommetForm(forms.ModelForm):
                    
 
 class AvatarForm(forms.ModelForm):
-    class Meta:
-        fields = "__all__"
+    class Meta:       
         model = ShaUserAvatar
+        fields = "__all__"
         widgets = {
             "user": forms.HiddenInput
         }

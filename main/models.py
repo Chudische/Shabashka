@@ -107,7 +107,7 @@ class ShaUser(AbstractUser):
 
 class ShaUserAvatar(models.Model):
     user = models.OneToOneField(ShaUser, on_delete=models.CASCADE, related_name="avatar", verbose_name="Пользователь",)
-    avatar = models.ImageField(verbose_name="Аватар")
+    image = models.ImageField(verbose_name="Аватар")
 
 
 user_registrated = Signal(providing_args=['instance'])
