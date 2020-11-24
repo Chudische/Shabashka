@@ -6,35 +6,39 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container py-5">
     <div class="row">
         <div class="col-lg-3">
             <img class="border profile-img" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
         </div>
         <div class="col-lg-9">
             <h3>Профиль пользователя {{ user.username }}</h3>
-            <div><b> Имя:</b> {{user.first_name}} {{user.last_name}} </div>
-            <div><b>Город:</b>  Скадовск</div>
-            <div><b>Рейтинг:</b> 
-                <i class="fa fa-star" style="color: #ddad10;"></i>
-                <i class="fa fa-star" style="color: #ddad10;"></i>
-                <i class="fa fa-star" style="color: #ddad10;"></i>
-                <i class="fa fa-star" style="color: #ddad10;"></i>
-                <i class="fa fa-star-half-full" style="color: #ddad10;"></i>
-                (5 отзывов)
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-6">           
+                    <div><b> Имя:</b> {{user.first_name}} {{user.last_name}} </div>
+                    <div><b>Город:</b>  Скадовск</div>
+                    <div><b>Рейтинг:</b> 
+                        <i class="fa fa-star" style="color: #ddad10;"></i>
+                        <i class="fa fa-star" style="color: #ddad10;"></i>
+                        <i class="fa fa-star" style="color: #ddad10;"></i>
+                        <i class="fa fa-star" style="color: #ddad10;"></i>
+                        <i class="fa fa-star-half-full" style="color: #ddad10;"></i>
+                        <a href="#">(5 отзывов)</a>
+                    </div>            
+                    <div><b>Успешных сделок:</b> 22</div>                               
+                </div>
+                {% if user == request.user %}
+                <div class="col-lg-4 col-md-4 col-sm 6">
+                    <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-user"></i> Сменить аватар </a></div>
+                    <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-pencil"></i> Редактировать профиль </a></div>
+                    <div><a href="{% url 'main:password_change' %}" class="mx-1"><i class="fa fa-lock"></i> Изменить пароль </a></div>
+                    <div><a href="{% url 'main:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Удалить профиль </a></div>           
+                {% else %}                
+                    <a href="#"><i class="fa fa-user-plus"></i> Подписаться</a>
+                </div>
+                {% endif %}
+                </div>
             </div>
-            <div><b>Успешных сделок:</b> 22</div>
-            <div><a href="#" class="btn btn-primary my-2">Отзывы</a></div>
-            <div></div>
-            {% if user == request.user %}
-
-            <a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-user"></i> Сменить аватар </a>
-            <a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-pencil"></i> Редактировать профиль </a>
-            <a href="{% url 'main:password_change' %}" class="mx-1"><i class="fa fa-lock"></i> Изменить пароль </a>
-            <a href="{% url 'main:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Удалить профиль </a>
-            {% else %}                
-                <a href="#"><i class="fa fa-user-plus"></i> Подписаться</a>
-            {% endif %}
         </div>
     </div>
 <hr>

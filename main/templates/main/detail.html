@@ -94,10 +94,10 @@
 										{% endif %}
 									</div>
 									{% if offer.status == 'n' %}									
-										<button id="acceptButton" class="btn btn-success" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Принять</button>									
+										<button class="btn btn-success acceptButton" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Принять</button>									
 									{% elif offer.status == 'a' %}
-									<button id="chatButton" class="btn btn-outline-primary my-2" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Чат</button>
-									<button id="cancelButton" class="btn btn-outline-danger" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Отклонить</button>
+									<button class="btn btn-outline-primary my-2 chatButton" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Чат</button>
+									<button class="btn btn-outline-danger cancelButton" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Отклонить</button>
 									<a href="#"class="btn btn-success">Выполнен</a>								
 
 									{% endif %}

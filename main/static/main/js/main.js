@@ -24,37 +24,45 @@ $(document).ready(function($) {
             $(".categories-hidden").slideUp();
         }
     })
-
     
-
-    $("#acceptButton").click(function(){
+    $(".acceptButton").click(function() {
         let offerId = this.dataset.offer;
-        let offerWinner = this.dataset.winner;
-        let data = {winner: offerWinner};
-        console.log(data);
-        fetch(`/api/offers/status/${offerId}`, {
-            method: "PUT",
-            redirect: 'follow',            
-            headers: {
-                "X-CSRFToken": csrftoken,
-                "Content-Type": "application/json",
-            },            
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.status == 'ok'){
-                console.log(result.status)
-                location.reload();
-            } else {
-                console.log(result.error)
-            }
-            
-        })     
-    });
+        let winner = this.dataset.winner;
+        changeStatus(offerId, {winner: winner, status: 'accepted'})
+    })
+    
+    $(".cancelButton").click(function() { 
+        let offerId = this.dataset.offer;
+        changeStatus(offerId, {status: 'canceled'})
+    }) 
 
 
 });
+
+function changeStatus(offerId, data) {
+    fetch(`/api/offers/status/${offerId}`, {
+        method: "PUT",
+        redirect: 'follow',            
+        headers: {
+            "X-CSRFToken": csrftoken,
+            "Content-Type": "application/json",
+        },            
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status == 'ok'){
+            console.log(result.status)
+            location.reload();
+        } else {
+            console.log(result.error)
+        }
+        
+    })     
+
+}
+
+
 // Get csrf for PUT method
 function getCookie(name) {
 let cookieValue = null;

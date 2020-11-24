@@ -26,12 +26,22 @@ def offer_status(request, pk):
             return Response({'error': 'Offer does not exist'}, HTTP_404_NOT_FOUND)        
         if request.user != offer.author:
             return Response({"error": "Forbitten"}, HTTP_403_FORBIDDEN)
-        elif not request.data:
+        if not request.data:
             return Response({"error": "No data found"}, HTTP_400_BAD_REQUEST)
-        winner = request.data["winner"]
-        offer.status = 'a'
-        offer.save()
-        Comment.objects.filter(offer=offer).exclude(pk=winner).update(is_active=False)           
+        offer_comments = Comment.objects.filter(offer=offer)
+        if request.data['status'] == 'accepted':
+            winner = request.data["winner"]
+            offer.status = 'a'
+            offer.is_active = False
+            offer.save()
+            offer_comments.exclude(pk=winner).update(is_active=False) 
+        elif request.data['status'] == 'canceled':
+            offer.status = 'n'
+            offer.is_active = True
+            offer.save()           
+            offer_comments.update(is_active=True)      
+        else:
+            return Response({"error": "No data found"}, HTTP_400_BAD_REQUEST)
         return Response({'status': 'ok'}, HTTP_202_ACCEPTED)
     else:
         return Response({'status': 'error', 'error': 'method not allowed'}, HTTP_405_METHOD_NOT_ALLOWED)
