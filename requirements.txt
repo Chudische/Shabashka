@@ -4,5 +4,5 @@ pillow
 easy-thumbnails
 django-cleanup
 djangorestframework
-django-cores-headers
+django-cors-headers
 django-crispy-forms
