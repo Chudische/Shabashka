@@ -1,5 +1,6 @@
 {% extends 'main/layout.html' %}
 {% load static %}
+{% load thumbnail %}
 {% load bootstrap4 %}
 {% load custom_tags %}
 
@@ -40,7 +41,13 @@
 							{% else %}
 							{{offer.author}}
 							{% endif %}
-						</a><img src="{% static 'main/images/ava-1.jpg' %}" class="rounded-circle"></span>
+						</a>
+						{% if offer.author.avatar.image %}
+						<img class="border profile-img rounded-circle" src="{% thumbnail offer.author.avatar.image 'default' %}" alt="">
+						{% else %}
+						<img class="border profile-img rounded-circle" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
+						{% endif %}
+					</span>
 				</div>
 			</div>
 	

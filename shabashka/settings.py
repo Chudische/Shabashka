@@ -27,7 +27,7 @@ SECRET_KEY = '0)%4p@p5-g7d1f3ee)uttv33xv=pu7#oio&vdk@fy1pm4%qmbc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.42.220','shabashka.pp.ua','www.shabashka.pp.ua']
+ALLOWED_HOSTS = ['127.0.0.1','192.168.42.220','shabashka.pp.ua','www.shabashka.pp.ua']
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URL_REGEX = r'^/api/.*$'
@@ -153,7 +153,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-THUMBNAILS_ALIASES = {
+THUMBNAIL_ALIASES = {
     '': {
         'default': {
             'size': (96, 96),
@@ -162,4 +162,4 @@ THUMBNAILS_ALIASES = {
     },
 }
 
-THUMBNAILS_BASEDIR = 'thumbnails'
+THUMBNAIL_BASEDIR = 'thumbnails'

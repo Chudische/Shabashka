@@ -1,5 +1,6 @@
 {% extends 'main/layout.html' %}
 {% load static %}
+{% load thumbnail %}
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
 {% load custom_tags %}
@@ -16,14 +17,20 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-        <form method="POST">
-        <div class="modal-body">
+        </div>        
+        <div class="modal-body center">
+        <form method="POST" enctype="multipart/form-data">    
         <div>
+            {% if user.avatar.image %}
+            <img class="border profile-img" src="{{user.avatar.image.url}}" alt="">
+            {% else %}
             <img class="border profile-img" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
+            {% endif %}
         </div>
             {% csrf_token %}
-            {% bootstrap_form avatar_form %}
+            {% bootstrap_form avatar_form alert_error_type='all' %}
+            {% bootstrap_form_errors avatar_form %}
+            
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -37,8 +44,8 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-3">
-            {% if user.avatar.avatar %}
-            <img class="border profile-img"  src="{{user.avatar.avatar.url}}" alt="">
+            {% if user.avatar.image %}
+            <img class="border profile-img"  src="{{user.avatar.image.url}}" alt="">
             {% else %}
             <img class="border profile-img" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
             {% endif %}
@@ -62,8 +69,8 @@
                 </div>
                 {% if user == request.user %}
                 <div class="col-lg-4 col-md-4 col-sm 6">
-                    <div><a href="#avatarModal" class="mx-1" data-toggle="modal" data-target="#avatarModal"><i class="fa fa-pencil"></i> Сменить аватар </a></div>
-                    <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-user"></i> Редактировать профиль </a></div>
+                    <div><a href="#avatarModal" class="mx-1" data-toggle="modal" data-target="#avatarModal"><i class="fa fa-user"></i> Сменить аватар </a></div>
+                    <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-pencil"></i> Редактировать профиль </a></div>
                     <div><a href="{% url 'main:password_change' %}" class="mx-1"><i class="fa fa-lock"></i> Изменить пароль </a></div>
                     <div><a href="{% url 'main:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Удалить профиль </a></div>           
                 {% else %}                
@@ -102,7 +109,14 @@
                 {% else %}
                 {{offer.author}}
                 {% endif %}
-            </a><img src="{% static 'main/images/ava-1.jpg' %}" class="rounded-circle"></span>
+            </a>
+            {% if user.avatar.image %}
+            <img class="border profile-img rounded-circle" src="{% thumbnail user.avatar.image 'default' %}" alt="">
+            {% else %}
+            <img class="border profile-img rounded-circle" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
+            {% endif %}
+            
+        </span>
     </div>
 </div>
 

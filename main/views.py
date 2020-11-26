@@ -18,15 +18,15 @@ from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 
 
-from .models import ShaUser, SubCategory, Offer, Comment
+from .models import ShaUser, SubCategory, Offer, Comment, ShaUserAvatar
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
-from .forms import AvatarForm
+from .forms import AvatarForm, LoginUserForm
 from .utilities import signer, send_password_restore_link
 # Create your views here.
 
 
 def index(request):
-    offers = Offer.objects.all()
+    offers = Offer.objects.filter(is_active=True)
     paginator = Paginator(offers, 30)
     if 'page' in request.GET:
         page_num = request.GET['page']
@@ -91,8 +91,17 @@ def other_page(request, page):
 
 @login_required
 def profile(request):
-    offers = Offer.objects.filter(author=request.user.pk)
-    avatar_form = AvatarForm(initial={"user": request.user})
+    if request.method == "POST":
+        instance, created = ShaUserAvatar.objects.get_or_create(user=request.user)
+        avatar_form = AvatarForm(request.POST, request.FILES, instance=instance)
+        if avatar_form.is_valid():
+            avatar_form.save()
+            messages.add_message(request, messages.SUCCESS, 'Установлен новый аватар')
+        else:
+            messages.add_message(request, messages.ERROR, 'Ошибка! Файл не поддерживается')
+    else:
+        avatar_form = AvatarForm(initial={"user": request.user})
+    offers = Offer.objects.filter(author=request.user.pk)    
     context = {"offers": offers, 'avatar_form': avatar_form}    
     return render(request, "main/profile.html", context)
 
@@ -176,6 +185,7 @@ def user_activate(request, sign):
 
 class ShaLogin(LoginView):
     template_name = 'main/login.html'
+    form_class = LoginUserForm
    
 
 class ShaLogout(SuccessMessageMixin, LoginRequiredMixin, LogoutView):

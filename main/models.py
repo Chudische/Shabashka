@@ -100,7 +100,6 @@ class ShaUser(AbstractUser):
         self.avatar.delete()
         super().delete(*args, **kwargs)
 
-
     class Meta(AbstractUser.Meta):
         pass
 
@@ -109,6 +108,26 @@ class ShaUserAvatar(models.Model):
     user = models.OneToOneField(ShaUser, on_delete=models.CASCADE, related_name="avatar", verbose_name="Пользователь",)
     image = models.ImageField(verbose_name="Аватар")
 
+    def __str__(self):
+        return f'{self.user.username} photo - {self.image.url}'
+
+    class Meta:
+        verbose_name = "Аватар"
+        verbose_name_plural = "Аватары"
+
+ 
+class UserReview(models.Model):
+    author = models.ForeignKey(ShaUser, on_delete=models.DO_NOTHING, related_name="review", verbose_name="Автор")
+    offer = models.ForeignKey("Offer", on_delete=models.DO_NOTHING, related_name="review", verbose_name="Предложение")
+    reviewal = models.ForeignKey(ShaUser, on_delete=models.CASCADE, related_name="raiting", verbose_name="Респондент")
+    speed = models.SmallIntegerField(default=5, verbose_name="Скорость")
+    cost = models.SmallIntegerField(default=5, verbose_name="Стоимость")
+    accuracy = models.SmallIntegerField(default=5, verbose_name="Качество")
+    content = models.TextField(verbose_name="Отзыв")
+    created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликован")
+
+    def __str__(self):
+        return f'Отзыв {self.author} на {self.reviwal} в предложении {self.offer}' 
 
 user_registrated = Signal(providing_args=['instance'])
 

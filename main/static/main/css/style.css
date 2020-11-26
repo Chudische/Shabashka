@@ -261,15 +261,14 @@ body .modal{
 }
 .signup-modal .fa {
 	font-size: 21px;
-	position: relative;
-	top: 8px;
+	position: relative;	
 }
 .signup-modal .fa-paper-plane {
 	font-size: 17px;
 }
 .signup-modal .fa-check {
 	color: #fff;
-	left: 9px;
+	left: 17px;
 	top: 18px;
 	font-size: 7px;
 	position: absolute;
