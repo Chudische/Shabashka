@@ -3,6 +3,7 @@ import datetime
 from django.contrib import admin
 
 from .models import ShaUser, SubCategory, SuperCategory, Offer, AdditionalImage, Comment, ShaUserAvatar
+from .models import UserReview
 from .utilities import send_activation_notification
 from .forms import SubCategoryForm
 
@@ -73,6 +74,11 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('offer', 'author', 'content', 'price', 'created', 'is_active')
     fields = (('offer', 'author', 'created'), 'content', ('price', 'time_amount', 'measure'), 'is_active')
     readonly_fields = ('created',)
+class UserReviewAdmin(admin.ModelAdmin):
+    list_display = ('offer', 'author', 'reviewal', 'speed', 'cost', 'accuracy', 'content', 'created')
+    fields = (('offer', 'author', 'reviewal', 'created'), ('speed', 'cost', 'accuracy'), 'content')
+    readonly_fields = ('created',)
+
 
 # Register your models here.
 admin.site.register(ShaUser, ShaUserAdmin)
@@ -81,3 +87,4 @@ admin.site.register(SubCategory, SubCategoryAdmin)
 admin.site.register(Offer, OfferAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(ShaUserAvatar)
+admin.site.register(UserReview, UserReviewAdmin)

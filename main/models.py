@@ -119,7 +119,7 @@ class ShaUserAvatar(models.Model):
 class UserReview(models.Model):
     author = models.ForeignKey(ShaUser, on_delete=models.DO_NOTHING, related_name="review", verbose_name="Автор")
     offer = models.ForeignKey("Offer", on_delete=models.DO_NOTHING, related_name="review", verbose_name="Предложение")
-    reviewal = models.ForeignKey(ShaUser, on_delete=models.CASCADE, related_name="raiting", verbose_name="Респондент")
+    reviewal = models.ForeignKey(ShaUser, on_delete=models.CASCADE, related_name="rating", verbose_name="Респондент")
     speed = models.SmallIntegerField(default=5, verbose_name="Скорость")
     cost = models.SmallIntegerField(default=5, verbose_name="Стоимость")
     accuracy = models.SmallIntegerField(default=5, verbose_name="Качество")
@@ -127,7 +127,11 @@ class UserReview(models.Model):
     created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликован")
 
     def __str__(self):
-        return f'Отзыв {self.author} на {self.reviwal} в предложении {self.offer}' 
+        return f'Отзыв {self.author} на {self.reviewal} в предложении {self.offer}' 
+    
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы' 
 
 user_registrated = Signal(providing_args=['instance'])
 

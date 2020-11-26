@@ -14,7 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q,Avg
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -101,15 +101,21 @@ def profile(request):
             messages.add_message(request, messages.ERROR, 'Ошибка! Файл не поддерживается')
     else:
         avatar_form = AvatarForm(initial={"user": request.user})
-    offers = Offer.objects.filter(author=request.user.pk)    
-    context = {"offers": offers, 'avatar_form': avatar_form}    
+    offers = Offer.objects.filter(author=request.user.pk)
+    user = request.user
+    f = user.rating.aggregate(rating=(Avg('speed')+Avg('cost')+Avg('accuracy'))/3)
+    reviews = user.rating.count()  
+    context = {"offers": offers, "avatar_form": avatar_form, 'rating': f['rating'], 'reviews': reviews}
+    print(context)   
     return render(request, "main/profile.html", context)
 
 @login_required
 def profile_by_id(request, pk):
     user = get_object_or_404(ShaUser, pk=pk)
+    f = user.rating.aggregate(rating=(Avg('speed')+Avg('cost')+Avg('accuracy'))/3)
+    reviews = user.rating.count()
     offers = Offer.objects.filter(author=user.pk)    
-    context = {"offers": offers, "user": user}
+    context = {"offers": offers, "user": user, 'rating': f['rating'], 'reviews': reviews}
     return render(request, "main/profile.html", context)
 
 
