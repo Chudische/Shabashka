@@ -36,16 +36,15 @@ def send_comment_notification(comment):
     print(subject, body_text)
 
 
-def send_password_restore_link(user):
+def send_chat_message_notification(message):
     if ALLOWED_HOSTS:
-        host = 'http://' + ALLOWED_HOSTS
+        host = 'http://' + ALLOWED_HOSTS[0]
     else:
         host = 'http://localhost:8000'
-
-    context = {'user': user, 'host': host,
-                'sign': signer.sign(user.username)}
-    subject = render_to_string('email/password_restore_subject.txt', context)
-    body_text = render_to_string("email/password_restore_body.txt", context)
+    receiver = message.receiver
+    context = {'receiver': receiver, 'host': host, "offer": message.offer}
+    subject = render_to_string('email/new_chat_message_subject.txt', context)
+    body_text = render_to_string('email/new_chat_message_body.txt', context)
     # author.email_user(subject, body_text)
     print(subject, body_text)
 

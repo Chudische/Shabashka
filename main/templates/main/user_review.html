@@ -1,0 +1,14 @@
+{% extends 'main/layout.html' %}
+
+{% load static %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+
+{% block title %} Отзыв {% endblock %}
+
+{% block body %}
+<form method="post">
+    {% crispy form %}
+    <button type="submit">Отправить</button>
+</form>
+{% endblock %}

@@ -1,0 +1,6 @@
+Уважаемый {% if receiver.first_name and receiver.last_name  %} {{receiver.first_name }} {{receiver.last_name}} {% else %} {{receiver.username}} {% endif %}
+
+По предложению "{{offer}}" пришел новый ответ в чат
+
+Перейдите по ссылке ниже, чтобы просмотреть
+{{host}}{% url 'main:chat' %} 

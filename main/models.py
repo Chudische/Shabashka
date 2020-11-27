@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.dispatch import Signal
 
 from .utilities import send_activation_notification, get_timestamp_path, send_comment_notification
-
+from .utilities import send_chat_message_notification
 # Create your models here.
 
 
@@ -103,6 +103,13 @@ class ShaUser(AbstractUser):
     class Meta(AbstractUser.Meta):
         pass
 
+user_registrated = Signal(providing_args=['instance'])
+
+def user_registrated_dispather(sender, **kwargs):
+    send_activation_notification(kwargs['instance'])
+
+user_registrated.connect(user_registrated_dispather)
+
 
 class ShaUserAvatar(models.Model):
     user = models.OneToOneField(ShaUser, on_delete=models.CASCADE, related_name="avatar", verbose_name="Пользователь",)
@@ -117,12 +124,19 @@ class ShaUserAvatar(models.Model):
 
  
 class UserReview(models.Model):
+    RATING = (
+        ('1', 1),
+        ('2', 2),
+        ('3', 3),
+        ('4', 4),
+        ('5', 5),
+    )
     author = models.ForeignKey(ShaUser, on_delete=models.DO_NOTHING, related_name="review", verbose_name="Автор")
     offer = models.ForeignKey("Offer", on_delete=models.DO_NOTHING, related_name="review", verbose_name="Предложение")
     reviewal = models.ForeignKey(ShaUser, on_delete=models.CASCADE, related_name="rating", verbose_name="Респондент")
-    speed = models.SmallIntegerField(default=5, verbose_name="Скорость")
-    cost = models.SmallIntegerField(default=5, verbose_name="Стоимость")
-    accuracy = models.SmallIntegerField(default=5, verbose_name="Качество")
+    speed = models.SmallIntegerField(default=5, choices=RATING,verbose_name="Скорость")
+    cost = models.SmallIntegerField(default=5, choices=RATING, verbose_name="Стоимость")
+    accuracy = models.SmallIntegerField(default=5, choices=RATING, verbose_name="Качество")
     content = models.TextField(verbose_name="Отзыв")
     created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликован")
 
@@ -133,12 +147,6 @@ class UserReview(models.Model):
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы' 
 
-user_registrated = Signal(providing_args=['instance'])
-
-def user_registrated_dispather(sender, **kwargs):
-    send_activation_notification(kwargs['instance'])
-
-user_registrated.connect(user_registrated_dispather)
 
 
 class Offer(models.Model):
@@ -207,10 +215,30 @@ class Comment(models.Model):
         verbose_name = "Коментарий"
         verbose_name_plural = "Коментарии"
 
-
-def post_save_dispatcher(sender, **kwargs):
+def post_save_dispatcher(sender, **kwargs):    
     author = kwargs['instance'].offer.author
     if kwargs['created'] and author.send_message:
         send_comment_notification(kwargs['instance'])
 
 post_save.connect(post_save_dispatcher, sender=Comment)
+
+
+class ChatMessage(models.Model):
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name="chat_messages", verbose_name="Предложение")
+    author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, related_name="send_messages", verbose_name="Автор")
+    receiver = models.ForeignKey(ShaUser, on_delete=models.CASCADE, related_name="received_messages", verbose_name="Получатель")
+    content = models.TextField(verbose_name="Сообщение")
+    created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Создано")
+
+
+    class Meta:
+        ordering = ["-created"]
+        verbose_name = "Чат-сообщение"
+        verbose_name_plural = "Чат-сообщения"
+
+def chat_save_dispatcher(sender, **kwargs):
+    receiver =kwargs['instance'].receiver
+    if kwargs['created'] and receiver.send_message:
+        send_chat_message_notification(kwargs['instance'])
+
+post_save.connect(chat_save_dispatcher, sender=ChatMessage)

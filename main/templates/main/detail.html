@@ -98,7 +98,7 @@
 									{% elif offer.status == 'a' %}
 									<button class="btn btn-outline-primary my-2 chatButton" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Чат</button>
 									<button class="btn btn-outline-danger cancelButton" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Отклонить</button>
-									<a href="#"class="btn btn-success">Выполнен</a>								
+									<a href="{% url 'main:user_review' offer_pk=offer.pk user_pk=comment.author.pk %}"class="btn btn-success">Выполнен</a>								
 
 									{% endif %}
 							</div>
@@ -136,6 +136,7 @@
 				</div>			
 			</article></center>
 			{% endif %} 
+			
 		</div>
 	</div>
 	

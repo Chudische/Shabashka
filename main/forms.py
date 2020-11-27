@@ -4,13 +4,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Submit, Div
+from crispy_forms.layout import Layout, Field, Submit, Div, Row, Column
 from crispy_forms.bootstrap import PrependedText, StrictButton
 from django.utils.safestring import mark_safe
 
 
 from .models import ShaUser, user_registrated, SuperCategory, SubCategory, Offer, AdditionalImage
-from .models import Comment, ShaUserAvatar
+from .models import Comment, ShaUserAvatar, UserReview
 
 
 
@@ -57,8 +57,7 @@ class RegisterUserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RegisterUserForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_show_labels = False
+        self.helper = FormHelper()        
         self.helper.layout = Layout(
             Field(
                 PrependedText("username",
@@ -167,4 +166,19 @@ class AvatarForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             "user": forms.HiddenInput
+        }
+
+
+class UserReviewForm(forms.ModelForm):
+
+    class Meta:
+        model = UserReview
+        fields = ('author', 'reviewal', 'offer', 'speed', 'cost', 'accuracy', 'content')
+        widgets = {
+            'author': forms.HiddenInput,
+            'reviewal': forms.HiddenInput,
+            'offer': forms.HiddenInput,
+            'speed': forms.RadioSelect,
+            'cost': forms.RadioSelect,
+            'accuracy': forms.RadioSelect
         }

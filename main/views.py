@@ -18,10 +18,10 @@ from django.db.models import Q,Avg
 from django.core.exceptions import ObjectDoesNotExist
 
 
-from .models import ShaUser, SubCategory, Offer, Comment, ShaUserAvatar
+from .models import ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
-from .forms import AvatarForm, LoginUserForm
-from .utilities import signer, send_password_restore_link
+from .forms import AvatarForm, LoginUserForm, UserReviewForm
+from .utilities import signer
 # Create your views here.
 
 
@@ -103,16 +103,16 @@ def profile(request):
         avatar_form = AvatarForm(initial={"user": request.user})
     offers = Offer.objects.filter(author=request.user.pk)
     user = request.user
-    f = user.rating.aggregate(rating=(Avg('speed')+Avg('cost')+Avg('accuracy'))/3)
+    f = user.rating.aggregate(rating=(Avg('speed') + Avg('cost') + Avg('accuracy')) / 3)
     reviews = user.rating.count()  
-    context = {"offers": offers, "avatar_form": avatar_form, 'rating': f['rating'], 'reviews': reviews}
-    print(context)   
+    context = {"offers": offers, "avatar_form": avatar_form, 'rating': f['rating'], 'reviews': reviews}   
     return render(request, "main/profile.html", context)
+
 
 @login_required
 def profile_by_id(request, pk):
     user = get_object_or_404(ShaUser, pk=pk)
-    f = user.rating.aggregate(rating=(Avg('speed')+Avg('cost')+Avg('accuracy'))/3)
+    f = user.rating.aggregate(rating=(Avg('speed') + Avg('cost') + Avg('accuracy')) / 3)
     reviews = user.rating.count()
     offers = Offer.objects.filter(author=user.pk)    
     context = {"offers": offers, "user": user, 'rating': f['rating'], 'reviews': reviews}
@@ -187,6 +187,12 @@ def user_activate(request, sign):
         user.save()
     return render(request, template)
 
+
+class UserReviewView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    template_name = 'main/user_review.html'
+    form_class = UserReviewForm
+    success_message = 'Поздравляем! Сделка успешно завершена'
+    success_url = reverse_lazy('main:profile')
 
 
 class ShaLogin(LoginView):
@@ -269,4 +275,6 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
         if not queryset:
             queryset = self.get_queryset()
         return get_object_or_404(queryset, pk=self.user_id)
+
+
 
