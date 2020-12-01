@@ -45,7 +45,20 @@ def send_chat_message_notification(message):
     context = {'receiver': receiver, 'host': host, "offer": message.offer}
     subject = render_to_string('email/new_chat_message_subject.txt', context)
     body_text = render_to_string('email/new_chat_message_body.txt', context)
-    # author.email_user(subject, body_text)
+    # reciever.email_user(subject, body_text)
+    print(subject, body_text)
+
+
+def send_review_notification(message):
+    if ALLOWED_HOSTS:
+        host = 'http://' + ALLOWED_HOSTS[0]
+    else:
+        host = 'http://localhost:8000'
+    receiver = message.reviewal
+    context = {'receiver': receiver, 'host': host, "review": message}
+    subject = render_to_string('email/new_review_subject.txt', context)
+    body_text = render_to_string('email/new_review_body.txt', context)
+    # reciever.email_user(subject, body_text)
     print(subject, body_text)
 
 
@@ -54,4 +67,3 @@ def get_timestamp_path(instanse, filename):
     Create filename with timestamp
     """
     return '%s%s' % (datetime.now().timestamp(), splitext(filename)[1])
-    

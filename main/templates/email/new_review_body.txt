@@ -1,0 +1,8 @@
+Уважаемый {% if receiver.first_name and receiver.last_name  %} {{receiver.first_name }} {{receiver.last_name}} {% else %} {{receiver.username}} {% endif %}
+
+У Вас новый отзыв!
+
+За выполненое предложение "{{review.offer}}" пользователь {{review.author}} поставил Вам оценку.
+
+Перейдите по ссылке ниже, чтобы просмотреть
+{{host}}{% url 'main:reviews' user_id=receiver.id %} 

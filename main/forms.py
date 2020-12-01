@@ -4,8 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Submit, Div, Row, Column
-from crispy_forms.bootstrap import PrependedText, StrictButton
+from crispy_forms.layout import Layout, Field, Submit, Div, Row, Column, HTML
+from crispy_forms.bootstrap import PrependedText, StrictButton, InlineRadios
 from django.utils.safestring import mark_safe
 
 
@@ -169,7 +169,37 @@ class AvatarForm(forms.ModelForm):
         }
 
 
-class UserReviewForm(forms.ModelForm):
+class UserReviewForm(forms.ModelForm):    
+
+    def __init__(self, *args, **kwargs):
+        super(UserReviewForm, self).__init__(*args, **kwargs)
+        self.fields["content"].initial = "Сделка прошла успешно!"         
+        self.helper = FormHelper()               
+        self.helper.layout = Layout(
+            Field('author'
+
+            ),
+            Field('reviewal'
+
+            ),
+            Field('offer'
+
+            ),
+            Div(
+                InlineRadios('speed')
+            ),
+            Div(
+                InlineRadios('cost')
+            ),
+            Div(
+                InlineRadios('accuracy')
+            ),
+            Field(
+                'content', rows="5"
+               
+            ), 
+           StrictButton('Отправить', type='submit', css_class='btn btn-primary')
+        )
 
     class Meta:
         model = UserReview

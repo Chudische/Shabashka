@@ -14,7 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
 from django.core.paginator import Paginator
-from django.db.models import Q,Avg
+from django.db.models import Q, Avg
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -101,21 +101,18 @@ def profile(request):
             messages.add_message(request, messages.ERROR, 'Ошибка! Файл не поддерживается')
     else:
         avatar_form = AvatarForm(initial={"user": request.user})
-    offers = Offer.objects.filter(author=request.user.pk)
-    user = request.user
-    f = user.rating.aggregate(rating=(Avg('speed') + Avg('cost') + Avg('accuracy')) / 3)
-    reviews = user.rating.count()  
-    context = {"offers": offers, "avatar_form": avatar_form, 'rating': f['rating'], 'reviews': reviews}   
+    offers = Offer.objects.filter(author=request.user.pk)    
+    reviews = request.user.rating.count()  
+    context = {"offers": offers, "avatar_form": avatar_form, 'reviews': reviews}   
     return render(request, "main/profile.html", context)
 
 
 @login_required
 def profile_by_id(request, pk):
-    user = get_object_or_404(ShaUser, pk=pk)
-    f = user.rating.aggregate(rating=(Avg('speed') + Avg('cost') + Avg('accuracy')) / 3)
+    user = get_object_or_404(ShaUser, pk=pk)    
     reviews = user.rating.count()
     offers = Offer.objects.filter(author=user.pk)    
-    context = {"offers": offers, "user": user, 'rating': f['rating'], 'reviews': reviews}
+    context = {"offers": offers, "user": user, 'reviews': reviews}
     return render(request, "main/profile.html", context)
 
 
@@ -172,6 +169,18 @@ def offer_delete(request, pk):
         context = {'offer': offer}
         return render(request, "main/delete_offer.html", context)
 
+
+def reviews(request, user_id):
+    user = get_object_or_404(ShaUser, pk=user_id)
+    reviews = UserReview.objects.filter(reviewal=user)
+    context = {
+        'user': user,
+        'reviews': reviews
+    }
+    
+    return render(request, 'main/revirews.html', context) 
+
+
 def user_activate(request, sign):
     try:
         username = signer.unsign(sign)
@@ -193,6 +202,16 @@ class UserReviewView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     form_class = UserReviewForm
     success_message = 'Поздравляем! Сделка успешно завершена'
     success_url = reverse_lazy('main:profile')
+
+    def get_initial(self, *args, **kwargs):
+        author = self.request.user
+        reviewal = self.kwargs['user_pk']
+        offer = self.kwargs['offer_pk']
+        return {
+            'author': author,
+            'reviewal': reviewal,
+            'offer': offer
+        }   
 
 
 class ShaLogin(LoginView):

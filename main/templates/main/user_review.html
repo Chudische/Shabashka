@@ -7,8 +7,12 @@
 {% block title %} Отзыв {% endblock %}
 
 {% block body %}
-<form method="post">
-    {% crispy form %}
-    <button type="submit">Отправить</button>
-</form>
+<div class="container p-5">
+    <center><article class="p-5">
+        <h3 class="center">Отзыв</h3>
+        <form method="post">
+            {% crispy form %}            
+        </form>
+    </article></center>
+</div>
 {% endblock %}

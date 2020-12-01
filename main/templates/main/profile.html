@@ -59,12 +59,16 @@
                     <div><b> Имя:</b> {{user.first_name}} {{user.last_name}} </div>
                     <div><b>Город:</b>  Скадовск</div>
                     <div><b>Рейтинг:</b> 
+                        {% if reviews %}
+                        {% show_rating user.average_rating %}
+                        {% else %}
                         <i class="fa fa-star" style="color: #ddad10;"></i>
                         <i class="fa fa-star" style="color: #ddad10;"></i>
                         <i class="fa fa-star" style="color: #ddad10;"></i>
                         <i class="fa fa-star" style="color: #ddad10;"></i>
-                        <i class="fa fa-star-half-full" style="color: #ddad10;"></i>
-                        <a href="#">(отзывов - {{reviews|default_if_none:"0"}}) </a>
+                        <i class="fa fa-star" style="color: #ddad10;"></i>
+                        {% endif %}
+                        <a href="{% url 'main:reviews' user_id=user.id %}">(отзывов - {{reviews|default_if_none:"0"}}) </a>
                     </div>            
                     <div><b>Успешных сделок: </b>{{reviews|default_if_none:"0"}}</div>
                                                

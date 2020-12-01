@@ -40,7 +40,7 @@ class ShaUserAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'is_activated', 'date_joined')
     search_fields = ('username', 'email', 'first_name', 'last_name')
     list_filter = (NonativatedFilter, )
-    fields = (('username', 'email'), ('first_name', 'last_name'),
+    fields = (('username', 'email'), ('first_name', 'last_name'), 'average_rating',
               ('send_message', 'is_active', 'is_activated'),
               ('is_staff', 'is_superuser'),
               'groups', 'user_permissions',
