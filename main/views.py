@@ -178,7 +178,7 @@ def reviews(request, user_id):
         'reviews': reviews
     }
     
-    return render(request, 'main/revirews.html', context) 
+    return render(request, 'main/reviews.html', context) 
 
 
 def user_activate(request, sign):
