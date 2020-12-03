@@ -1,0 +1,52 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% load custom_tags %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block title %} Чат: "{{offer.title}}" {% endblock %}
+
+{% block body %}
+<div id="page-content" class="sub-page">
+<div class="containeer mt-5">
+    <center><article class="p-2">
+        
+        <h3 class="center">Чат предложения "{{offer.title}}"</h3>
+        {% for message in chat_messages %}
+        <div class="comment mt-3"> 
+            <div class="comment-head border-bottom-1">	
+                <span> 
+                    {% if message.author.first_name and message.author.last_name %}
+                    {{message.author.first_name}} {{message.author.last_name}}                       	
+                    {% endif %}
+                </span>
+                <span class="small text-muted">{{message.created}}</span>                                
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-md-2">
+                    <div class="center">							
+                        <a href="{% url 'main:profile_by_id' pk=message.author.pk %}"><img class="border chat-image rounded-circle" src="{% thumbnail offer.author.avatar.image 'default' %}" alt=""></a>
+                                        
+                    </div>
+                
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <p>{{message.content}} </p>                    
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+    </article></center>  
+   
+        <center><article class="mt-2">        
+            <div class="chatForm p-2">                               
+                    {% crispy form %}               
+                
+            </div>
+        </article></center>
+</div> 
+</div>
+
+{% endblock %}

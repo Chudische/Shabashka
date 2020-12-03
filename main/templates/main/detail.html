@@ -4,7 +4,7 @@
 {% load custom_tags %}
 {% load crispy_forms_tags %}
 
-{% block title %} Детали {% endblock %}
+{% block title %} {{offer.title}} {% endblock %}
 
 {% block body %}
     
@@ -35,8 +35,6 @@
 						<li class="list-inline-item"><i class="fa fa-share"></i> {{offer.shared}}</li>
 					</ul>
 					<p class="info">{{ offer.content }}</p>
-					<h3>Heading Text</h3>
-					<p class="info">Aenean feugiat in ante et blandit. Vestibulum posuere molestie risus, ac interdum magna porta non. Pellentesque rutrum fringilla elementum. Curabitur tincidunt porta lorem vitae accumsan.Aenean feugiat in ante et blandit. Vestibulum posuere molestie risus, ac interdum magna porta non. Pellentesque rutrum fringilla elementum. Curabitur tincidunt porta lorem vitae accumsan.</p>
 				</div>
 				<div class="bottom-item">
 					<a href="#" class="btn btn-share share"><i class="fa fa-share-alt"></i> </a>
@@ -62,18 +60,27 @@
 					<div class="row">
 						<div class="col-lg-3 col-md-3">
 							<div class="d-flex justify-content-center align-item-center ">							
-								<a href="{% url 'main:profile_by_id' pk=comment.author.pk %}"><img src="{% static 'main/images/ava-1.jpg' %}" class="comment-img">
+								<a href="{% url 'main:profile_by_id' pk=comment.author.pk %}">
+									{% if comment.author.avatar.image %}
+									<img src="{{comment.author.avatar.image.url}}" class="comment-img">
+									{% else %}
+									<img class="border profile-img" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
+									{% endif %}
 							</div>
 							<div class="center">
 							{% if comment.author.first_name and comment.author.last_name %}
 							{{comment.author.first_name}} {{comment.author.last_name}}                       	
 							{% endif %}
 							<div>
-							<i class="fa fa-star" style="color: #ddad10;"></i>
-							<i class="fa fa-star" style="color: #ddad10;"></i>
-							<i class="fa fa-star" style="color: #ddad10;"></i>
-							<i class="fa fa-star" style="color: #ddad10;"></i>
-							<i class="fa fa-star-half-full" style="color: #ddad10;"></i>							
+								{% if comment.author.average_rating %}
+								{% show_rating comment.author.average_rating %}
+								{% else %}
+									<i class="fa fa-star" style="color: #ddad10;"></i>
+									<i class="fa fa-star" style="color: #ddad10;"></i>
+									<i class="fa fa-star" style="color: #ddad10;"></i>
+									<i class="fa fa-star" style="color: #ddad10;"></i>
+									<i class="fa fa-star" style="color: #ddad10;"></i>
+								{% endif %}							
 							</div>
 							</div>
 						</a>
@@ -93,13 +100,15 @@
 										<span class="comment-time">/ {{comment.time_amount }} {% time_measure pk=comment.pk %}</span>
 										{% endif %}
 									</div>
+									{% if user == offer.author %}
 									{% if offer.status == 'n' %}									
-										<button class="btn btn-success acceptButton" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Принять</button>									
+										<button class="btn btn-success acceptButton" data-offer="{{offer.id}}" data-winner="{{comment.author.id}}">Принять</button>									
 									{% elif offer.status == 'a' %}
-									<button class="btn btn-outline-primary my-2 chatButton" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Чат</button>
+									<a href="{% url 'main:chat' offer_pk=offer.id %}" class="btn btn-outline-primary my-2" >Чат</a>
 									<button class="btn btn-outline-danger cancelButton" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Отклонить</button>
 									<a href="{% url 'main:user_review' offer_pk=offer.pk user_pk=comment.author.pk %}"class="btn btn-success">Выполнен</a>								
 
+									{% endif %}
 									{% endif %}
 							</div>
 						</div>

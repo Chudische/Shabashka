@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_405_METHOD_NOT_ALLOWED
 from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_403_FORBIDDEN, HTTP_202_ACCEPTED
 
-from main.models import Offer, Comment
+from main.models import Offer, Comment, ShaUser
 from .serializers import OfferSerializer, OfferDetailSerializer, CommentSerializer
 
 @api_view(['GET'])
@@ -30,13 +30,16 @@ def offer_status(request, pk):
             return Response({"error": "No data found"}, HTTP_400_BAD_REQUEST)
         offer_comments = Comment.objects.filter(offer=offer)
         if request.data['status'] == 'accepted':
-            winner = request.data["winner"]
+            winner_id = int(request.data["winner"])
+            winner = ShaUser.objects.get(pk=winner_id)
             offer.status = 'a'
+            offer.winner = winner
             offer.is_active = False
             offer.save()
-            offer_comments.exclude(pk=winner).update(is_active=False) 
+            offer_comments.exclude(pk=winner_id).update(is_active=False) 
         elif request.data['status'] == 'canceled':
             offer.status = 'n'
+            offer.winner.delete()
             offer.is_active = True
             offer.save()           
             offer_comments.update(is_active=True)      

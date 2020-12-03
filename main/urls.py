@@ -26,13 +26,14 @@ urlpatterns = [
     path('accounts/password/reset/complete/', views.ShaPassResetCompleteView.as_view(), name="password_reset_complete"),    
     path('accounts/register/activate/<str:sign>/', views.user_activate, name="register_activate"),
     path('accounts/register/done', views.RegisterDone.as_view(), name="register_done"),
-    path('accounts/register/', views.RegisterUserView.as_view(), name="register_user"),
+    path('accounts/register/', views.RegisterUserView.as_view(), name="register_user"),    
     path('reviews/<int:user_id>', views.reviews, name="reviews"),
     path('user_review/<int:offer_pk>/<int:user_pk>/', views.UserReviewView.as_view(), name="user_review"),   
     path('<int:category_pk>/<int:pk>/', views.detail, name="detail"),
-    path('<int:pk>/', views.by_category, name="by_category"),
+    path('<int:pk>/', views.by_category, name="by_category"),    
+    path('chat_list/', views.chat_list, name="chat_list"),
+    path('chat/<int:offer_pk>', views.chat, name="chat"),
     path('<str:page>/', views.other_page, name="other")
-
 ]
 
 if settings.DEBUG:

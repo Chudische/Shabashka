@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 
 
 from .models import ShaUser, user_registrated, SuperCategory, SubCategory, Offer, AdditionalImage
-from .models import Comment, ShaUserAvatar, UserReview
+from .models import Comment, ShaUserAvatar, UserReview, ChatMessage
 
 
 
@@ -57,7 +57,8 @@ class RegisterUserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RegisterUserForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()        
+        self.helper = FormHelper()
+        self.helper.form_show_labels = False        
         self.helper.layout = Layout(
             Field(
                 PrependedText("username",
@@ -136,10 +137,19 @@ class SubCategoryForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    keyword = forms.CharField(required=False, max_length=20, label='')
+    keyword = forms.CharField(required=False, max_length=20, label='',
+              widget=forms.TextInput(attrs={"placeholder": "Поиск предложений"}) )
 
-
+    
 class OfferForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):    
+        super(OfferForm, self).__init__(*args, **kwargs)
+        self.fields["category"].help_text = 'Выберите категорию для публикации'
+        self.fields["title"].help_text = 'Короткое описание предложения(64 знака). Пример: "Нужно установить унитаз"'
+        self.fields["price"].help_text = 'Предположительная цена'
+        self.fields["image"].help_text = 'Основное фото'
+
     class Meta:
         model = Offer        
         exclude = ['reviews', 'shared', 'status', "is_active"]
@@ -212,3 +222,28 @@ class UserReviewForm(forms.ModelForm):
             'cost': forms.RadioSelect,
             'accuracy': forms.RadioSelect
         }
+
+
+class ChatMessageForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(ChatMessageForm, self).__init__(*args, **kwargs)              
+        self.helper = FormHelper()               
+        self.helper.layout = Layout(
+            Field('author'),
+            Field('offer'),
+            Field('receiver'),
+            Field('content', rows=3),
+            Submit('submit', 'Сохранить')
+
+        )
+
+    class Meta:
+        model = ChatMessage
+        fields = ('author', 'offer', 'receiver', 'content')
+        widgets = {
+            "author": forms.HiddenInput,
+            "offer": forms.HiddenInput,
+            "receiver": forms.HiddenInput,
+        }
+       

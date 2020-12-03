@@ -15,12 +15,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
 from django.core.paginator import Paginator
 from django.db.models import Q, Avg
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
 
-from .models import ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview
+from .models import ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview, ChatMessage
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
-from .forms import AvatarForm, LoginUserForm, UserReviewForm
+from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm
 from .utilities import signer
 # Create your views here.
 
@@ -33,7 +33,14 @@ def index(request):
     else:
         page_num = 1
     page = paginator.get_page(page_num)
-    context = {"offers": offers, "page": page}
+    if 'keyword' in request.GET:
+        keyword = request.GET["keyword"]
+        q = Q(title__icontains=keyword) | Q(content__icontains=keyword)
+        offers = offers.filter(q)
+    else:
+        keyword = ''
+    form = SearchForm(initial={'keyword': keyword})
+    context = {"offers": offers, "page": page, 'searchForm': form}
     return render(request, "main/index.html", context)
 
 
@@ -109,7 +116,9 @@ def profile(request):
 
 @login_required
 def profile_by_id(request, pk):
-    user = get_object_or_404(ShaUser, pk=pk)    
+    user = get_object_or_404(ShaUser, pk=pk)
+    if user == request.user:
+        return reverse_lazy("main:profile")    
     reviews = user.rating.count()
     offers = Offer.objects.filter(author=user.pk)    
     context = {"offers": offers, "user": user, 'reviews': reviews}
@@ -170,6 +179,7 @@ def offer_delete(request, pk):
         return render(request, "main/delete_offer.html", context)
 
 
+@login_required
 def reviews(request, user_id):
     user = get_object_or_404(ShaUser, pk=user_id)
     reviews = UserReview.objects.filter(reviewal=user)
@@ -179,6 +189,45 @@ def reviews(request, user_id):
     }
     
     return render(request, 'main/reviews.html', context) 
+
+
+@login_required
+def chat(request, offer_pk):
+    offer = get_object_or_404(Offer, pk=offer_pk)    
+    if request.user != offer.author:
+        if request.user != offer.winner:
+            raise PermissionDenied
+    if request.method == 'POST':
+        message_form = ChatMessageForm(request.POST)
+        if message_form.is_valid():
+            message_form.save()
+            messages.add_message(request, messages.SUCCESS, "Сообщение отправлено")
+    receiver = offer.winner if request.user == offer.author else offer.author
+    form = ChatMessageForm(initial={
+        'author': request.user, 
+        'offer': offer,
+        'receiver': receiver
+        })
+    chat_messages = offer.chat_messages.all()
+    context = {
+        "offer": offer,
+        "chat_messages": chat_messages,
+        'form': form
+    }
+    return render(request, 'main/chat_messages.html', context)
+
+
+@login_required
+def chat_list(request):
+    user = request.user
+    q = Q(author=user) | Q(receiver=user)
+    user_chats = ChatMessage.objects.values('offer').filter(q)
+    context = {
+        "user_chats": user_chats
+    }
+    print(user_chats)
+    return render(request, 'main/chat_list.html', context)
+
 
 
 def user_activate(request, sign):

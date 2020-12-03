@@ -1,11 +1,15 @@
 import datetime
 
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
+from import_export import resources, widgets
+from import_export.fields import Field
 
 from .models import ShaUser, SubCategory, SuperCategory, Offer, AdditionalImage, Comment, ShaUserAvatar
-from .models import UserReview
+from .models import UserReview, ChatMessage
 from .utilities import send_activation_notification
 from .forms import SubCategoryForm
+
 
 def send_activation_notifications(modeladmin, request, queryset):
     """ Sending a messages with activation notification"""
@@ -66,19 +70,24 @@ class AdditionalImageInline(admin.TabularInline):
 
 
 class OfferAdmin(admin.ModelAdmin):
-    list_display = ('category', 'title', 'content', 'author', 'created', 'status')
-    fields = (('category', 'author', 'status'), 'title', 'content', 'price', 'image', 'is_active')
+    list_display = ('category', 'title', 'content', 'winner','author', 'created', 'status')
+    fields = (('category', 'author', 'status', 'winner'), 'title', 'content', 'price', 'image', 'is_active')
     inlines = (AdditionalImageInline,)
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('offer', 'author', 'content', 'price', 'created', 'is_active')
     fields = (('offer', 'author', 'created'), 'content', ('price', 'time_amount', 'measure'), 'is_active')
     readonly_fields = ('created',)
+    
 class UserReviewAdmin(admin.ModelAdmin):
     list_display = ('offer', 'author', 'reviewal', 'speed', 'cost', 'accuracy', 'content', 'created')
     fields = (('offer', 'author', 'reviewal', 'created'), ('speed', 'cost', 'accuracy'), 'content')
     readonly_fields = ('created',)
 
+class ChatMessageAdmin(admin.ModelAdmin):
+    list_display = ('offer', 'author', 'receiver', 'content', 'created')
+    feields = ('offer', ('author', 'receiver, created'), 'content')
+    readonly_fields = ('created',)
 
 # Register your models here.
 admin.site.register(ShaUser, ShaUserAdmin)
@@ -88,3 +97,4 @@ admin.site.register(Offer, OfferAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(ShaUserAvatar)
 admin.site.register(UserReview, UserReviewAdmin)
+admin.site.register(ChatMessage, ChatMessageAdmin)

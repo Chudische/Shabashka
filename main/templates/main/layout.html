@@ -68,22 +68,10 @@
             {% if searchForm %}
             {% bootstrap_form searchForm show_label=False %}
             {% else %}
-            <input class="form-control mr-sm-2" type="search" name="keyword" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" name="keyword" placeholder="Поиск предложений" aria-label="Search">
             {% endif %}
-            <div class="input-group">
-            
-            <button class="btn btn-search my-2 ml-2 my-sm-0" type="submit">Поиск</button>
-            <div class="input-group-append"></div> 
-            <button type="button" class="btn btn-search my-2 my-sm-0 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Разширеный поиск</a>              
-              <div class="form-check ml-2">            
-              <input class="form-check-input" type="checkbox" name="sity" id="sity-checkbox" checked>
-              <label class="form-check-label" for="sity-checkbox">Искать в моем городе</label> 
-              </div>   
-            </div> 
+            <div class="input-group">            
+            <button class="btn btn-search my-2 ml-2 my-sm-0" type="submit">Поиск</button>            
             </div>       
                      
           </form>
@@ -98,6 +86,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">             
               <a class="dropdown-item" href="{% url 'main:profile' %}">Профиль</a>
+              <a class="dropdown-item" href="{% url 'main:chat_list' %}">Сообщения</a>
               <a class="dropdown-item" href="{% url 'main:logout' %}">Выйти</a>              
             </div>            
           </li>

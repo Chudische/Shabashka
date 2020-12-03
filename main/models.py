@@ -51,49 +51,10 @@ class SubCategory(Category):
         verbose_name_plural = "Подкатегории"
 
 
-class LocationRegion(models.Model):
-    name = models.CharField(max_length=64, unique=True, db_index=True, verbose_name="Область")
-
-    def __str__(self):
-        return f"{self.name} область"
-
-    class Meta:
-        ordering = ['name']
-        verbose_name = "Область"
-        verbose_name_plural = "Области"
-
-
-class LocationDistrict(models.Model):
-    region = models.ForeignKey(LocationRegion, on_delete=models.PROTECT, verbose_name="В области")
-    name = models.CharField(max_length=64, unique=True, db_index=True, verbose_name="Район")
-
-    def __str__(self):
-        return f"{self.region} область - {self.name} район"
-
-    class Meta:
-        ordering = ('region__name', 'name')
-        verbose_name = "Район"
-        verbose_name_plural = "Районы"
-
-
-class LocationSettelment(models.Model):
-    region = models.ForeignKey(LocationRegion, on_delete=models.PROTECT, verbose_name="В области")
-    district = models.ForeignKey(LocationDistrict, on_delete=models.PROTECT, verbose_name="В районе")
-    name = name = models.CharField(max_length=64, unique=True, db_index=True, verbose_name="Населенный пункт")
-
-    def __str__(self):
-        return f"{self.region} область- {self.district} район - {self.name}"
-
-    class Meta:
-        ordering = ('region__name', 'district__name', 'name')
-        verbose_name = "Населенный пункт"
-        verbose_name_plural = "Населенные пункты"
-
-
 class ShaUser(AbstractUser):
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name="Активирован")
     send_message = models.BooleanField(default=True, db_index=True, verbose_name="Отправлять оповещения?")
-    location = models.ForeignKey(LocationSettelment, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Населенный пункт" )
+    location = models.CharField(max_length=64, null=True, blank=True, verbose_name="Населенный пункт" )
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True, verbose_name="Средний рейтинг")
     def delete(self, *args, **kwargs):
         for offer in self.offer_set.all():
@@ -165,7 +126,7 @@ class Offer(models.Model):
     ]
 
     category = models.ForeignKey(SubCategory, on_delete=models.PROTECT, verbose_name="Категория")
-    title = models.CharField(max_length=40, verbose_name="Предложение")
+    title = models.CharField(max_length=64, verbose_name="Предложение")
     content = models.TextField(verbose_name="Описание")
     price = models.FloatField(default=0, verbose_name="Цена")
     image = models.ImageField(blank=True, upload_to=get_timestamp_path, verbose_name="Фото")
@@ -175,7 +136,8 @@ class Offer(models.Model):
     reviews = models.IntegerField(default=0, verbose_name="Просмотров")
     shared = models.IntegerField(default=0, verbose_name="Поделились")
     status = models.CharField(max_length=1, default='n', null=True, blank=True, db_index=True, choices=STATUS, verbose_name="Статус")
-    
+    winner = models.ForeignKey(ShaUser, on_delete=models.SET_NULL, null=True, blank=True, related_name="accepted_offers" , verbose_name="Исполнитель")
+
     def delete(self, *args, **kwargs):
         for image in self.additionalimage_set.all():
             image.delete()

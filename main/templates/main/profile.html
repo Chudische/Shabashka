@@ -57,7 +57,7 @@
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-6">           
                     <div><b> Имя:</b> {{user.first_name}} {{user.last_name}} </div>
-                    <div><b>Город:</b>  Скадовск</div>
+                    <div><b>Город:</b> {% if user.location %} {{user.location}} {% else %} Не указан{% endif %}</div>
                     <div><b>Рейтинг:</b> 
                         {% if reviews %}
                         {% show_rating user.average_rating %}
