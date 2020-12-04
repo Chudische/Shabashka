@@ -56,6 +56,7 @@ class ShaUser(AbstractUser):
     send_message = models.BooleanField(default=True, db_index=True, verbose_name="Отправлять оповещения?")
     location = models.CharField(max_length=64, null=True, blank=True, verbose_name="Населенный пункт" )
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True, verbose_name="Средний рейтинг")
+    favorite = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="followers", verbose_name="Избранное")
     def delete(self, *args, **kwargs):
         for offer in self.offer_set.all():
             offer.delete()        

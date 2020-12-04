@@ -62,7 +62,21 @@ def by_category(request, pk):
     page = paginator.get_page(page_num)
     context = {'category': category, 'page': page, 'offers': page.object_list, 'searchForm': form}
     return render(request, 'main/by_category.html', context)
-    
+
+
+@login_required
+def favorite(request):    
+    users = [user for user in request.user.favorite.all()]    
+    offers = Offer.objects.filter(author__in=users).order_by("-created")
+    paginator = Paginator(offers, 30)
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+    page = paginator.get_page(page_num)
+    context = {"offers": offers, "page": page}
+    return render(request, 'main/favorite.html', context)
+
 
 def detail(request, category_pk, pk):
     offer = get_object_or_404(Offer, pk=pk)
@@ -221,7 +235,7 @@ def chat(request, offer_pk):
 def chat_list(request):
     user = request.user
     q = Q(author=user) | Q(receiver=user)
-    user_chats = ChatMessage.objects.values('offer').filter(q)
+    user_chats = ChatMessage.objects.filter(q).distinct()
     context = {
         "user_chats": user_chats
     }

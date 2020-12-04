@@ -146,7 +146,7 @@ class OfferForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):    
         super(OfferForm, self).__init__(*args, **kwargs)
         self.fields["category"].help_text = 'Выберите категорию для публикации'
-        self.fields["title"].help_text = 'Короткое описание предложения(64 знака). Пример: "Нужно установить унитаз"'
+        self.fields["title"].help_text = 'Короткое описание предложения(не более 64 знаков). Пример: "Нужно установить унитаз"'
         self.fields["price"].help_text = 'Предположительная цена'
         self.fields["image"].help_text = 'Основное фото'
 

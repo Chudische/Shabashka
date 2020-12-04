@@ -115,8 +115,8 @@ DATABASES = {
           'NAME': 'shabashkadb',
           'USER': 'shabashkausr',
           'PASSWORD': 'dferbsj323112328',
-          'HOST': '127.0.0.1',
-          'PORT': '5432',
+          'HOST': '194.1.193.190',
+          'PORT': '5537',
           }
 }
 

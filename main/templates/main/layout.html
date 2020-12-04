@@ -55,15 +55,11 @@
           <li class="nav-item dropdown {% if url_name == 'by_category' %} active {% endif %}">
             <a class="nav-link dropdown-toggle" href="#" id="categories-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-list"></i> Категории
-            </a>         
-          
-          </li>
-          
-                   
-          <li class="nav-item {% if url_name == 'feedback' %} active {% endif %}">
-              <a class="nav-link" href="#"><i class="fa fa-heart"></i> Избранное</a>
-          </li>         
-          
+            </a>      
+          </li>                  
+          <li class="nav-item {% if url_name == 'favorite' %} active {% endif %}">
+              <a class="nav-link" href="{% url 'main:favorite' %}"><i class="fa fa-heart"></i> Избранное</a>
+          </li>      
           <form class="form-inline my-2 my-lg-0">
             {% if searchForm %}
             {% bootstrap_form searchForm show_label=False %}
@@ -72,12 +68,9 @@
             {% endif %}
             <div class="input-group">            
             <button class="btn btn-search my-2 ml-2 my-sm-0" type="submit">Поиск</button>            
-            </div>       
-                     
-          </form>
-          
-        </ul>
-            
+            </div>                      
+          </form>          
+        </ul>            
           <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}  
           <li class="nav-item dropdown {% if url_name == 'profile' %} active {% endif %}">
@@ -93,8 +86,7 @@
           {% else %}
             <li class="nav-item {% if url_name == 'login' %} active {% endif %}">
               <a class="nav-link" href="{% url 'main:login' %}">Войти</a>
-            </li>  
-              
+            </li>               
           {% endif %}
           <li class="nav-item {% if url_name == 'other' %} active {% endif %}">
             <a class="nav-link" href="{% url 'main:other' page='about' %}"><i class="fa fa-info"></i> О сайте</a>

@@ -3,6 +3,7 @@
 {% load bootstrap4 %}
 {% load custom_tags %}
 {% load crispy_forms_tags %}
+{% load thumbnail %}
 
 {% block title %} {{offer.title}} {% endblock %}
 
@@ -45,7 +46,13 @@
                         	{% else %}
                         		{{offer.author}}
                         	{% endif %}
-						</a><img src="{% static 'main/images/ava-1.jpg' %}" class="rounded-circle"></span>
+						</a>
+						{% if offer.author.avatar.image %}
+						<img class="border chat-image rounded-circle" src="{% thumbnail offer.author.avatar.image 'default' %}" alt="">
+						{% else %}
+						<img class="border chat-image rounded-circle" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
+						{% endif %}
+					</span>
 				</div>
 				</article></center>
 				
@@ -109,6 +116,9 @@
 									<a href="{% url 'main:user_review' offer_pk=offer.pk user_pk=comment.author.pk %}"class="btn btn-success">Выполнен</a>								
 
 									{% endif %}
+									{% endif %}
+									{% if user == offer.winner %}
+									<a href="{% url 'main:chat' offer_pk=offer.id %}" class="btn btn-outline-primary my-2" >Чат</a>
 									{% endif %}
 							</div>
 						</div>

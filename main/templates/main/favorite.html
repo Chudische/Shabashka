@@ -1,11 +1,10 @@
 {% extends 'main/layout.html' %}
-
 {% load static %}
-{% load thumbnail %}
 {% load bootstrap4 %}
 {% load custom_tags %}
+{% load thumbnail %}
 
-{% block title %} {{category}} {% endblock %}
+{% block title %} Избранное {% endblock %}
 
 {% block body %}
 <div id="page-content" class="index-page">
@@ -48,7 +47,7 @@
 
 
 {% empty %}
-<p>На данный момент в категории {{category}} нет активных предложений</p>
+<p>На данный момент в категории "Избранное" нет активных предложений</p>
 {% endfor %}
 </div>  
     <div class="d-flex justify-content-center">

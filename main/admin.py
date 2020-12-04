@@ -48,7 +48,8 @@ class ShaUserAdmin(admin.ModelAdmin):
               ('send_message', 'is_active', 'is_activated'),
               ('is_staff', 'is_superuser'),
               'groups', 'user_permissions',
-              ('last_login', 'date_joined'))
+              ('last_login', 'date_joined'),
+              'favorite')
     readonly_fields = ('last_login', 'date_joined')
     actions = (send_activation_notifications, )
 

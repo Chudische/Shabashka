@@ -45,7 +45,7 @@ def send_chat_message_notification(message):
     context = {'receiver': receiver, 'host': host, "offer": message.offer}
     subject = render_to_string('email/new_chat_message_subject.txt', context)
     body_text = render_to_string('email/new_chat_message_body.txt', context)
-    reciever.email_user(subject, body_text)
+    receiver.email_user(subject, body_text)
     
 
 

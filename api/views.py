@@ -36,10 +36,10 @@ def offer_status(request, pk):
             offer.winner = winner
             offer.is_active = False
             offer.save()
-            offer_comments.exclude(pk=winner_id).update(is_active=False) 
+            offer_comments.exclude(author=winner).update(is_active=False) 
         elif request.data['status'] == 'canceled':
             offer.status = 'n'
-            offer.winner.delete()
+            offer.winner = None
             offer.is_active = True
             offer.save()           
             offer_comments.update(is_active=True)      
@@ -49,6 +49,29 @@ def offer_status(request, pk):
     else:
         return Response({'status': 'error', 'error': 'method not allowed'}, HTTP_405_METHOD_NOT_ALLOWED)
 
+@api_view(["PUT"])
+def favorive(request):
+    if request.method == "PUT":
+        try:
+            user = ShaUser.objects.get(pk=request.user)
+        except ShaUser.DoesNotExist:
+            return Response({"error": "Forbitten"}, HTTP_403_FORBIDDEN)
+        if not request.data:
+            return Response({"error": "No data found"}, HTTP_400_BAD_REQUEST)
+        if request.data["user_id"]:
+            try:
+                favorite = ShaUser.objects.get(pk=request.data["user_id"])
+            except ShaUser.DoesNotExist:
+                return Response({"error": "Can't add user to favorite. User does not exist"}, HTTP_400_BAD_REQUEST)
+            if user.favorite_set.filter(pk=favorite).exist():
+                user.favorite.remove(favorite)
+                user.save()
+            else:
+                user.favorite.add(favorite)
+                user.save()
+            return Response({'status': 'ok'}, HTTP_202_ACCEPTED)
+    else:
+       return Response({'status': 'error', 'error': 'method not allowed'}, HTTP_405_METHOD_NOT_ALLOWED) 
 
 
 class OfferDetailView(RetrieveAPIView):

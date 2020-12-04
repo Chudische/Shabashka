@@ -30,10 +30,8 @@
 			<div class="modal-body si">
 				<form id="registrationForm" action="/accounts/register/" method="post">
 					{% csrf_token %}
-					<input type="hidden" name="next" value="{{next}}">					
-					
-					{% crispy form %}
-					
+					<input type="hidden" name="next" value="{{next}}">				
+					{% crispy form %}					
 				</form>
 			</div>
 			<div class="modal-footer">

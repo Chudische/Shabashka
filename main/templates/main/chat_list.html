@@ -2,11 +2,48 @@
 {% load static %}
 {% load bootstrap4 %}
 {% load custom_tags %}
-{% load crispy_forms_tags %}
+{% load thumbnail %}
 
 {% block title %} Список чатов {% endblock %}
 
 {% block body %}
-
-
+<div id="page-content" class="sub-page">
+<div class="containeer mt-5">
+    <center><article>
+        <h3 class="center">Список разговоров</h3>
+        
+        {% for chat in user_chats %}
+        {% ifchanged chat.offer %}
+        <div class="p-1"> 
+        <div class="chat-mesasge">         
+            <div class="row border-bottom-1">
+                <div class="chat-head">
+                
+                <div>{{chat.offer.title}} <span class="small text-muted">{{ chat.created }}</span></div>
+                
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-sm-2">
+                    {% if chat.author.avatar.image %}
+                    <img class="border chat-image rounded-circle" src="{% thumbnail chat.author.avatar.image 'default' %}" alt="">
+                    {% else %}
+                    <img class="border chat-image rounded-circle" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
+                    {% endif %}
+                </div>
+                <div class="col-md-10 col-sm-10">
+                    <a href="{% url 'main:chat' offer_pk=chat.offer.pk %}">
+                    <span class="">{{ chat.content }}</span>
+                    </a>
+                </div>
+                 
+            </div>                
+        </div>
+    </div>        
+        {% endifchanged %}
+        {% endfor %}
+        
+    </article></center>
+</div>
+</div>
 {% endblock %}
