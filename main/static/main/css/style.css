@@ -93,6 +93,7 @@ header{text-align: center;}
 article {background-color: #fff;max-width: 750px;box-shadow: 2px 5px 5px 0 rgba(0, 0, 0, 0.18);text-align: justify; position: relative;}
 article h2{padding-top: 50px;}
 article h3{margin: 0;padding: 0;}
+.item .list-inline .liked {color: red;}
 
 /* ---------------------------------------------------------------------------- */
 /* -------------------------------------Contact-------------------------------- */
@@ -239,7 +240,7 @@ body .modal{
 /* ----------------------------------Registration------------------------------ */
 /* ---------------------------------------------------------------------------- */
 .signup-form {
-	width: 390px;
+	width: 320px;
 	margin: 0 auto;
 	padding: 30px 0;
 }

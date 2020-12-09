@@ -10,19 +10,26 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
+
 import os
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+
+
+# Get variabels from enviroment
+dotenv_path = os.path.join(BASE_DIR, '.env')
+if os.path.exists(dotenv_path):    
+    load_dotenv(dotenv_path)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0)%4p@p5-g7d1f3ee)uttv33xv=pu7#oio&vdk@fy1pm4%qmbc'
+SECRET_KEY = os.getenv("SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,12 +43,12 @@ CORS_URL_REGEX = r'^/api/.*$'
 
 AUTH_USER_MODEL = 'main.ShaUser'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'shabashka.info@gmail.com'
-# EMAIL_HOST_PASSWORD = 'Password'
-# EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv("GMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("GMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True
 
 INSTALLED_APPS = [
     'easy_thumbnails',
@@ -102,23 +109,32 @@ WSGI_APPLICATION = 'shabashka.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
-
 DATABASES = {
-     'default': {
+    'network': {
           'ENGINE': 'django.db.backends.postgresql',
-          'NAME': 'shabashkadb',
-          'USER': 'shabashkausr',
-          'PASSWORD': 'dferbsj323112328',
-          'HOST': '194.1.193.190',
+          'NAME': os.getenv("DB_NAME"),
+          'USER': os.getenv("DB_USER"),
+          'PASSWORD': os.getenv("DB_PASSWORD"),
+          'HOST': '127.0.0.1',
+          'PORT': '5432',
+    },
+    'remote': {
+          'ENGINE': 'django.db.backends.postgresql',
+          'NAME': os.getenv("DB_NAME", ),
+          'USER': os.getenv("DB_USER"),
+          'PASSWORD': os.getenv("DB_PASSWORD"),
+          'HOST': os.getenv("DB_IP"),
           'PORT': '5537',
-          }
+    },
+    'local': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
+
+default_database = os.environ.get("DJANGO_DATABASE", "network")
+DATABASES['default'] = DATABASES[default_database]
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

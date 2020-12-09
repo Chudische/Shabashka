@@ -62,7 +62,7 @@ def show_rating(number):
     try:
         number = float(number)
     except ValueError:
-        return False    
+        return None    
           
     full = int(number)
     half = 1 if number - full > 0.1 and number - full < 0.6 else 0
@@ -71,3 +71,8 @@ def show_rating(number):
     empty = 5 - full - half        
     return mark_safe(full_star * full + half_star * half + empty_star * empty)        
    
+
+@register.filter
+def in_followers(user, author):    
+    count = author.followers.filter(pk=user.id).count()
+    return count > 0

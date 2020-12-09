@@ -80,9 +80,12 @@
                     <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-pencil"></i> Редактировать профиль </a></div>
                     <div><a href="{% url 'main:password_change' %}" class="mx-1"><i class="fa fa-lock"></i> Изменить пароль </a></div>
                     <div><a href="{% url 'main:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Удалить профиль </a></div>           
-                {% else %}                
-                    <a href="#"><i class="fa fa-user-plus"></i> Подписаться</a>
-                
+                {% else %}
+                {% if request.user|in_followers:user %}                                
+                    <a href="#"><i class="fa fa-user"></i> Убрать из избранного</a>
+                {% else %}
+                    <a href="#"><i class="fa fa-user-plus"></i> Добавить в избанное</a>
+                {% endif %}	
                 {% endif %}
                 </div>
             </div>
@@ -104,7 +107,12 @@
                 <ul class="list-inline">            
                     <li class="list-inline-item"><i class="fa fa-eye"></i> {{ offer.reviews }} </li>
                     <li class="list-inline-item"><i class="fa fa-comment"></i> {{offer.comment_set.count}}</li>
-                    <li class="list-inline-item"><i class="fa fa-heart"></i>  0</li>
+                    <li class="list-inline-item"><i class="fa fa-heart 
+                        {% if request.user|in_followers:user %}
+                        liked
+                        {% endif %}							
+                        "></i> 
+                        {{ offer.author.followers.count }} </li>
                     <li class="list-inline-item"><i class="fa fa-share"></i> {{offer.shared}}</li>
                 </ul>
             </div>

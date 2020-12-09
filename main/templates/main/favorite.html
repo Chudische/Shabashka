@@ -13,15 +13,16 @@
 {% for offer in offers %}       
         <div class="item">            
             <div class="content-item">
-                {% url 'main:detail' category_pk=category.pk pk=offer.pk as url %}
-                <a href="{% url 'main:by_category' pk=category.pk %}" class="btn btn-small btn-{{offer.category.super_category.order}}">{{offer.category.name}}</a>
+                {% url 'main:detail' category_pk=offer.category.pk pk=offer.pk as url %}
+                <a href="{% url 'main:by_category' pk=offer.category.pk %}" class="btn btn-small btn-{{offer.category.super_category.order}}">{{offer.category.name}}</a>
                 <div class="time"> {{offer.created}}</div>
                 <h3 class="title-item"><a href="{{url}}{{all}}">{{offer.title}}</a></h3>
                 <p class="info">{% limit_text offer.content %}</p>
                 <ul class="list-inline">
                     <li class="list-inline-item"><i class="fa fa-eye"></i> {{ offer.reviews }} </li>
                     <li class="list-inline-item"><i class="fa fa-comment"></i> {{offer.comment_set.count}}</li>
-                    <li class="list-inline-item"><i class="fa fa-heart"></i>  0</li>
+                    <li class="list-inline-item"><i class="fa fa-heart liked"></i> 
+                        {{ offer.author.followers.count }} </li>
                     <li class="list-inline-item"><i class="fa fa-share"></i> {{offer.shared}}</li>
                 </ul>
             </div>
@@ -49,9 +50,12 @@
 {% empty %}
 <p>На данный момент в категории "Избранное" нет активных предложений</p>
 {% endfor %}
+{% if offers %}
 </div>  
     <div class="d-flex justify-content-center">
         {% bootstrap_pagination page url=keyword %}    
     </div>       
 </div>
+{% endif %}
+
 {% endblock %}

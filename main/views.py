@@ -235,11 +235,10 @@ def chat(request, offer_pk):
 def chat_list(request):
     user = request.user
     q = Q(author=user) | Q(receiver=user)
-    user_chats = ChatMessage.objects.filter(q).distinct()
+    user_chats = ChatMessage.objects.filter(q)
     context = {
         "user_chats": user_chats
     }
-    print(user_chats)
     return render(request, 'main/chat_list.html', context)
 
 
