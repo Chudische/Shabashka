@@ -44,6 +44,7 @@
 				</div>
 				<div class="bottom-item">
 					<a href="#" class="btn btn-share share"><i class="fa fa-share-alt"></i> </a>
+					<span class="mx-3"><span class="uah">&#8372</span> {{offer.price}}</span>
 					<span class="user f-right">Размещено 
 						<a href="{% url 'main:profile_by_id' pk=offer.author.pk %}">
 							{% if offer.author.first_name and offer.author.last_name %}
@@ -132,6 +133,7 @@
 				</div>
 			</article></center>
 			{% endfor %}
+			{% if user.is_authenticated %}
 			{% if user != offer.author or offer.status == 'n'%}
 			<center><article class="my-2">
 				<h3 class="center">Откликнуться</h3>
@@ -159,8 +161,14 @@
 					</form>
 				</div>			
 			</article></center>
-			{% endif %} 
-			
+			{% endif %}
+			{% else %}
+			<center><article class="my-2">
+				<h3 class="center">Откликнуться</h3>
+				<div class="comment-form p-2">
+			<p><a href="{% url 'main:login' %}">Войдите</a> или <a href="{% url 'main:register_user' %}">зарегистрируйтесь</a>, чтобы ответить на предложение </p>
+			</article></center>
+			{% endif %}
 		</div>
 	</div>
 	

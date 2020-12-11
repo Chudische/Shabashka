@@ -82,9 +82,9 @@
                     <div><a href="{% url 'main:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Удалить профиль </a></div>           
                 {% else %}
                 {% if request.user|in_followers:user %}                                
-                    <a href="#"><i class="fa fa-user"></i> Убрать из избранного</a>
+                    <a href="#" id="favorite" data-user="{{ user.id }}"><i class="fa fa-user"></i> Убрать из избранного</a>
                 {% else %}
-                    <a href="#"><i class="fa fa-user-plus"></i> Добавить в избанное</a>
+                    <a href="#" id="favorite" data-user="{{ user.id }}"><i class="fa fa-user-plus"></i> Добавить в избанное</a>
                 {% endif %}	
                 {% endif %}
                 </div>

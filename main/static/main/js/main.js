@@ -36,6 +36,33 @@ $(document).ready(function($) {
         changeStatus(offerId, {status: 'canceled'})
     }) 
 
+    // Add and remove from favorite
+    $("#favorite").click(function(){        
+        let userId = this.dataset.user;
+        fetch('/api/favorite/', {        
+            method: "PUT",
+            headers: {
+                "X-CSRFToken": csrftoken,
+                "Content-Type": "application/json",
+            },            
+            body: JSON.stringify({user_id: userId})        
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            if (result.error){
+                console.log(result.error)
+            } else {
+                if (result.message == 'added'){
+                    $("#favorite").html('<i class="fa fa-user"></i> Убрать из избранного');
+                } else {
+                    $("#favorite").html('<i class="fa fa-user-plus"></i> Добавить в избанное');
+                }
+            }
+        })
+
+    });
+
 
 });
 
@@ -52,14 +79,14 @@ function changeStatus(offerId, data) {
     .then(response => response.json())
     .then(result => {
         if (result.status == 'ok'){
-            console.log(result.status)
+            console.log(result.status);
             location.reload();
         } else {
-            console.log(result.error)
+            console.log(result.error);
         }
         
-    })     
-
+    });
+    
 }
 
 

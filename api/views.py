@@ -50,10 +50,10 @@ def offer_status(request, pk):
         return Response({'status': 'error', 'error': 'method not allowed'}, HTTP_405_METHOD_NOT_ALLOWED)
 
 @api_view(["PUT"])
-def favorive(request):
-    if request.method == "PUT":
+def favorive(request):   
+    if request.method == "PUT":        
         try:
-            user = ShaUser.objects.get(pk=request.user)
+            user = ShaUser.objects.get(pk=request.user.id)
         except ShaUser.DoesNotExist:
             return Response({"error": "Forbitten"}, HTTP_403_FORBIDDEN)
         if not request.data:
@@ -63,13 +63,15 @@ def favorive(request):
                 favorite = ShaUser.objects.get(pk=request.data["user_id"])
             except ShaUser.DoesNotExist:
                 return Response({"error": "Can't add user to favorite. User does not exist"}, HTTP_400_BAD_REQUEST)
-            if user.favorite_set.filter(pk=favorite).exist():
+            if user.favorite.filter(pk=favorite.pk):
                 user.favorite.remove(favorite)
-                user.save()
+                user.save()                
+                return Response({'status': 'ok', 'message': 'removed'}, HTTP_202_ACCEPTED)
             else:
                 user.favorite.add(favorite)
                 user.save()
-            return Response({'status': 'ok'}, HTTP_202_ACCEPTED)
+                return Response({'status': 'ok', 'message': 'added'}, HTTP_202_ACCEPTED)
+            
     else:
        return Response({'status': 'error', 'error': 'method not allowed'}, HTTP_405_METHOD_NOT_ALLOWED) 
 

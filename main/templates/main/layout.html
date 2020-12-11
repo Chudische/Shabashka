@@ -64,10 +64,12 @@
             {% if searchForm %}
             {% bootstrap_form searchForm show_label=False %}
             {% else %}
-            <input class="form-control mr-sm-2" type="search" name="keyword" placeholder="Поиск предложений" aria-label="Search">
+            <div class="form-group">
+            <input class="form-control mr-sm-1" type="search" name="keyword" placeholder="Поиск предложений" aria-label="Search">
+            </div>
             {% endif %}
             <div class="input-group">            
-            <button class="btn btn-search my-2 ml-2 my-sm-0" type="submit">Поиск</button>            
+            <button class="btn btn-search my-2 ml-sm-1 my-sm-0" type="submit">Поиск</button>            
             </div>                      
           </form>          
         </ul>            
