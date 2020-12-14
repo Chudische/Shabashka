@@ -34,7 +34,7 @@ SECRET_KEY = os.getenv("SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.42.220','shabashka.pp.ua','www.shabashka.pp.ua']
+ALLOWED_HOSTS = ['shabashka.pp.ua', '127.0.0.1', '192.168.42.220', 'www.shabashka.pp.ua']
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URL_REGEX = r'^/api/.*$'
