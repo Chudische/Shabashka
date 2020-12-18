@@ -6,3 +6,4 @@ django-cleanup
 djangorestframework
 django-cors-headers
 django-crispy-forms
+python-dotenv
