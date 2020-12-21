@@ -58,9 +58,9 @@ Get or post offer comments:
 
 ##  Project structure 
 
-- shabashka
-    - api
-        - migrations
+- shabashka/
+    - api/
+        - migrations/
         - \__init__.py
         - admin.py
         - apps.py
@@ -69,23 +69,23 @@ Get or post offer comments:
         - tests.py
         - urls.py
         - views.py
-    - main
-        - migrations 
-        - static
-            - main
-                - css
+    - main/
+        - migrations/
+        - static/
+            - main/
+                - css/
                     - lightbox.css
                     - style.css 
-                - images
-                - js
+                - images/
+                - js/
                     - html5shiv.js
                     - jquery.pinto.js
                     - jquery.pinto.min.js
                     - lightbox.js
                     - main.js
                     - respond.min.js
-        - templates
-            - email
+        - templates/
+            - email/
                 - activation_letter_body.txt
                 - activation_letter_subject.txt
                 - new_chat_message_body.txt
@@ -94,7 +94,7 @@ Get or post offer comments:
                 - new_comment_subject.txt
                 - new_review_body.txt
                 - new_review_subject.txt                
-            - main
+            - main/
                 - about.html
                 - activation_done.html
                 - add_new_offer.html
@@ -127,7 +127,7 @@ Get or post offer comments:
                 - reviews.html
                 - user_is_activated.html
                 - user_review.html
-        - templatetags
+        - templatetags/
             - \__init__.py
             - custom_tags.py
         - \__init__.py
@@ -139,9 +139,9 @@ Get or post offer comments:
         - tests.py
         - utilities.py
         - views.py
-    - media 
-        - thumbnails 
-    - shabashka
+    - media/
+        - thumbnails/ 
+    - shabashka/
         - asgi.py
         - settings.py
         - urls.py
