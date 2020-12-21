@@ -43,14 +43,17 @@ Shabashka uses smtp.gmail.com for sending emails. Make shure you allow django to
 
 
 ## API
+
 Get first 30 offers:
     http://shabashka.pp.ua/api/offers
+
 Get offer details:
-    http://shabashka.pp.ua/api/offers/<pk> 
-    where <pk> is offer id
+    http://shabashka.pp.ua/api/offers/__pk__ 
+    (where __pk__ is offer id)
+
 Get or post offer comments:
-    http://shabashka.pp.ua/api/offers/<pk>/comments
-    where <pk> is offer id; User can post comment only if authenticated
+    http://shabashka.pp.ua/api/offers/__pk__/comments
+    (where __pk__ is offer id; User can post comment only if authenticated)
 
 
 ##  Project structure 
@@ -58,7 +61,7 @@ Get or post offer comments:
 - shabashka
     - api
         - migrations
-        - __init__.py
+        - \__init__.py
         - admin.py
         - apps.py
         - models.py
@@ -125,9 +128,9 @@ Get or post offer comments:
                 - user_is_activated.html
                 - user_review.html
         - templatetags
-            - __init__.py
+            - \__init__.py
             - custom_tags.py
-        - __init__.py
+        - \__init__.py
         - admin.py
         - apps.py
         - forms.py
