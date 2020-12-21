@@ -12,7 +12,7 @@ Shabashka is the service for people to find some extra job on the one hand, and 
 
 ## Installation
 
-- Install project dependencies by running pip install -r requirements.txt. Requirements contains:
+- Install project dependencies by running `pip install -r requirements.txt`. Requirements contains:
     - django
     - django-bootstrap4
     - pillow
@@ -22,8 +22,8 @@ Shabashka is the service for people to find some extra job on the one hand, and 
     - django-cors-headers
     - django-crispy-forms
     - python-dotenv
-- Make and apply migrations by running python manage.py makemigrations and python manage.py migrate.
-- Create near the manage.py file ".env". This file should contains enviroment variables, such as:
+- Make and apply migrations by running `python manage.py makemigrations` and `python manage.py migrate`.
+- Create file `.env` near the `manage.py`. This file should contains enviroment variables, such as:
     - SECRET - Django secret key 
     - GMAIL_HOST_USER - mail username for smtp messages 
     - GMAIL_HOST_PASSWORD - mail password 
@@ -36,23 +36,23 @@ Shabashka is the service for people to find some extra job on the one hand, and 
 ## Email settings 
 
 Shabashka uses smtp.gmail.com for sending emails. Make shure you allow django to send email through gmail by turn on "Access for less secure apps" on your google account. Shabashka is sending such notifications:
-- send_activation_notification() - after regitration user receive an activation letter;
-- send_comment_notification() - after worker posts comment to offer, offer author gets an email;
-- send_chat_message_notification() - after user posts message in chat, receiver gets an email;
-- send_review_notification() - after the offer closed, offer author makes a review to worker and worker gets an email.
+- `send_activation_notification()` - after regitration user receive an activation letter;
+- `send_comment_notification()` - after worker posts comment to offer, offer author gets an email;
+- `send_chat_message_notification()` - after user posts message in chat, receiver gets an email;
+- `send_review_notification()` - after the offer closed, offer author makes a review to worker and worker gets an email.
 
 
 ## API
 
 Get first 30 offers:
-    http://shabashka.pp.ua/api/offers
+    `HOST/api/offers`
 
 Get offer details:
-    http://shabashka.pp.ua/api/offers/__pk__ 
+    `HOST/api/offers/pk` 
     (where __pk__ is offer id)
 
 Get or post offer comments:
-    http://shabashka.pp.ua/api/offers/__pk__/comments
+    `HOST/api/offers/pk/comments`
     (where __pk__ is offer id; User can post comment only if authenticated)
 
 
