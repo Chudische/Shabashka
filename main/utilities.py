@@ -58,7 +58,7 @@ def send_review_notification(message):
     context = {'receiver': receiver, 'host': host, "review": message}
     subject = render_to_string('email/new_review_subject.txt', context)
     body_text = render_to_string('email/new_review_body.txt', context)
-    reciever.email_user(subject, body_text)
+    receiver.email_user(subject, body_text)
     
 
 

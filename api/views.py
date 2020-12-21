@@ -12,7 +12,7 @@ from .serializers import OfferSerializer, OfferDetailSerializer, CommentSerializ
 @api_view(['GET'])
 def offers(request):
     if request.method == "GET":
-        offers = Offer.objects.filter(is_active=True)[:10]
+        offers = Offer.objects.filter(is_active=True)[:30]
         serializer = OfferSerializer(offers, many=True)
         return Response(serializer.data)
 
