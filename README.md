@@ -45,14 +45,14 @@ Shabashka uses smtp.gmail.com for sending emails. Make shure you allow django to
 ## API
 
 Get first 30 offers:
-    `HOST/api/offers`
+    `/api/offers`
 
 Get offer details:
-    `HOST/api/offers/pk` 
+    `/api/offers/pk` 
     (where __pk__ is offer id)
 
 Get or post offer comments:
-    `HOST/api/offers/pk/comments`
+    `/api/offers/pk/comments`
     (where __pk__ is offer id; User can post comment only if authenticated)
 
 
