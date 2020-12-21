@@ -58,32 +58,32 @@ Get or post offer comments:
 
 ##  Project structure 
 
-- shabashka/
+- shabashka/ 
     - api/
         - migrations/
-        - \__init__.py
+        - \__init__.py 
         - admin.py
         - apps.py
         - models.py
-        - serializers.py
+        - serializers.py - serializers for api response
         - tests.py
-        - urls.py
-        - views.py
-    - main/
+        - urls.py - api urls
+        - views.py - api views
+    - main/ - main functionality (account, profile, main page, by_category, favorite, ect.)
         - migrations/
-        - static/
-            - main/
-                - css/
-                    - lightbox.css
-                    - style.css 
-                - images/
-                - js/
-                    - html5shiv.js
-                    - jquery.pinto.js
-                    - jquery.pinto.min.js
-                    - lightbox.js
-                    - main.js
-                    - respond.min.js
+        - static/ 
+            - main/ 
+                - css/ 
+                    - lightbox.css - light box css classes
+                    - style.css - main style sheet file
+                - images/ - some static images, loaders, ect
+                - js/ 
+                    - html5shiv.js - for explorer browser
+                    - jquery.pinto.js - pinto js module 
+                    - jquery.pinto.min.js - pinto js module min
+                    - lightbox.js - lightbox module
+                    - main.js - main js code
+                    - respond.min.js 
         - templates/
             - email/
                 - activation_letter_body.txt
@@ -95,9 +95,9 @@ Get or post offer comments:
                 - new_review_body.txt
                 - new_review_subject.txt                
             - main/
-                - about.html
-                - activation_done.html
-                - add_new_offer.html
+                - about.html - about site page
+                - activation_done.html - activation successful template
+                - add_new_offer.html -
                 - bad_signature.html
                 - by_category.html
                 - change_offer.html
