@@ -162,7 +162,8 @@ In addition Users admin interface provides filters:
 - user activated 
 - user didn't activate account for more than 3 days
 - user didn't activate account for more than week
-And for this users admin can send another activation notification letter.
+
+And using this filters admin can send another activation notification letter to users.
 
 ## API
 
