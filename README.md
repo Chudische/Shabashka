@@ -74,14 +74,16 @@ It is also possible to recover the user password with email address. It is done 
 After registration user gets on his profile page. Profile has such functionality:
 - Change user profile data(first name, last name, location, ect.);
 - Change user password;
-- Change avatar(by default user sees only avatar placeholder)
-- Delete profile(when user delete his profile, his offers and all pictures will delete also using   django-cleanup module)
+- Change avatar(by default user sees only avatar placeholder);
+- Delete profile(when user delete his profile, his offers and all pictures will delete also using   django-cleanup module);
+- See user rating;
+- See user reviews
 
-On users profile page there are all his offers with a different statuses
+On users profile page there are all of his offers in a different statuses.
 
 If user gets the other user profile page, he will see only his active offers in status "New". Also he can follow this user by clicking "follow" link. 
 
-Also authenticated user in account dropdown can gets to the message list page, where he can see all his conversations grouped by offers. When he clicked on message he gest to offers chat. 
+Also authenticated user in account dropdown(in navbar) can clicks to the message list page, where he can see all of his conversations grouped by offers. When he clicked on message he is taken to the offer chat. 
 
 ### Categories
 
@@ -161,9 +163,9 @@ Admin interface makes possible to manage any Shabashka data within main applicat
 In addition Users admin interface provides filters:
 - user activated 
 - user didn't activate account for more than 3 days
-- user didn't activate account for more than week
+- user didn't activate account for more than a week
 
-And using this filters admin can send another activation notification letter to users.
+And using this filters and action `send activation notification` admin can send a activation letter to users.
 
 ## API
 
