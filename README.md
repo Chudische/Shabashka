@@ -44,7 +44,7 @@ Shabashka uses smtp.gmail.com for sending emails. Make sure you allow django to 
 - `send_activation_notification()` - after registration user receive an activation letter;
 - `send_comment_notification()` - after worker posts comment to offer, offer author gets an email;
 - `send_chat_message_notification()` - after user posts message in chat, receiver gets an email;
-- `send_review_notification()` - after the offer closed, offer author makes a review to worker and worker gets an email.
+- `send_review_notification()` - after the offer closed, offer author makes a review to worker, the worker gets an email.
 
 ## Project description
 
