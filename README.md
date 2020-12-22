@@ -83,6 +83,15 @@ If user gets the other user profile page, he will see only his active offers in 
 
 Also authenticated user in account dropdown can gets to the message list page, where he can see all his conversations grouped by offers. When he clicked on message he gest to offers chat. 
 
+### Categories
+
+Categories is separated to two parts:
+- Super Category
+- Sub Category
+
+They all in one table of database. But you can create an offer only in the sub category. Super category is made only for a good locking(just for now) 
+
+
 ### Main page 
 
 On the main page there are all offers in status active. User can:
@@ -136,6 +145,24 @@ In offer detail page in addition to offer look in main page or category page use
 - for responder there is only a `chat` button
 - after offer is done offer author can delete it in profile page
 
+
+## Admin interface
+
+Admin interface makes possible to manage any Shabashka data within main application interface. In admin interface there are:
+- Users and groups
+- Users avatars
+- Super Categories
+- Sub Categories
+- Offers
+- Comments
+- Chat messages
+- Users reviews
+
+In addition Users admin interface provides filters:
+- user activated 
+- user didn't activate account for more than 3 days
+- user didn't activate account for more than week
+And for this users admin can send another activation notification letter.
 
 ## API
 
