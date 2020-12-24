@@ -98,8 +98,14 @@ class RegisterUserForm(forms.ModelForm):
 
     def clean(self):
         super().clean()
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
+        
+        try:
+            password1 = self.cleaned_data.get('password1')
+            password2 = self.cleaned_data.get('password2')
+        except:
+            errors = {}
+            raise ValidationError(errors)
+            
         if password1 and password2 and password1 != password2:
             errors = {'password2': ValidationError(
                 'Введенные пароли не совпадают', code='password_mismath')}
