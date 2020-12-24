@@ -66,7 +66,7 @@ Shabashka uses smtp.gmail.com for sending emails. Make sure you allow django to 
 ShaUser model is inherited from AbstractUser class with some additional fields:
 - is_activated - for a user to confirm his or her email address
 - send_message - if a user want to receive emails from Shabashka
-- location - where user is live (optional, in the future I want to populate my project for all cities in my country)
+- location - the place where user is live (optional, in the future I want to populate my project for all cities in my country)
 - average_rating - calculating when user is gets a review 
 - favorite - m2m field for following to employers
 
