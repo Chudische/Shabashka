@@ -163,7 +163,7 @@ In offer detail page in addition to offer look in main page or category page use
 
 ## Admin interface
 
-Admin interface makes possible to manage any Shabashka data within the  main application interface. In admin interface there are:
+Admin interface makes possible to manage any Shabashka data within the main application interface. In admin interface there are:
 - Users and groups
 - Users avatars
 - Super Categories
@@ -173,7 +173,7 @@ Admin interface makes possible to manage any Shabashka data within the  main app
 - Chat messages
 - Users reviews
 
-In addition Users admin interface provides filters:
+Additionaly Users admin interface provides filters:
 - user activated 
 - user didn't activate account for more than 3 days
 - user didn't activate account for more than a week

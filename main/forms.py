@@ -97,13 +97,13 @@ class RegisterUserForm(forms.ModelForm):
         return password1
 
     def clean(self):
-        super().clean()
-        
+        super().clean()        
         try:
             password1 = self.cleaned_data.get('password1')
             password2 = self.cleaned_data.get('password2')
         except:
-            errors = {}
+            errors = {'password1': ValidationError(
+                'Пароль не соответствуе требованиям', code="password_invalid")}
             raise ValidationError(errors)
             
         if password1 and password2 and password1 != password2:
