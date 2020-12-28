@@ -133,37 +133,37 @@ The keyword search done through titles and descriptions of the offers.
 
 ### Offer detail page 
 
-In offer detail page in addition to offer look in main page or category page user sees:
+On the offer detail page in addition to offer look in main page or category page a user sees the following:
 - main photo 
-- additional photos(if exist)
+- additional photos (if exist)
 - comments 
 - comment form (for authenticated users)
 
 ### Offer life cycle
 
-- at first user creates the new offer in `create` tab in the navbar;
-- offer creates with status `new` and `is_active`;
-- other users respond to the offer by leaving their comments, offering their price and lead time;
+- at first user creates a new offer in `Create` tab in the Navbar;
+- an offer is created with status `new` and `is_active`;
+- other users respond to the offer by leaving their comments, offering their price and time needed to complete the job;
 - when an offer author accepts one of responds:
-    - all other responds `is_active` change to `False`(they dosen't shows in the offer page)
+    - all the other responds `is_active` change to `False`(they aren't shown on the offer page)
     - offer status change to `accepted`
-- for offer author appears following  buttons `cancel`, `chat`, `done`:
+- the offer author sees the following buttons: `cancel`, `chat`, `done`:
     - `cancel`:
-        - all other responds `is_active` change to `True`
-        - offer status change to `new`
-    - `chat` - opens chat between offer author and responder
+        - all the other responds `is_active` are changed to `True`
+        - the offer status is changed to `new`
+    - `chat` - opens chat between the offer author and a responder
     - `done`:
-        - offer author redirects to the review form
-        - author makes a review to the responder
+        - the offer author is redirected to the review form
+        - the employer writes a review to the worker
         - offer status changed to `done` 
         - `is_active` changed to `False`        
-- for the responder there is only a `chat` button
-- after an offer is closed an offer author can delete it in the profile page
+- for a responder there is only a `chat` button
+- after an offer is closed an employer can delete it in his or her profile page
 
 
 ## Admin interface
 
-Admin interface makes possible to manage any Shabashka data within the main application interface. In admin interface there are:
+Admin interface makes possible to manage any Shabashka data within the main application interface. The admin interface has the following elements:
 - Users and groups
 - Users avatars
 - Super Categories
@@ -178,7 +178,7 @@ Additionaly Users admin interface provides filters:
 - user didn't activate account for more than 3 days
 - user didn't activate account for more than a week
 
-And using this filters and action `send activation notification` admin can send a activation letter to users.
+Using these filters and action `send activation notification` admin can send an activation letter to users.
 
 ## API
 
