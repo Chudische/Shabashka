@@ -242,7 +242,6 @@ def chat_list(request):
     return render(request, 'main/chat_list.html', context)
 
 
-
 def user_activate(request, sign):
     try:
         username = signer.unsign(sign)
