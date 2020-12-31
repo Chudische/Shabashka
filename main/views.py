@@ -67,7 +67,7 @@ def by_category(request, pk):
 @login_required
 def favorite(request):    
     users = [user for user in request.user.favorite.all()]    
-    offers = Offer.objects.filter(author__in=users).order_by("-created")
+    offers = Offer.objects.filter(is_active=True, author__in=users).order_by("-created")
     paginator = Paginator(offers, 30)
     if 'page' in request.GET:
         page_num = request.GET['page']

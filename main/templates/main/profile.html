@@ -44,6 +44,25 @@
 
 {% endif %}
 <div class="container py-5">
+    <div class="alert alert-warning" role="alert">    
+        <ul>
+        {% if user == request.user and not user.first_name or not user.last_name%}
+            <li>Заполните свой профиль.</li>
+        {% endif %}
+
+        {% if not user.first_name or not user.last_name %}
+            <li>Мы не рекомендуем нашим пользователям доверять людям, с не заполненым профилем.</li>            
+        {% endif %}
+
+        {% if not user.avatar %}
+            <li>Добавление актуальной фотографии в профиль повышает доверие.</li>
+        {% endif %}
+
+        {% if user == request.user and not user.location %}
+            <li>Добавте свой город для корректного поиска предложений</li>
+        {% endif %}
+        </ul>
+    </div>
     <div class="row">
         <div class="col-lg-3">
             {% if user.avatar.image %}
@@ -56,7 +75,13 @@
             <h3>Профиль пользователя {{ user.username }}</h3>
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-6">           
-                    <div><b> Имя:</b> {{user.first_name}} {{user.last_name}} </div>
+                    <div><b> Имя:</b>  
+                        {% if user.first_name and user.last_name %}
+                            {{user.first_name}} {{user.last_name}}
+                        {% else %} 
+                            Не указано
+                        {% endif %} 
+                    </div>
                     <div><b>Город:</b> {% if user.location %} {{user.location}} {% else %} Не указан{% endif %}</div>
                     <div><b>Рейтинг:</b> 
                         {% if reviews %}
