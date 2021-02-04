@@ -1,8 +1,9 @@
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.decorators.cache import never_cache
 from django.contrib.staticfiles.views import serve
+
 
 
 from . import views
@@ -26,7 +27,8 @@ urlpatterns = [
     path('accounts/password/reset/complete/', views.ShaPassResetCompleteView.as_view(), name="password_reset_complete"),    
     path('accounts/register/activate/<str:sign>/', views.user_activate, name="register_activate"),
     path('accounts/register/done', views.RegisterDone.as_view(), name="register_done"),
-    path('accounts/register/', views.RegisterUserView.as_view(), name="register_user"),    
+    path('accounts/register/', views.RegisterUserView.as_view(), name="register_user"),
+    path('accounts/social-auth/', include('social_django.urls', namespace="social")),    
     path('reviews/<int:user_id>', views.reviews, name="reviews"),
     path('user_review/<int:offer_pk>/<int:user_pk>/', views.UserReviewView.as_view(), name="user_review"),   
     path('<int:category_pk>/<int:pk>/', views.detail, name="detail"),

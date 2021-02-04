@@ -93,7 +93,7 @@
                         <i class="fa fa-star" style="color: #ddad10;"></i>
                         <i class="fa fa-star" style="color: #ddad10;"></i>
                         {% endif %}
-                        <a href="{% url 'main:reviews' user_id=user.id %}">(отзывов - {{reviews|default_if_none:"0"}}) </a>
+                        <a href="{% url 'main:reviews' user_id=user.id %}">(отзывов - {{reviews|default_if_none:"0"}})</a>
                     </div>            
                     <div><b>Успешных сделок: </b>{{reviews|default_if_none:"0"}}</div>
                                                

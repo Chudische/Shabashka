@@ -67,8 +67,8 @@ header{text-align: center;}
 .top-social{font-size: 20px; text-align: center;}
 .top-social > li > a{padding: 7px 0 0 0;}
  ul.top-social  li{height: 38px; width: 38px; margin-right: 5px;}
- ul.top-social a i{color: #fff;line-height: 1.9;height: 38px; width: 38px;border-radius: 50%;background-color: #252628;}
- ul.top-social a i:hover{background-color:#555;}
+ ul.top-social a i{color: #fff;line-height: 1.9;height: 38px; width: 38px;border-radius: 50%;background-color: #5183e6;}
+ ul.top-social a i:hover{background-color:#70c5c0;}
  .scrolable-menu{
    height: auto;
    max-height: 200px;
@@ -236,6 +236,24 @@ body .modal{
 	text-decoration: underline;
 }
 
+.social ul li {
+	padding: 0;
+	margin-right: 10px !important;
+}
+
+.social a i{
+	font-size: 20px;
+	padding: 15px 20px;
+	color: #179b81;
+	line-height: 1.9;
+}
+.social a i:hover, .social li:hover{
+	color:#fff;
+	background-color: #179b81;
+}
+
+
+
 /* ---------------------------------------------------------------------------- */
 /* ----------------------------------Registration------------------------------ */
 /* ---------------------------------------------------------------------------- */
@@ -300,7 +318,7 @@ body .modal{
 .signup-modal a:hover {
 	text-decoration: underline;
 }
-.signup-modal .fa,{
+.signup-modal .fa {
 	font-size: 21px;
 	position: relative;	
 }

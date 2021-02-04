@@ -34,7 +34,7 @@ SECRET_KEY = os.getenv("SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['shabashka.pp.ua', '127.0.0.1', '192.168.42.220', 'www.shabashka.pp.ua']
+ALLOWED_HOSTS = ['shabashka.pp.ua', '127.0.0.1', '192.168.42.220', 'www.shabashka.pp.ua', 'localhost']
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URL_REGEX = r'^/api/.*$'
@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'api.apps.ApiConfig',
+    'social_django',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -80,7 +81,52 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.instagram.InstagramOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 ROOT_URLCONF = 'shabashka.urls'
+
+
+
+# Social app settings
+LOGIN_URL = 'main:login'
+LOGIN_REDIRECT_URL = 'main:profile'
+LOGOUT_URL = 'main:logout'
+LOGOUT_REDIRECT_URL = 'main:index'
+SOCIAL_AUTH_URL_NAMESPACE = "main:social"
+
+# Facebook settings
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("FB_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("FB_SECRET")
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email'] 
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {       
+  'fields': 'id, name, email, picture.type(large)'
+}
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'avatar'),    
+]
+
+
+SOCIAL_AUTH_PIPELINE = (                                 
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    # 'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'main.pipeline.update_avatar'
+)
 
 TEMPLATES = [
     {

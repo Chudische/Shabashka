@@ -62,7 +62,9 @@ def show_rating(number):
     try:
         number = float(number)
     except ValueError:
-        return None    
+        return None
+    except TypeError:
+        return None  
           
     full = int(number)
     half = 1 if number - full > 0.1 and number - full < 0.6 else 0

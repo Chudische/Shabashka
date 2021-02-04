@@ -35,11 +35,21 @@
 					<input type="hidden" name="next" value="{{next}}">					
 					{% crispy form %}					
 				</form>
+				<div class="social center">
+					<span>Войти с помощью:</span> 
+					<ul class="list-group list-group-horizontal">
+						<li class="list-group-item ml-1"><a href="{% url 'main:social:begin' 'facebook'%}"><i class="fa fa-facebook"></i></a></li>
+						<li class="list-group-item"><a href="#"><i class="fa fa-google-plus-square"></i></a></li>
+						<li class="list-group-item"><a href="#"><i class="fa fa-instagram"></i></a></li>
+						<li class="list-group-item"><a href="#"><i class="fa fa-twitter"></i></a></li>
+					</ul>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<a href="{% url 'main:password_reset' %}">Забыли пароль?</a>
 				
 			</div>
+			
 			<div class="text-center">Еще не зарегистрированы? <a href="{% url 'main:register_user' %}" >Регистрация</a>.</div>
 		</div>
 	</div>
