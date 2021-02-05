@@ -66,7 +66,7 @@ header{text-align: center;}
 
 .top-social{font-size: 20px; text-align: center;}
 .top-social > li > a{padding: 7px 0 0 0;}
- ul.top-social  li{height: 38px; width: 38px; margin-right: 5px;}
+.top-social {height: 38px; width: 38px; margin-right: 5px;}
  ul.top-social a i{color: #fff;line-height: 1.9;height: 38px; width: 38px;border-radius: 50%;background-color: #5183e6;}
  ul.top-social a i:hover{background-color:#70c5c0;}
  .scrolable-menu{
@@ -133,6 +133,10 @@ article h3{margin: 0;padding: 0;}
 .btn-4:hover{background-color: transparent; color: #9E76C2;}
 .btn-5{background-color: #5DB4C7; }
 .btn-5:hover{background-color: transparent; color: #5DB4C7;}
+.btn-fb{background-color: #1877F2; color: #fff;}
+.btn-fb:hover{background-color: transparent; color: #1877F2; border-color: #1877F2;}
+.btn-gg{background-color: #9b0f0f;  color: #fff;}
+.btn-gg:hover{background-color: transparent; color: #9b0f0f; border-color: #9b0f0f;} 
 .edit-buttons {
   position: absolute;
   top: 0;
@@ -210,17 +214,17 @@ body .modal{
 .modal-login.modal-dialog {
 	margin-top: 80px;
 }
-.modal-login .btn, .modal-login .btn:active {
+.modal-login .btn-block, .modal-login .btn-block:active {
 	color: #fff;
 	border-radius: 4px;
-	background: #60c7c1 !important;
+	background: #60c7c1;
 	text-decoration: none;
 	transition: all 0.4s;
 	line-height: normal;
 	border: none;
 }
-.modal-login .btn:hover, .modal-login .btn:focus {
-	background: #45aba6 !important;
+.modal-login .btn-block:hover, .modal-login .btn-block:focus {
+	background: #45aba6;
 	outline: none;
 }
 .trigger-btn {
@@ -228,30 +232,13 @@ body .modal{
 	margin: 100px auto;
 }
 
-.modal-login a {
+.modal-login .modal-register a {
 	color: #19aa8d;
 	text-decoration: none;
 }	
-.modal-login a:hover {
+.modal-login .modal-register a:hover {
 	text-decoration: underline;
 }
-
-.social ul li {
-	padding: 0;
-	margin-right: 10px !important;
-}
-
-.social a i{
-	font-size: 20px;
-	padding: 15px 20px;
-	color: #175b9b;
-	line-height: 1.9;
-}
-.social a i:hover, .social li:hover{
-	color:#fff;
-	background-color: #179b81;
-}
-
 
 
 /* ---------------------------------------------------------------------------- */
