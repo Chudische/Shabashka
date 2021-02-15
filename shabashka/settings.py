@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'api.apps.ApiConfig',
     'social_django',
+    'mapwidgets',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

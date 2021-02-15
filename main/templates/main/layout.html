@@ -78,8 +78,8 @@
           {% if user.is_authenticated %}  
           <li class="nav-item dropdown {% if url_name == 'profile' %} active {% endif %}">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {% if user.avatar.image %}
-              <img class="border top-social rounded-circle" src="{% thumbnail user.avatar.image 'default' %}" alt="">
+              {% if request.user.avatar.image %}
+              <img class="border top-social rounded-circle" src="{% thumbnail request.user.avatar.image 'default' %}" alt="">
               {% else %}
               <img class="border top-social rounded-circle" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
               {% endif %}              

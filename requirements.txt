@@ -7,3 +7,4 @@ djangorestframework
 django-cors-headers
 django-crispy-forms
 python-dotenv
+django-map-widgets
