@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.gis.db.models import PointField
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 from django.dispatch import Signal
@@ -54,7 +55,7 @@ class SubCategory(Category):
 class ShaUser(AbstractUser):
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name="Активирован")
     send_message = models.BooleanField(default=True, db_index=True, verbose_name="Отправлять оповещения?")
-    location = models.CharField(max_length=64, null=True, blank=True, verbose_name="Населенный пункт" )
+    location = models.ForeignKey('Location', on_delete=models.DO_NOTHING, null=True, blank=True, verbose_name="Населенный пункт" )
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True, verbose_name="Средний рейтинг")
     favorite = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="followers", verbose_name="Избранное")
     def delete(self, *args, **kwargs):
@@ -212,3 +213,40 @@ def chat_save_dispatcher(sender, **kwargs):
     
 
 post_save.connect(chat_save_dispatcher, sender=ChatMessage)
+
+
+class Location(models.Model):
+    name = models.CharField(max_length=255, null=True, verbose_name="Населенный пункт")
+    coordinates = PointField()    
+    city_hall = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return f'{self.name}' 
+
+
+    class Meta:
+        ordering = ["name",]
+        verbose_name = 'Координата'
+        verbose_name_plural = 'Координаты'
+
+
+class Place(models.Model):
+    CHOISES = [
+        ('О', 'область'),
+        ('Р', 'район'),
+        ('М', 'місто'),
+        ('Т', 'смт'),
+        ('С', 'село'),        
+        ('Щ', 'селище'),
+    ]
+    id = models.IntegerField(primary_key=True, verbose_name="Код")
+    parent_id = models.IntegerField(verbose_name="Родитель", db_index=True, null=True)
+    category = models.CharField(max_length=1, choices=CHOISES, verbose_name="Категория")
+    name = models.CharField(max_length=255, verbose_name="Название")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Населенный пункт'
+        verbose_name_plural = 'Населенные пункты'

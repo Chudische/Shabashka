@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'social_django',
     'mapwidgets',
+    'import_export',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -114,7 +115,7 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
     ('picture', 'avatar'),    
 ]
 
-# Gmail settings
+# GOOGLE Auth settings
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("GG_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("GG_SECRET")
 
@@ -131,6 +132,23 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
     'main.pipeline.update_avatar'
 )
+
+
+# Gmap settings 
+GOOGLE_MAP_API_KEY = os.getenv("GG_MAP_KEY")
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocationName", "kiev"),
+        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'ua'}
+        }),
+        ("markerFitZoom", 12),
+    ),
+    "GOOGLE_MAP_API_KEY": GOOGLE_MAP_API_KEY,
+    "LANGUAGE" : "ru"
+    }
+
+
 
 TEMPLATES = [
     {
@@ -177,7 +195,7 @@ DATABASES = {
           'PORT': '5537',
     },
     'local': {
-            'ENGINE': 'django.db.backends.sqlite3',
+            'ENGINE': 'django.contrib.gis.db.backends.spatialite',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }

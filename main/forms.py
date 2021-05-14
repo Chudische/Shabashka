@@ -7,19 +7,33 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Submit, Div, Row, Column, HTML
 from crispy_forms.bootstrap import PrependedText, StrictButton, InlineRadios
 from django.utils.safestring import mark_safe
+from mapwidgets.widgets import GooglePointFieldWidget, GoogleStaticOverlayMapWidget
 
 
 from .models import ShaUser, user_registrated, SuperCategory, SubCategory, Offer, AdditionalImage
-from .models import Comment, ShaUserAvatar, UserReview, ChatMessage
+from .models import Comment, ShaUserAvatar, UserReview, ChatMessage, Location
 
 
+
+class LocationForm(forms.ModelForm):
+
+    class Meta:
+        model = Location
+        fields = ("coordinates", "city_hall")
+        widgets = {
+            'coordinates': GooglePointFieldWidget,
+            'city_hall': GoogleStaticOverlayMapWidget,
+        }
 
 class ChangeProfileForm(forms.ModelForm):
     email = forms.EmailField(required=True, label="Адрес электронной почты")
 
     class Meta:
         model = ShaUser
-        fields = ('username', 'email', 'first_name', 'last_name', 'send_message')
+        fields = ('username', 'email', 'first_name', 'last_name', 'send_message', 'location')
+        widgets = {
+            'location': GooglePointFieldWidget,
+        }
 
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField()

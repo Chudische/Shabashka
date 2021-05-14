@@ -4,7 +4,8 @@ from django.template.loader import render_to_string
 from django.core.signing import Signer
 
 
-from shabashka.settings import ALLOWED_HOSTS
+
+from shabashka.settings import ALLOWED_HOSTS, BASE_DIR
 
 signer = Signer()
 

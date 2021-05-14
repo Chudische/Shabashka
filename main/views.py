@@ -20,7 +20,7 @@ from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
 from .models import ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview, ChatMessage
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
-from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm
+from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm, LocationForm
 from .utilities import signer
 # Create your views here.
 
@@ -121,7 +121,7 @@ def profile(request):
         else:
             messages.add_message(request, messages.ERROR, 'Ошибка! Файл не поддерживается')
     else:
-        avatar_form = AvatarForm(initial={"user": request.user})
+        avatar_form = AvatarForm(initial={"user": request.user})    
     offers = Offer.objects.filter(author=request.user.pk)    
     reviews = request.user.rating.count()  
     context = {"offers": offers, "avatar_form": avatar_form, 'reviews': reviews}   
@@ -131,8 +131,8 @@ def profile(request):
 @login_required
 def profile_by_id(request, pk):
     user = get_object_or_404(ShaUser, pk=pk)
-    if user == request.user:
-        return reverse_lazy("main:profile")    
+    if user == request.user:        
+        return redirect("main:profile")   
     reviews = user.rating.count()
     offers = Offer.objects.filter(author=user.pk)    
     context = {"offers": offers, "user": user, 'reviews': reviews}

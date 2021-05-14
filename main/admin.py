@@ -2,13 +2,15 @@ import datetime
 
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from import_export import resources, widgets
-from import_export.fields import Field
+from import_export import resources
 
 from .models import ShaUser, SubCategory, SuperCategory, Offer, AdditionalImage, Comment, ShaUserAvatar
-from .models import UserReview, ChatMessage
+from .models import UserReview, ChatMessage, Location, Place
 from .utilities import send_activation_notification
 from .forms import SubCategoryForm
+
+from django.contrib.gis.db import models
+from mapwidgets.widgets import GooglePointFieldWidget
 
 
 def send_activation_notifications(modeladmin, request, queryset):
@@ -90,6 +92,23 @@ class ChatMessageAdmin(admin.ModelAdmin):
     feields = ('offer', ('author', 'receiver, created'), 'content')
     readonly_fields = ('created',)
 
+class LocationAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.PointField: {"widget": GooglePointFieldWidget}
+    }
+
+    
+class PlaceResource(resources.ModelResource):
+    class Meta:
+        model = Place
+        fields = ('id', 'parent_id', 'category', 'name')
+
+class PlaceAdmin(ImportExportModelAdmin):
+    resource_class = PlaceResource
+    list_display = ('id', 'parent_id', 'category', 'name')
+
+
+
 # Register your models here.
 admin.site.register(ShaUser, ShaUserAdmin)
 admin.site.register(SuperCategory, SuperCategoryAdmin)
@@ -99,3 +118,5 @@ admin.site.register(Comment, CommentAdmin)
 admin.site.register(ShaUserAvatar)
 admin.site.register(UserReview, UserReviewAdmin)
 admin.site.register(ChatMessage, ChatMessageAdmin)
+admin.site.register(Location, LocationAdmin)
+admin.site.register(Place, PlaceAdmin)

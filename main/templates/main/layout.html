@@ -33,6 +33,8 @@
         <script src="js/html5shiv.js"></script>
         <script src="js/respond.min.js"></script>
     <![endif]-->
+
+    {{form.media}}
 </head>
 
 <body>
@@ -40,7 +42,7 @@
     {% block navbar %}
     <!-- Static navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Shabashka</a>
+      <a class="navbar-brand" href="{% url 'main:index' %}">Shabashka</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

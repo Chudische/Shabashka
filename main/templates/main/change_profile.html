@@ -9,6 +9,7 @@
 <form method="POST">
     {% csrf_token %}
     {% bootstrap_form form layout="vertical"%}
+    {{location_form.as_p}}
     {% buttons submit='Сохранить' %}{% endbuttons %}
 </form>
 </div>
