@@ -20,7 +20,7 @@ from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
 from .models import ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview, ChatMessage
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
-from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm, LocationForm
+from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm
 from .utilities import signer
 # Create your views here.
 

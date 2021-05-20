@@ -5,12 +5,11 @@ from import_export.admin import ImportExportModelAdmin
 from import_export import resources
 
 from .models import ShaUser, SubCategory, SuperCategory, Offer, AdditionalImage, Comment, ShaUserAvatar
-from .models import UserReview, ChatMessage, Location, Place
+from .models import UserReview, ChatMessage, Place
 from .utilities import send_activation_notification
 from .forms import SubCategoryForm
 
-from django.contrib.gis.db import models
-from mapwidgets.widgets import GooglePointFieldWidget
+
 
 
 def send_activation_notifications(modeladmin, request, queryset):
@@ -92,10 +91,6 @@ class ChatMessageAdmin(admin.ModelAdmin):
     feields = ('offer', ('author', 'receiver, created'), 'content')
     readonly_fields = ('created',)
 
-class LocationAdmin(admin.ModelAdmin):
-    formfield_overrides = {
-        models.PointField: {"widget": GooglePointFieldWidget}
-    }
 
     
 class PlaceResource(resources.ModelResource):
@@ -118,5 +113,4 @@ admin.site.register(Comment, CommentAdmin)
 admin.site.register(ShaUserAvatar)
 admin.site.register(UserReview, UserReviewAdmin)
 admin.site.register(ChatMessage, ChatMessageAdmin)
-admin.site.register(Location, LocationAdmin)
 admin.site.register(Place, PlaceAdmin)

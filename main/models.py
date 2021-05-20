@@ -55,7 +55,7 @@ class SubCategory(Category):
 class ShaUser(AbstractUser):
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name="Активирован")
     send_message = models.BooleanField(default=True, db_index=True, verbose_name="Отправлять оповещения?")
-    location = models.ForeignKey('Location', on_delete=models.DO_NOTHING, null=True, blank=True, verbose_name="Населенный пункт" )
+    location = models.ForeignKey('Place', on_delete=models.DO_NOTHING, null=True, blank=True, verbose_name="Населенный пункт" )
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True, verbose_name="Средний рейтинг")
     favorite = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="followers", verbose_name="Избранное")
     def delete(self, *args, **kwargs):
@@ -213,21 +213,6 @@ def chat_save_dispatcher(sender, **kwargs):
     
 
 post_save.connect(chat_save_dispatcher, sender=ChatMessage)
-
-
-class Location(models.Model):
-    name = models.CharField(max_length=255, null=True, verbose_name="Населенный пункт")
-    coordinates = PointField()    
-    city_hall = models.CharField(max_length=255, null=True)
-
-    def __str__(self):
-        return f'{self.name}' 
-
-
-    class Meta:
-        ordering = ["name",]
-        verbose_name = 'Координата'
-        verbose_name_plural = 'Координаты'
 
 
 class Place(models.Model):
