@@ -1,4 +1,5 @@
 from .models import SubCategory
+from django.conf import settings
 
 def shabashka_context_processor(request):
     context = {}
@@ -19,3 +20,12 @@ def shabashka_context_processor(request):
                     context['all'] = '?page=' + page
         
     return context
+
+
+
+def global_settings(request):
+    # return any necessary values
+    return {
+        'HOSTING_NAME': settings.HOSTING_NAME,
+        'HOSTING_NAME_S': settings.HOSTING_NAME_S,
+    }
