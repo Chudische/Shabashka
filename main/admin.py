@@ -5,7 +5,7 @@ from import_export.admin import ImportExportModelAdmin
 from import_export import resources
 
 from .models import ShaUser, SubCategory, SuperCategory, Offer, AdditionalImage, Comment, ShaUserAvatar
-from .models import UserReview, ChatMessage, Place
+from .models import UserReview, ChatMessage, Location 
 from .utilities import send_activation_notification
 from .forms import SubCategoryForm
 
@@ -92,18 +92,10 @@ class ChatMessageAdmin(admin.ModelAdmin):
     readonly_fields = ('created',)
 
 
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('search_id', 'name')
+
     
-class PlaceResource(resources.ModelResource):
-    class Meta:
-        model = Place
-        fields = ('id', 'parent_id', 'category', 'name')
-
-class PlaceAdmin(ImportExportModelAdmin):
-    resource_class = PlaceResource
-    list_display = ('id', 'parent_id', 'category', 'name')
-
-
-
 # Register your models here.
 admin.site.register(ShaUser, ShaUserAdmin)
 admin.site.register(SuperCategory, SuperCategoryAdmin)
@@ -113,4 +105,4 @@ admin.site.register(Comment, CommentAdmin)
 admin.site.register(ShaUserAvatar)
 admin.site.register(UserReview, UserReviewAdmin)
 admin.site.register(ChatMessage, ChatMessageAdmin)
-admin.site.register(Place, PlaceAdmin)
+admin.site.register(Location, LocationAdmin)
