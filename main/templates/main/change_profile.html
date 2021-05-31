@@ -1,4 +1,5 @@
 {% extends 'main/layout.html' %}
+{% load static %}
 {% load bootstrap4 %}
 
 {% block title %} Настройка профиля {% endblock %}
@@ -9,8 +10,15 @@
 <form method="POST">
     {% csrf_token %}
     {% bootstrap_form form layout="vertical"%}
-    {{location_form.as_p}}
+    <div class="form-group">
+    <label for="locationId">Выбор населенного пункта</label>
+    <input list="locations" type="text" class="form-control" name="location" id="locationId" placeholder="Введите название населенного пункта">
+    <datalist id="locations" >
+
+    </datalist>
+    </div>
     {% buttons submit='Сохранить' %}{% endbuttons %}
 </form>
 </div>
+<script type="text/javascript" src="{% static 'main/js/location.js' %}"></script>
 {% endblock %}

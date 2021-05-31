@@ -24,9 +24,9 @@ dotenv_path = os.path.join(BASE_DIR, '.env')
 if os.path.exists(dotenv_path):    
     load_dotenv(dotenv_path)
 
-dotenv_path = '/srv/host.env'
-if os.path.exists(dotenv_path):
-        load_dotenv(dotenv_path)    
+hosts = '/srv/host.env'
+if os.path.exists(hosts):
+        load_dotenv(hosts)    
         
 HOSTING_NAME = os.getenv('HOSTING_NAME')
 HOSTING_NAME_S = os.getenv('HOSTING_NAME_S')
