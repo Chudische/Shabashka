@@ -12,10 +12,10 @@
     {% bootstrap_form form layout="vertical"%}
     <div class="form-group">
     <label for="locationId">Выбор населенного пункта</label>
-    <input list="locations" type="text" class="form-control" name="location" id="locationId" placeholder="Введите название населенного пункта">
-    <datalist id="locations" >
+    <input type="text" list="locations" class="form-control" name="search" id="locationId" placeholder="Введите название населенного пункта">
+        <datalist id="locations">
 
-    </datalist>
+        </datalist>
     </div>
     {% buttons submit='Сохранить' %}{% endbuttons %}
 </form>
