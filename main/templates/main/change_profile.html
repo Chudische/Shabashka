@@ -11,13 +11,19 @@
     {% csrf_token %}
     {% bootstrap_form form layout="vertical"%}
     <div class="form-group">
-    <label for="locationId">Выбор населенного пункта</label>
-    <input type="text" list="locations" class="form-control" name="search" id="locationId" placeholder="Введите название населенного пункта">
-        <datalist id="locations">
+    <label for="id_location-0-name">Выбор населенного пункта</label>
+    <!-- <input type="text" list="locations" class="form-control" name="search" id="locationId" placeholder="Введите название населенного пункта"> -->
+    {% for formset in inlines %}
+    {{ formset }}
+    {% endfor %}
+    {% buttons submit='Сохранить' %}{% endbuttons %}
+    
+    <datalist id="locations">
 
         </datalist>
+    
     </div>
-    {% buttons submit='Сохранить' %}{% endbuttons %}
+    
 </form>
 </div>
 <script type="text/javascript" src="{% static 'main/js/location.js' %}"></script>

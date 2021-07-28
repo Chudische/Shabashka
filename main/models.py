@@ -55,7 +55,7 @@ class SubCategory(Category):
 class ShaUser(AbstractUser):
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name="Активирован")
     send_message = models.BooleanField(default=True, db_index=True, verbose_name="Отправлять оповещения?")
-    location = models.ForeignKey('Location', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Населенный пункт" )
+    
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True, verbose_name="Средний рейтинг")
     favorite = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="followers", verbose_name="Избранное")
     def delete(self, *args, **kwargs):
@@ -132,8 +132,7 @@ class Offer(models.Model):
     content = models.TextField(verbose_name="Описание")
     price = models.FloatField(default=0, verbose_name="Цена")
     image = models.ImageField(blank=True, upload_to=get_timestamp_path, verbose_name="Фото")
-    author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, verbose_name="Автор")
-    location = models.ForeignKey('Location', null=True, on_delete=models.SET_NULL, verbose_name="населенный пункт")
+    author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, verbose_name="Автор")    
     is_active = models.BooleanField(default=True, db_index=True, verbose_name="Активное")
     created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано" )
     reviews = models.IntegerField(default=0, verbose_name="Просмотров")
@@ -217,6 +216,11 @@ post_save.connect(chat_save_dispatcher, sender=ChatMessage)
 
 
 class Location(models.Model):
+    user = models.OneToOneField(ShaUser, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Пользователь", related_name="location")
+    offer = models.OneToOneField(Offer, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Предложение', related_name="location")
     search_id = models.IntegerField(verbose_name="ID для поиска")
     name = models.CharField(max_length=256, verbose_name="Назване")
 
+    def __str__(self) -> str:
+        return f"{self.name}"
+        

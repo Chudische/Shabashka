@@ -44,6 +44,7 @@
 
 {% endif %}
 <div class="container py-5">
+    {% if user == request.user and not user.first_name or not user.last_name or not user.location or not user.avatar%}
     <div class="alert alert-warning" role="alert">    
         <ul>
         {% if user == request.user and not user.first_name or not user.last_name%}
@@ -63,6 +64,7 @@
         {% endif %}
         </ul>
     </div>
+    {% endif %}
     <div class="row">
         <div class="col-lg-3">
             {% if user.avatar.image %}

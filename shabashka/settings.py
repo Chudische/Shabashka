@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'social_django',
     'mapwidgets',
     'import_export',
+    'extra_views',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

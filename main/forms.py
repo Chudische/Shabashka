@@ -8,7 +8,7 @@ from crispy_forms.layout import Layout, Field, Submit, Div, Row, Column, HTML
 from crispy_forms.bootstrap import PrependedText, StrictButton, InlineRadios
 from django.utils.safestring import mark_safe
 
-from .models import ShaUser, user_registrated, SuperCategory, SubCategory, Offer, AdditionalImage
+from .models import Location, ShaUser, user_registrated, SuperCategory, SubCategory, Offer, AdditionalImage
 from .models import Comment, ShaUserAvatar, UserReview, ChatMessage
 
 
@@ -253,3 +253,13 @@ class ChatMessageForm(forms.ModelForm):
             "receiver": forms.HiddenInput,
         }
        
+
+class LocationForm(forms.ModelForm):
+
+    class Meta:
+        model = Location
+        fields = ('search_id', 'name')
+        widgets = {
+            'search_id': forms.HiddenInput,
+            'name': forms.TextInput(attrs={'list': 'locations', 'class': 'form-control'}),
+        }

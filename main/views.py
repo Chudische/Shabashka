@@ -14,13 +14,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
 from django.core.paginator import Paginator
-from django.db.models import Q, Avg
+from django.db.models import Q, Avg, fields
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from extra_views import UpdateWithInlinesView, InlineFormSetFactory
 
-
-from .models import ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview, ChatMessage
+from .models import Location, ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview, ChatMessage
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
-from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm
+from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm, LocationForm
 from .utilities import signer
 # Create your views here.
 
@@ -289,21 +289,28 @@ class ShaLogout(SuccessMessageMixin, LoginRequiredMixin, LogoutView):
              messages.add_message(request, messages.SUCCESS, "Вы успешно вышли. До новых встреч!")
         return super().dispatch(request, *args, **kwargs)
 
-class ChangeProfileView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+class LocationProfileInline(InlineFormSetFactory):
+    model = Location
+    form_class = LocationForm
+    fields = ('search_id', 'name')
+
+
+class ChangeProfileView(SuccessMessageMixin, LoginRequiredMixin, UpdateWithInlinesView):
     model = ShaUser
     template_name = 'main/change_profile.html'
+    inlines = [LocationProfileInline, ]    
     form_class = ChangeProfileForm
     success_url = reverse_lazy('main:profile')
     success_message = "Профиль изменен"
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):        
         self.user_id = request.user.pk
         return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         if not queryset:
-            queryset = self.get_queryset()
-        return get_object_or_404(queryset, pk= self.user_id)
+            queryset = self.get_queryset()        
+        return get_object_or_404(queryset, pk=self.user_id)
 
 class ShaPassChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeView):
     template_name = 'main/password_change.html'
