@@ -1,4 +1,5 @@
 # Shabashka 
+Try it on [Shabashka.pp.ua](http://shabashka.pp.ua)
 
 ## Idea
 
@@ -23,7 +24,7 @@ Shabashka is the service for people to find some extra job on the one hand, and 
 - The employer closes his or her offer and leaves a review for worker
 - Everyone is happy
 
-Try it on [Shabashka.pp.ua](http://shabashka.pp.ua)
+
 
 ## Installation
 
