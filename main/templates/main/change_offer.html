@@ -6,10 +6,15 @@
 
 {% block body %}
 <div class="container p-5">
-    <h2>Редактирование предложеиня: {{ offer.title }}</h2>
+    <h2>Редактировать: {{ offer.title }}</h2>
     <form method="POST">
         {% csrf_token %}
         {% bootstrap_form form layout="vertical"%}
+        <label for="id_location-0-name">Выбор населенного пункта</label>
+        {% bootstrap_formset location layout='horizontal' show_label=False%}
+        <h3>Дополнительные фотографии</h3>
+        {% bootstrap_formset formset layout='horizontal' show_label=False%}
+        {% buttons submit="Добавить" %} {% endbuttons %}
         {% buttons submit='Сохранить' %}{% endbuttons %}
     </form>
 </div>

@@ -20,7 +20,7 @@ from extra_views import UpdateWithInlinesView, InlineFormSetFactory
 
 from .models import Location, ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview, ChatMessage
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
-from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm, LocationForm
+from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm, LocationForm, LocationFormSet
 from .utilities import signer
 # Create your views here.
 
@@ -146,13 +146,15 @@ def add_new_offer(request):
         if form.is_valid():
             offer = form.save()
             formset = AIFormSet(request.POST, request.FILES, instance=offer)
-            if formset.is_valid():
+            location_formset = LocationFormSet(request.POST, request.FILES, instance=offer) 
+            if formset.is_valid() and location_formset.is_valid():
                 messages.add_message(request, messages.SUCCESS, 'Предложение добавлено')
                 return redirect('main:profile')
     else:
         form = OfferForm(initial={'author': request.user.pk})
         formset = AIFormSet
-        context = {'form': form, 'formset': formset}
+        location_formset = LocationFormSet
+        context = {'form': form, 'formset': formset, 'location': location_formset}
         return render(request, 'main/add_new_offer.html', context)
 
 
@@ -167,6 +169,7 @@ def offer_change(request, pk):
         if form.is_valid():
             offer = form.save()
             formset = AIFormSet(request.POST, request.FILES, instance=offer)
+            location_formset = LocationFormSet(request.POST, request.FILES, instance=offer)
             if formset.is_valid():
                 formset.save()
                 messages.add_message(request, messages.SUCCESS, "Предложение исправлено")
@@ -174,7 +177,8 @@ def offer_change(request, pk):
     else:
         form = OfferForm(instance=offer)
         formset = AIFormSet(instance=offer)
-        context = {'form': form, 'formset': formset}
+        location_formset = LocationFormSet(instance=offer)
+        context = {'offer': offer, 'form': form, 'formset': formset, "location": location_formset}
         return render(request, "main/change_offer.html", context)
 
 
@@ -289,7 +293,7 @@ class ShaLogout(SuccessMessageMixin, LoginRequiredMixin, LogoutView):
              messages.add_message(request, messages.SUCCESS, "Вы успешно вышли. До новых встреч!")
         return super().dispatch(request, *args, **kwargs)
 
-class LocationProfileInline(InlineFormSetFactory):
+class LocationInline(InlineFormSetFactory):
     model = Location
     form_class = LocationForm
     fields = ('search_id', 'name')
@@ -298,7 +302,7 @@ class LocationProfileInline(InlineFormSetFactory):
 class ChangeProfileView(SuccessMessageMixin, LoginRequiredMixin, UpdateWithInlinesView):
     model = ShaUser
     template_name = 'main/change_profile.html'
-    inlines = [LocationProfileInline, ]    
+    inlines = [LocationInline, ]    
     form_class = ChangeProfileForm
     success_url = reverse_lazy('main:profile')
     success_message = "Профиль изменен"

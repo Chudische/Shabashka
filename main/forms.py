@@ -158,7 +158,7 @@ class OfferForm(forms.ModelForm):
 
     class Meta:
         model = Offer        
-        exclude = ['reviews', 'shared', 'status', "is_active"]
+        exclude = ['reviews', 'shared', 'status', "is_active", 'winner']
         widgets = {'author': forms.HiddenInput}
 
 AIFormSet = forms.inlineformset_factory(Offer, AdditionalImage, fields='__all__')
@@ -263,3 +263,5 @@ class LocationForm(forms.ModelForm):
             'search_id': forms.HiddenInput,
             'name': forms.TextInput(attrs={'list': 'locations', 'class': 'form-control'}),
         }
+
+LocationFormSet = forms.inlineformset_factory(Offer, Location, form=LocationForm, fields=('search_id', 'name'))
