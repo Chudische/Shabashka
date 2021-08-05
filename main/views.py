@@ -153,7 +153,9 @@ def add_new_offer(request):
     else:
         form = OfferForm(initial={'author': request.user.pk})
         formset = AIFormSet
-        location_formset = LocationFormSet
+        location_formset = LocationFormSet(
+                initial=[{'name': request.user.location, 'search_id': request.user.location.search_id}]
+                )
         context = {'form': form, 'formset': formset, 'location': location_formset}
         return render(request, 'main/add_new_offer.html', context)
 
@@ -169,15 +171,19 @@ def offer_change(request, pk):
         if form.is_valid():
             offer = form.save()
             formset = AIFormSet(request.POST, request.FILES, instance=offer)
-            location_formset = LocationFormSet(request.POST, request.FILES, instance=offer)
-            if formset.is_valid():
+            location_formset = LocationFormSet(request.POST, request.FILES, instance=offer)           
+            if formset.is_valid() and location_formset.is_valid():
                 formset.save()
+                location_formset.save()
                 messages.add_message(request, messages.SUCCESS, "Предложение исправлено")
                 return redirect("main:profile")
     else:
         form = OfferForm(instance=offer)
         formset = AIFormSet(instance=offer)
-        location_formset = LocationFormSet(instance=offer)
+        location_formset = LocationFormSet(
+                instance=offer, 
+                initial=[{'name': request.user.location, 'search_id': request.user.location.search_id}]
+                )
         context = {'offer': offer, 'form': form, 'formset': formset, "location": location_formset}
         return render(request, "main/change_offer.html", context)
 
@@ -297,6 +303,7 @@ class LocationInline(InlineFormSetFactory):
     model = Location
     form_class = LocationForm
     fields = ('search_id', 'name')
+    factory_kwargs = {'can_delete': False}
 
 
 class ChangeProfileView(SuccessMessageMixin, LoginRequiredMixin, UpdateWithInlinesView):

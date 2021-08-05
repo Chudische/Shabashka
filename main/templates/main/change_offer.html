@@ -12,10 +12,14 @@
         {% bootstrap_form form layout="vertical"%}
         <label for="id_location-0-name">Выбор населенного пункта</label>
         {% bootstrap_formset location layout='horizontal' show_label=False%}
+        <datalist id="locations">
+        </datalist>   
+   
         <h3>Дополнительные фотографии</h3>
         {% bootstrap_formset formset layout='horizontal' show_label=False%}
         {% buttons submit="Добавить" %} {% endbuttons %}
         {% buttons submit='Сохранить' %}{% endbuttons %}
     </form>
 </div>
+<script type="text/javascript" src="{% static 'main/js/location.js' %}"></script>
 {% endblock %}

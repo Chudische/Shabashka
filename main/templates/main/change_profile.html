@@ -14,15 +14,16 @@
     <label for="id_location-0-name">Выбор населенного пункта</label>
     <!-- <input type="text" list="locations" class="form-control" name="search" id="locationId" placeholder="Введите название населенного пункта"> -->
     {% for formset in inlines %}
-    {{ formset }}
+    {{ formset }}    
     {% endfor %}
-    {% buttons submit='Сохранить' %}{% endbuttons %}
-    
-    <datalist id="locations">
+     <datalist id="locations">
 
         </datalist>
     
     </div>
+    {% buttons submit='Сохранить' %}{% endbuttons %}
+    
+   
     
 </form>
 </div>

@@ -24,6 +24,12 @@ $('#id_location-0-name').change(function(){
     var option = $('option[value="'+$(this).val()+'"]');    
     if (option.length) {
         $('#id_location-0-search_id').val(option.attr("id")); 
+    } else {
+        $('#id_location-0-search_id').val(""); 
     }
 })
 
+$('#id_location-0-name').focus( function() {
+    $('#id_location-0-search_id').val("");
+    $('#id_location-0-name').val("")
+})

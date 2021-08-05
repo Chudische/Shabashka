@@ -261,7 +261,7 @@ class LocationForm(forms.ModelForm):
         fields = ('search_id', 'name')
         widgets = {
             'search_id': forms.HiddenInput,
-            'name': forms.TextInput(attrs={'list': 'locations', 'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'list': 'locations', 'class': 'form-control', 'autocomplete': 'off'}),
         }
 
-LocationFormSet = forms.inlineformset_factory(Offer, Location, form=LocationForm, fields=('search_id', 'name'))
+LocationFormSet = forms.inlineformset_factory(Offer, Location, form=LocationForm, fields=('search_id', 'name'), can_delete=False)

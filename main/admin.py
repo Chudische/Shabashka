@@ -70,11 +70,14 @@ class SubCategoryAdmin(admin.ModelAdmin):
 class AdditionalImageInline(admin.TabularInline):
     model = AdditionalImage
 
+class LocationInline(admin.TabularInline):
+    model = Location
+
 
 class OfferAdmin(admin.ModelAdmin):
     list_display = ('category', 'title', 'content', 'winner','author', 'created', 'status')
     fields = (('category', 'author', 'status', 'winner'), 'title', 'content', 'price', 'image', 'is_active')
-    inlines = (AdditionalImageInline,)
+    inlines = (AdditionalImageInline, LocationInline,)
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('offer', 'author', 'content', 'price', 'created', 'is_active')
