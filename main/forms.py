@@ -42,7 +42,7 @@ class LoginUserForm(AuthenticationForm):
                     placeholder=_("Пароль"))               
             ),
             Div(
-                StrictButton('Войти', type='submit', css_class='btn-block btn-lg'),
+                StrictButton('Войти', type='submit', css_class='btn-block btn-lg', id='id_submit'),
                 css_class='form-group'
             )               
         )
@@ -85,7 +85,7 @@ class RegisterUserForm(forms.ModelForm):
                 
             ),
             Div(
-                StrictButton('Зарегистрироваться', type='submit', css_class='btn-block btn-lg'),
+                StrictButton('Зарегистрироваться', type='submit', css_class='btn-block btn-lg', id='id_submit'),
                 css_class='form-group'
             )    
         )

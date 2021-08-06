@@ -41,11 +41,17 @@ class NonativatedFilter(admin.SimpleListFilter):
             date = datetime.date.today() - datetime.timedelta(weeks=1)
             return queryset.filter(is_active=False, is_activated=False, date_joined__date__lt=date)
 
+
+class LocationInline(admin.TabularInline):
+    model = Location
+    
+
 class ShaUserAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'is_activated', 'date_joined')
     search_fields = ('username', 'email', 'first_name', 'last_name')
     list_filter = (NonativatedFilter, )
-    fields = (('username', 'email', 'location'), ('first_name', 'last_name'), 'average_rating',
+    inlines = (LocationInline, )
+    fields = (('username', 'email'), ('first_name', 'last_name'), 'average_rating',
               ('send_message', 'is_active', 'is_activated'),
               ('is_staff', 'is_superuser'),
               'groups', 'user_permissions',
@@ -70,8 +76,7 @@ class SubCategoryAdmin(admin.ModelAdmin):
 class AdditionalImageInline(admin.TabularInline):
     model = AdditionalImage
 
-class LocationInline(admin.TabularInline):
-    model = Location
+
 
 
 class OfferAdmin(admin.ModelAdmin):
