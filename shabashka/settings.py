@@ -56,6 +56,12 @@ EMAIL_HOST_USER = os.getenv("GMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("GMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 SITE_ID = 1
+INTERNAL_IPS = [
+    '192.168.42.51',
+    '192.168.42.50',
+    '127.0.0.1',
+]
+
 
 INSTALLED_APPS = [
     'easy_thumbnails',
@@ -77,6 +83,7 @@ INSTALLED_APPS = [
     'mapwidgets',
     'import_export',
     'extra_views',
+    'debug_toolbar',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -90,6 +97,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
