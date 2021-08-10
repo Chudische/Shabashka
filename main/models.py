@@ -55,12 +55,12 @@ class SubCategory(Category):
 class ShaUser(AbstractUser):
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name="Активирован")
     send_message = models.BooleanField(default=True, db_index=True, verbose_name="Отправлять оповещения?")
-    
+
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True, verbose_name="Средний рейтинг")
     favorite = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="followers", verbose_name="Избранное")
     def delete(self, *args, **kwargs):
         for offer in self.offer_set.all():
-            offer.delete()        
+            offer.delete()
         super().delete(*args, **kwargs)
 
     class Meta(AbstractUser.Meta):
@@ -85,7 +85,7 @@ class ShaUserAvatar(models.Model):
         verbose_name = "Аватар"
         verbose_name_plural = "Аватары"
 
- 
+
 class UserReview(models.Model):
     RATING = (
         (1, 1),
@@ -104,11 +104,11 @@ class UserReview(models.Model):
     created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликован")
 
     def __str__(self):
-        return f'Отзыв {self.author} на {self.reviewal} в предложении {self.offer}' 
-    
+        return f'Отзыв {self.author} на {self.reviewal} в предложении {self.offer}'
+
     class Meta:
         verbose_name = 'Отзыв'
-        verbose_name_plural = 'Отзывы' 
+        verbose_name_plural = 'Отзывы'
 
 def review_save_dispatcher(sender, **kwargs):
     reviewal = kwargs["instance"].reviewal
@@ -132,7 +132,7 @@ class Offer(models.Model):
     content = models.TextField(verbose_name="Описание")
     price = models.FloatField(default=0, verbose_name="Цена")
     image = models.ImageField(blank=True, upload_to=get_timestamp_path, verbose_name="Фото")
-    author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, verbose_name="Автор")    
+    author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, verbose_name="Автор")
     is_active = models.BooleanField(default=True, db_index=True, verbose_name="Активное")
     created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Опубликовано" )
     reviews = models.IntegerField(default=0, verbose_name="Просмотров")
@@ -147,6 +147,9 @@ class Offer(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return "/%i/%i/" % (self.category.id,self.id)
 
     class Meta:
         verbose_name = "Предложение"
@@ -169,7 +172,7 @@ class Comment(models.Model):
                 ('d', 'День'),
                 ('w', 'Неделя'),
                 ('m', 'Месяц')
-               ] 
+               ]
 
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, verbose_name="Предложение")
     author = models.ForeignKey(ShaUser, on_delete=models.CASCADE, verbose_name="Автор")
@@ -186,7 +189,7 @@ class Comment(models.Model):
         verbose_name = "Коментарий"
         verbose_name_plural = "Коментарии"
 
-def comment_save_dispatcher(sender, **kwargs):    
+def comment_save_dispatcher(sender, **kwargs):
     author = kwargs['instance'].offer.author
     if kwargs['created'] and author.send_message:
         send_comment_notification(kwargs['instance'])
@@ -208,9 +211,9 @@ class ChatMessage(models.Model):
 
 def chat_save_dispatcher(sender, **kwargs):
     receiver = kwargs['instance'].receiver
-    if kwargs['created'] and receiver.send_message:        
+    if kwargs['created'] and receiver.send_message:
         send_chat_message_notification(kwargs['instance'])
-    
+
 
 post_save.connect(chat_save_dispatcher, sender=ChatMessage)
 
@@ -223,4 +226,3 @@ class Location(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name}"
-        

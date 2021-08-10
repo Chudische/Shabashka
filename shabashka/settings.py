@@ -21,13 +21,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Get variabels from enviroment
 dotenv_path = os.path.join(BASE_DIR, '.env')
-if os.path.exists(dotenv_path):    
+if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
 hosts = '/srv/host.env'
 if os.path.exists(hosts):
-        load_dotenv(hosts)    
-        
+        load_dotenv(hosts)
+
 HOSTING_NAME = os.getenv('HOSTING_NAME')
 HOSTING_NAME_S = os.getenv('HOSTING_NAME_S')
 
@@ -55,19 +55,27 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv("GMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("GMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
+SITE_ID = 1
+INTERNAL_IPS = [
+    '192.168.42.51',
+    '192.168.42.50',
+    '127.0.0.1',
+]
+
 
 INSTALLED_APPS = [
     'easy_thumbnails',
-    'django_cleanup',   
+    'django_cleanup',
     'bootstrap4',
-    'crispy_forms',   
-    'main.apps.MainConfig',    
+    'crispy_forms',
+    'main.apps.MainConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'rest_framework',
     'corsheaders',
     'api.apps.ApiConfig',
@@ -75,6 +83,7 @@ INSTALLED_APPS = [
     'mapwidgets',
     'import_export',
     'extra_views',
+    'debug_toolbar',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -88,6 +97,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -112,21 +122,21 @@ SOCIAL_AUTH_URL_NAMESPACE = "main:social"
 # Facebook settings
 SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("FB_KEY")
 SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("FB_SECRET")
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email'] 
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {       
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'fields': 'id, name, email, picture.type(large)'
 }
-SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
     ('name', 'name'),
     ('email', 'email'),
-    ('picture', 'avatar'),    
+    ('picture', 'avatar'),
 ]
 
 # GOOGLE Auth settings
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("GG_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("GG_SECRET")
 
-SOCIAL_AUTH_PIPELINE = (                                 
+SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',
@@ -141,7 +151,7 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 
-# Gmap settings 
+# Gmap settings
 GOOGLE_MAP_API_KEY = os.getenv("GG_MAP_KEY")
 MAP_WIDGETS = {
     "GooglePointFieldWidget": (
