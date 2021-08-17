@@ -40,7 +40,7 @@ def index(request):
     else:
         keyword = ''
     form = SearchForm(initial={'keyword': keyword})
-    context = {"offers": offers, "page": page, 'searchForm': form}
+    context = {"offers": offers, "page": page, 'searchForm': form}     
     return render(request, "main/index.html", context)
 
 
@@ -153,9 +153,12 @@ def add_new_offer(request):
     else:
         form = OfferForm(initial={'author': request.user.pk})
         formset = AIFormSet
-        location_formset = LocationFormSet(
-                initial=[{'name': request.user.location, 'search_id': request.user.location.search_id}]
+        try:
+            location_formset = LocationFormSet(
+                initial=[{'name': request.user.location, 'search_id': request.user.location.search_id }]
                 )
+        except ShaUser.location.RelatedObjectDoesNotExist:
+            location_formset = LocationFormSet()        
         context = {'form': form, 'formset': formset, 'location': location_formset}
         return render(request, 'main/add_new_offer.html', context)
 

@@ -4,9 +4,12 @@
 {% load bootstrap4 %}
 {% load custom_tags %}
 
+
+
 {% block  title %} Главная {% endblock %}
 
 {% block body %}
+
 <header>
 	<div class="logo">
 	  <a href="{% url 'main:index' %}"><img src="{% static 'main/images/logo.png' %}"></a>
@@ -62,4 +65,5 @@
 			{% bootstrap_pagination page url=keyword %}    
 		</div>   
 	</div>
+	
 {% endblock %}	

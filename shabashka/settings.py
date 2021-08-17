@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     'import_export',
     'extra_views',
     'debug_toolbar',
+    'cookie_consent',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -183,7 +184,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'main.middlewares.shabashka_context_processor',
-                'main.middlewares.global_settings',
+                'main.middlewares.global_settings',                
             ],
         },
     },
@@ -275,3 +276,7 @@ THUMBNAIL_ALIASES = {
 }
 
 THUMBNAIL_BASEDIR = 'thumbnails'
+
+COOKIE_CONSENT_NAME = "cookie_consent"
+COOKIE_CONSENT_MAX_AGE = 60 * 60 * 24 * 365 * 1  # 1 year
+COOKIE_CONSENT_LOG_ENABLED = True

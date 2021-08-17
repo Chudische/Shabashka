@@ -16,6 +16,6 @@ GDAL
 django-map-widgets
 django-extra-views
 selenium
-django-extra-views
 django-debug-toolbar
+django-cookie-consent
 

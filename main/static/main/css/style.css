@@ -372,3 +372,14 @@ body .modal{
 	border-radius: 5px;
 	padding: 0px 20px;
 }
+
+
+.cookie-bar {
+	position: fixed;
+	width: 100%;
+	bottom: 5px;
+	text-align: center;
+	height: auto;
+	line-height: 25px;
+	background: white;
+}

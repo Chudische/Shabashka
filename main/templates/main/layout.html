@@ -1,6 +1,7 @@
 {% load bootstrap4 %}
 {% load static %}
 {% load thumbnail %}
+{% load cookie_consent_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -138,5 +139,57 @@
     <script type="text/javascript" src="{% static 'main/js/jquery.pinto.js' %}"></script>
     <script type="text/javascript" src="{% static 'main/js/main.js' %}"></script>
 	  <script src="{% static 'main/js/lightbox.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'cookie_consent/cookiebar.js' %}"></script>
+  
+	  <script type="{% js_type_for_cookie_consent request 'social' '*:.google.com' %}" data-varname="social">
+		(function() {
+		  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		  po.src = 'https://apis.google.com/js/plusone.js';
+		  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		})();
+	  </script>
+  
+	  
+	  {% if request|cookie_consent_enabled %}
+		{% not_accepted_or_declined_cookie_groups request as cookie_groups %}
+	  	
+		{% if cookie_groups %}
+		  {% url "cookie_consent_cookie_group_list" as url_cookies %}
+		  {% cookie_consent_accept_url cookie_groups as url_accept %}
+		  {% cookie_consent_decline_url cookie_groups as url_decline %}
+		  <script type="text/javascript">
+			var cookie_groups = [];
+			{% for cookie_group in cookie_groups %}
+			  cookie_groups.push("{{ cookie_group.varname }}");
+			{% endfor %}
+  
+			function ready(fn) {
+				if (document.readyState != 'loading') {
+				  fn();
+				} else if (document.addEventListener) {
+				  document.addEventListener('DOMContentLoaded', fn);
+				} else {
+				  document.attachEvent('onreadystatechange', function() {
+					if (document.readyState != 'loading')
+					  fn();
+				  });
+				}
+			}
+  
+			ready(function() {
+				showCookieBar({
+				content: "{% filter escapejs %}{% with cookie_groups=cookie_groups|join:", " %}<div class="cookie-bar">Этот сайт использут <a href="{{ url_cookies }}">Cookies</a> потому, что без них сейчас никак. <a href="{{ url_accept }}" class="cc-cookie-accept btn btn-small btn-primary">Понятно</a><a href="{{ url_decline }}" class="cc-cookie-decline">.</a> </div>{% endwith %}{% endfilter %}",
+				cookie_groups: cookie_groups,
+				cookie_decline: "{% get_decline_cookie_groups_cookie_string request cookie_groups %}",
+				beforeDeclined: function() {
+				  document.cookie = "{% get_decline_cookie_groups_cookie_string request cookie_groups %}";
+				}
+			  });
+			});
+		  </script>
+
+{% endif %}
+{% endif %}
 </body>
 </html>
