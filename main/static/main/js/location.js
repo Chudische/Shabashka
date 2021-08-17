@@ -1,7 +1,7 @@
 $('#id_location-0-name').on('keyup', function(){
     var name = this.value
     if (name.length > 2) {
-        fetch(`http://localhost:8800/api/find_full_names/?find=${name}`, {
+        fetch(`http://la.ruta.pp.ua/api/find_full_names/?find=${name}`, {
             method: 'GET'
         })
         .then(response => response.json())
