@@ -221,7 +221,7 @@ post_save.connect(chat_save_dispatcher, sender=ChatMessage)
 class Location(models.Model):
     user = models.OneToOneField(ShaUser, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Пользователь", related_name="location")
     offer = models.OneToOneField(Offer, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Предложение', related_name="location")
-    search_id = models.IntegerField(verbose_name="ID для поиска")
+    search_id = models.CharField(max_length=256, verbose_name="ID для поиска")
     name = models.CharField(max_length=256, verbose_name="Назване")
 
     def __str__(self) -> str:
