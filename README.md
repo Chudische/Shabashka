@@ -1,5 +1,4 @@
-# Shabashka 
-Try it on [Shabashka.pp.ua](http://shabashka.pp.ua)
+# Shabashka
 
 ## Idea
 
@@ -196,7 +195,7 @@ Get or post offer comments:
 
 
 ##  TODO list
-
+- Migrate to Django 4
 - Authentication via social media
 - Location via google maps
 - Search by locations
