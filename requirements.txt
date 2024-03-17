@@ -1,4 +1,5 @@
 django
+django-import-export
 django-bootstrap4
 pillow
 easy-thumbnails
@@ -6,16 +7,17 @@ django-cleanup
 djangorestframework
 django-cors-headers
 django-crispy-forms
+crispy-bootstrap4
 python-dotenv
 social-auth-app-django
 # https://docs.djangoproject.com/en/3.0/ref/contrib/gis/install/geolibs/
 # sudo apt-get install binutils libproj-dev gdal-bin
 # sudo apt-get install libgdal-dev
 # pip install gdal==2.2.3 --global-option=build_ext --global-option="-I/usr/include/gdal/"
-GDAL
+# GDAL
 django-map-widgets
 django-extra-views
 selenium
 django-debug-toolbar
 django-cookie-consent
-
+psycopg2-binary

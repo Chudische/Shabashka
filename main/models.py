@@ -66,7 +66,7 @@ class ShaUser(AbstractUser):
     class Meta(AbstractUser.Meta):
         pass
 
-user_registrated = Signal(providing_args=['instance'])
+user_registrated = Signal('instance')
 
 def user_registrated_dispather(sender, **kwargs):
     send_activation_notification(kwargs['instance'])

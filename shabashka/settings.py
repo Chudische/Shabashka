@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'django_cleanup',
     'bootstrap4',
     'crispy_forms',
+    'crispy_bootstrap4',
     'main.apps.MainConfig',
     'django.contrib.admin',
     'django.contrib.auth',
