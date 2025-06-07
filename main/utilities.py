@@ -3,11 +3,10 @@ from os.path import splitext
 from django.template.loader import render_to_string
 from django.core.signing import Signer
 
-
-
 from shabashka.settings import ALLOWED_HOSTS, BASE_DIR
 
 signer = Signer()
+
 
 def send_activation_notification(user):
     """ Send message to user with activation notification """
@@ -17,11 +16,10 @@ def send_activation_notification(user):
         host = 'http://localhost:8000'
 
     context = {'user': user, 'host': host,
-                'sign': signer.sign(user.username)}
+               'sign': signer.sign(user.username)}
     subject = render_to_string('email/activation_letter_subject.txt', context)
     body_text = render_to_string("email/activation_letter_body.txt", context)
     user.email_user(subject, body_text)
-    
 
 
 def send_comment_notification(comment):
@@ -36,7 +34,6 @@ def send_comment_notification(comment):
     author.email_user(subject, body_text)
    
 
-
 def send_chat_message_notification(message):
     if ALLOWED_HOSTS:
         host = 'http://' + ALLOWED_HOSTS[0]
@@ -47,7 +44,6 @@ def send_chat_message_notification(message):
     subject = render_to_string('email/new_chat_message_subject.txt', context)
     body_text = render_to_string('email/new_chat_message_body.txt', context)
     receiver.email_user(subject, body_text)
-    
 
 
 def send_review_notification(message):
@@ -61,7 +57,6 @@ def send_review_notification(message):
     body_text = render_to_string('email/new_review_body.txt', context)
     receiver.email_user(subject, body_text)
     
-
 
 def get_timestamp_path(instanse, filename):
     """

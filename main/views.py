@@ -19,10 +19,9 @@ from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from extra_views import UpdateWithInlinesView, InlineFormSetFactory
 
 from .models import Location, ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview, ChatMessage
-from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommetForm
+from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommentForm
 from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm, LocationForm, LocationFormSet
 from .utilities import signer
-# Create your views here.
 
 
 def index(request):
@@ -84,17 +83,16 @@ def detail(request, category_pk, pk):
     offer.save()
     additional_images = offer.additionalimage_set.all()
     comments = Comment.objects.filter(offer=pk, is_active=True)
-    form = CommetForm(initial={'offer': offer, "author": request.user})
+    form = CommentForm(initial={'offer': offer, "author": request.user})
     if request.method == "POST":
-        comment_form = CommetForm(request.POST)
+        comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment_form.save()
-            messages.add_message(request, messages.SUCCESS, "Коментарий добавлен")
+            messages.add_message(request, messages.SUCCESS, "Comment has been added")
         else:
             form = comment_form
-            messages.add_message(request, messages.WARNING, "Коментарий не добавлен")
+            messages.add_message(request, messages.WARNING, "Comment has not been added")
 
-            
     context = {'offer': offer, 
                'additional_images': additional_images,
                'comments': comments, 
@@ -104,7 +102,7 @@ def detail(request, category_pk, pk):
 
 def other_page(request, page):
     try:
-        template = get_template('main/'+ page + '.html')
+        template = get_template('main/' + page + '.html')
     except TemplateDoesNotExist:
         raise Http404
     return HttpResponse(template.render(request=request))
@@ -117,9 +115,9 @@ def profile(request):
         avatar_form = AvatarForm(request.POST, request.FILES, instance=instance)
         if avatar_form.is_valid():
             avatar_form.save()
-            messages.add_message(request, messages.SUCCESS, 'Установлен новый аватар')
+            messages.add_message(request, messages.SUCCESS, 'Profile photo has been updated')
         else:
-            messages.add_message(request, messages.ERROR, 'Ошибка! Файл не поддерживается')
+            messages.add_message(request, messages.ERROR, 'Error! File not supported.')
     else:
         avatar_form = AvatarForm(initial={"user": request.user})    
     offers = Offer.objects.filter(author=request.user.pk)    
@@ -148,7 +146,7 @@ def add_new_offer(request):
             formset = AIFormSet(request.POST, request.FILES, instance=offer)
             location_formset = LocationFormSet(request.POST, request.FILES, instance=offer) 
             if formset.is_valid() and location_formset.is_valid():
-                messages.add_message(request, messages.SUCCESS, 'Предложение добавлено')
+                messages.add_message(request, messages.SUCCESS, 'Offer has been posted')
                 return redirect('main:profile')
     else:
         form = OfferForm(initial={'author': request.user.pk})
@@ -167,7 +165,7 @@ def add_new_offer(request):
 def offer_change(request, pk):
     offer = get_object_or_404(Offer, pk=pk)
     if request.user != offer.author:
-        messages.add_message(request, messages.ERROR, "Вы можете управлять только своими предложениями")
+        messages.add_message(request, messages.ERROR, "You can edit only your own offers!")
         return redirect("main:profile")
     if request.method == "POST":
         form = OfferForm(request.POST, request.FILES, instance=offer)
@@ -178,7 +176,7 @@ def offer_change(request, pk):
             if formset.is_valid() and location_formset.is_valid():
                 formset.save()
                 location_formset.save()
-                messages.add_message(request, messages.SUCCESS, "Предложение исправлено")
+                messages.add_message(request, messages.SUCCESS, "Offer successfully updated")
                 return redirect("main:profile")
     else:
         form = OfferForm(instance=offer)
@@ -195,11 +193,11 @@ def offer_change(request, pk):
 def offer_delete(request, pk):
     offer = get_object_or_404(Offer, pk=pk)
     if request.user != offer.author:
-        messages.add_message(request, messages.ERROR, "Вы можете управлять только своими предложениями")
+        messages.add_message(request, messages.ERROR, "You can delete only your own offers!")
         return redirect("main:profile")
     if request.method == "POST":
         offer.delete()
-        messages.add_message(request, messages.SUCCESS, "Предложение удалено")
+        messages.add_message(request, messages.SUCCESS, "Offer successfully deleted")
         return redirect("main:profile")
     else:
         context = {'offer': offer}
@@ -228,7 +226,7 @@ def chat(request, offer_pk):
         message_form = ChatMessageForm(request.POST)
         if message_form.is_valid():
             message_form.save()
-            messages.add_message(request, messages.SUCCESS, "Сообщение отправлено")
+            messages.add_message(request, messages.SUCCESS, "Message sent")
     receiver = offer.winner if request.user == offer.author else offer.author
     form = ChatMessageForm(initial={
         'author': request.user, 
@@ -274,7 +272,7 @@ def user_activate(request, sign):
 class UserReviewView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'main/user_review.html'
     form_class = UserReviewForm
-    success_message = 'Поздравляем! Сделка успешно завершена'
+    success_message = 'Congratulations! The offer was successfully completed.'
     success_url = reverse_lazy('main:profile')
 
     def get_initial(self, *args, **kwargs):
@@ -299,8 +297,9 @@ class ShaLogout(SuccessMessageMixin, LoginRequiredMixin, LogoutView):
    
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-             messages.add_message(request, messages.SUCCESS, "Вы успешно вышли. До новых встреч!")
+             messages.add_message(request, messages.SUCCESS, "Logged out. See you later")
         return super().dispatch(request, *args, **kwargs)
+
 
 class LocationInline(InlineFormSetFactory):
     model = Location
@@ -315,7 +314,7 @@ class ChangeProfileView(SuccessMessageMixin, LoginRequiredMixin, UpdateWithInlin
     inlines = [LocationInline, ]    
     form_class = ChangeProfileForm
     success_url = reverse_lazy('main:profile')
-    success_message = "Профиль изменен"
+    success_message = "Profile updated"
 
     def dispatch(self, request, *args, **kwargs):        
         self.user_id = request.user.pk
@@ -326,10 +325,12 @@ class ChangeProfileView(SuccessMessageMixin, LoginRequiredMixin, UpdateWithInlin
             queryset = self.get_queryset()        
         return get_object_or_404(queryset, pk=self.user_id)
 
+
 class ShaPassChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeView):
     template_name = 'main/password_change.html'
     success_url = reverse_lazy('main:profile')
-    success_message = "Пароль был изменен"
+    success_message = "Password successfully updated"
+
 
 class ShaPassResetView(PasswordResetView):
     template_name = 'main/password_reset.html'
@@ -337,8 +338,10 @@ class ShaPassResetView(PasswordResetView):
     email_subject_name = 'main/password_reset_email_subject.html'
     success_url = reverse_lazy('main:password_reset_done')
 
+
 class ShaPassResetDoneView(PasswordResetDoneView):
     template_name = 'main/password_reset_sent.html'
+
 
 class ShaPassResetConfirmView(PasswordResetConfirmView):
     template_name = 'main/password_regenerate.html'
@@ -348,12 +351,14 @@ class ShaPassResetConfirmView(PasswordResetConfirmView):
 class ShaPassResetCompleteView(PasswordResetCompleteView):
     template_name = 'main/password_reset_done.html'
 
+
 class RegisterUserView(CreateView):
     model = ShaUser
     template_name = 'main/register_user.html'
     form_class = RegisterUserForm
     success_url = reverse_lazy('main:register_done')
-    
+
+
 class RegisterDone(TemplateView):
     template_name = 'main/register_done.html'
 
@@ -369,7 +374,7 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
     
     def post(self, request, *args, **kwargs):
         logout(request)
-        messages.add_message(request, messages.SUCCESS, 'Пользователь удален')
+        messages.add_message(request, messages.SUCCESS, 'User was successfully deleted')
         return super().post(request, *args, **kwargs)
 
     def get_object(self, queryset=None):

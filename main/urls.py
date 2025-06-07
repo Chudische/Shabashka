@@ -39,7 +39,7 @@ urlpatterns = [
     path('chat/<int:offer_pk>', views.chat, name="chat"),
     path('favorite/', views.favorite, name='favorite'),
     path('<str:page>/', views.other_page, name="other"),
-    path('sitemap.xml', sitemap, {'sitemaps': {'offer' : OfferSitemap}}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', sitemap, {'sitemaps': {'offer': OfferSitemap}}, name='django.contrib.sitemaps.views.sitemap'),
 ]
 
 if settings.DEBUG:
