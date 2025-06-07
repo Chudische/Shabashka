@@ -1,6 +1,7 @@
 from .models import SubCategory
 from django.conf import settings
 
+
 def shabashka_context_processor(request):
     context = {}
     context['categories'] = SubCategory.objects.all()
@@ -20,7 +21,6 @@ def shabashka_context_processor(request):
                     context['all'] = '?page=' + page
         
     return context
-
 
 
 def global_settings(request):
