@@ -10,27 +10,26 @@ from .utilities import send_activation_notification
 from .forms import SubCategoryForm
 
 
-
-
 def send_activation_notifications(modeladmin, request, queryset):
     """ Sending a messages with activation notification"""
     for rec in queryset:
         if not rec.is_activated:
             send_activation_notification(rec)
-    modeladmin.message_user(request, "Письма с оповещением отправлены")
-    send_activation_notifications.short_description = 'Отправка писем с оповещением об активации'
+    modeladmin.message_user(request, "Activation notification letter is sent")
+    send_activation_notifications.short_description = 'Sending activation notification letter'
 
 
 class NonativatedFilter(admin.SimpleListFilter):
-    title = 'Прошли активацию?'
+    title = 'Activated?'
     parameter_name = 'actstate'
 
     def lookups(self, request, model_admin):
         return (
-                    ("activated", "Прошли активацию"),
-                    ("threedays", "Не прошли более 3 дней"),
-                    ("week", "Не прошли более недели")
+                    ("activated", "Activated"),
+                    ("threedays", "Not activated more than 3 days "),
+                    ("week", "Not activated more than a week")
                 )
+
     def queryset(self, request, queryset):        
         if self.value() == 'activated':
             return queryset.filter(is_active=True, is_activated=True)
@@ -64,6 +63,7 @@ class ShaUserAdmin(admin.ModelAdmin):
 class SubCategoryInline(admin.TabularInline):
     model = SubCategory
 
+
 class SuperCategoryAdmin(admin.ModelAdmin):
     exclude = ('super_category',)
     inlines = (SubCategoryInline,)
@@ -77,22 +77,23 @@ class AdditionalImageInline(admin.TabularInline):
     model = AdditionalImage
 
 
-
-
 class OfferAdmin(admin.ModelAdmin):
     list_display = ('category', 'title', 'content', 'winner','author', 'created', 'status')
     fields = (('category', 'author', 'status', 'winner'), 'title', 'content', 'price', 'image', 'is_active')
     inlines = (AdditionalImageInline, LocationInline,)
 
+
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('offer', 'author', 'content', 'price', 'created', 'is_active')
     fields = (('offer', 'author', 'created'), 'content', ('price', 'time_amount', 'measure'), 'is_active')
     readonly_fields = ('created',)
-    
+
+
 class UserReviewAdmin(admin.ModelAdmin):
     list_display = ('offer', 'author', 'reviewal', 'speed', 'cost', 'accuracy', 'content', 'created')
     fields = (('offer', 'author', 'reviewal', 'created'), ('speed', 'cost', 'accuracy'), 'content')
     readonly_fields = ('created',)
+
 
 class ChatMessageAdmin(admin.ModelAdmin):
     list_display = ('offer', 'author', 'receiver', 'content', 'created')
