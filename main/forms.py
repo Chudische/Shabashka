@@ -12,9 +12,8 @@ from .models import Location, ShaUser, user_registrated, SuperCategory, SubCateg
 from .models import Comment, ShaUserAvatar, UserReview, ChatMessage
 
 
-
 class ChangeProfileForm(forms.ModelForm):
-    email = forms.EmailField(required=True, label="Адрес электронной почты")
+    email = forms.EmailField(required=True, label="Email")
 
     class Meta:
         model = ShaUser
@@ -25,7 +24,6 @@ class LoginUserForm(AuthenticationForm):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
-
     def __init__(self, *args, **kwargs):
         super(LoginUserForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -34,20 +32,19 @@ class LoginUserForm(AuthenticationForm):
             Field(
                 PrependedText("username",
                     mark_safe('<i class="fa fa-user"></i>'),
-                    placeholder=_("Имя пользователя"), autofocus="")               
+                    placeholder=_("Username"), autofocus="")
             ),
             Field(
                 PrependedText("password",
                     mark_safe('<i class="fa fa-lock"></i>'),
-                    placeholder=_("Пароль"))               
+                    placeholder=_("Password"))
             ),
             Div(
-                StrictButton('Войти', type='submit', css_class='btn-block btn-lg', id='id_submit'),
+                StrictButton('Sign in', type='submit', css_class='btn-block btn-lg', id='id_submit'),
                 css_class='form-group'
             )               
         )
     
-
 
 class RegisterUserForm(forms.ModelForm):
     username = forms.CharField(required=True)    
@@ -62,30 +59,29 @@ class RegisterUserForm(forms.ModelForm):
         self.helper.layout = Layout(
             Field(
                 PrependedText("username",
-                    mark_safe('<i class="fa fa-user"></i>'),
-                    placeholder=_("Имя пользователя"), autofocus="")
-               
+                              mark_safe('<i class="fa fa-user"></i>'),
+                              placeholder=_("Username"), autofocus="")
             ),
             Field(
                 PrependedText("email",
-                    mark_safe('<i class="fa fa-paper-plane"></i>'),
-                    placeholder=_("Email адрес"))
+                              mark_safe('<i class="fa fa-paper-plane"></i>'),
+                              placeholder=_("Email"))
                 
             ),
             Field(
                 PrependedText("password1",
-                    mark_safe('<i class="fa fa-lock"></i>'),
-                    placeholder=_("Пароль"))
+                              mark_safe('<i class="fa fa-lock"></i>'),
+                              placeholder=_("Password"))
                
             ),
             Field(
                 PrependedText("password2",
-                    mark_safe('<i class="fa fa-lock"></i><i class="fa fa-check"></i>'),
-                    placeholder=_("Подтверждение пароля"))
+                              mark_safe('<i class="fa fa-lock"></i><i class="fa fa-check"></i>'),
+                              placeholder=_("Confirm password"))
                 
             ),
             Div(
-                StrictButton('Зарегистрироваться', type='submit', css_class='btn-block btn-lg', id='id_submit'),
+                StrictButton('Create account', type='submit', css_class='btn-block btn-lg', id='id_submit'),
                 css_class='form-group'
             )    
         )
@@ -103,12 +99,12 @@ class RegisterUserForm(forms.ModelForm):
             password2 = self.cleaned_data.get('password2')
         except:
             errors = {'password1': ValidationError(
-                'Пароль не соответствуе требованиям', code="password_invalid")}
+                'Password must meet complexity requirement', code="password_invalid")}
             raise ValidationError(errors)
             
         if password1 and password2 and password1 != password2:
             errors = {'password2': ValidationError(
-                'Введенные пароли не совпадают', code='password_mismath')}
+                'Passwords missmatch', code='password_mismatch')}
             raise ValidationError(errors)
 
     def save(self, commit=True):
@@ -126,17 +122,18 @@ class RegisterUserForm(forms.ModelForm):
         fields = ('username', 'email', 'password1', 'password2', 
             'first_name', 'last_name', 'send_message')
         widgets ={
-            "username": forms.TextInput(attrs={"placeholder": "Имя пользователя"}),
-            "email": forms.EmailInput(attrs={"placeholder": "Email адрес"}),
-            "password1": forms.PasswordInput(attrs={"placeholder": "Пароль"}),
-            "password2": forms.PasswordInput(attrs={"placeholder": "Подтверждение пароля"})      
+            "username": forms.TextInput(attrs={"placeholder": "Username"}),
+            "email": forms.EmailInput(attrs={"placeholder": "Email"}),
+            "password1": forms.PasswordInput(attrs={"placeholder": "Password"}),
+            "password2": forms.PasswordInput(attrs={"placeholder": "Confirm password"})
 
         }
 
 
 class SubCategoryForm(forms.ModelForm):
     super_category = forms.ModelChoiceField(queryset=SuperCategory.objects.all(),
-                    empty_label=None, label="Надкатегория", required=True)
+                    empty_label=None, label="Super category", required=True)
+
     class Meta:
         model = SubCategory
         fields = '__all__'
@@ -144,26 +141,28 @@ class SubCategoryForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     keyword = forms.CharField(required=False, max_length=20, label='',
-              widget=forms.TextInput(attrs={"placeholder": "Поиск предложений"}) )
+                              widget=forms.TextInput(attrs={"placeholder": "Search"}))
 
     
 class OfferForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):    
         super(OfferForm, self).__init__(*args, **kwargs)
-        self.fields["category"].help_text = 'Выберите категорию для публикации'
-        self.fields["title"].help_text = 'Короткое описание предложения(не более 64 знаков). Пример: "Нужно установить унитаз"'
-        self.fields["price"].help_text = 'Предположительная цена'
-        self.fields["image"].help_text = 'Основное фото'
+        self.fields["category"].help_text = 'Chose category'
+        self.fields["title"].help_text = 'Description. Write here what is needed to be done'
+        self.fields["price"].help_text = 'Preferable price'
+        self.fields["image"].help_text = 'Main photo'
 
     class Meta:
         model = Offer        
         exclude = ['reviews', 'shared', 'status', "is_active", 'winner']
         widgets = {'author': forms.HiddenInput}
 
+
 AIFormSet = forms.inlineformset_factory(Offer, AdditionalImage, fields='__all__')
 
-class CommetForm(forms.ModelForm):
+
+class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
@@ -189,17 +188,17 @@ class UserReviewForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserReviewForm, self).__init__(*args, **kwargs)
-        self.fields["content"].initial = "Сделка прошла успешно!"         
+        self.fields["content"].initial = "Deal has been completed successfully!"
         self.helper = FormHelper()               
         self.helper.layout = Layout(
-            Field('author'
-
+            Field(
+                'author'
             ),
-            Field('reviewal'
-
+            Field(
+                'reviewal'
             ),
-            Field('offer'
-
+            Field(
+                'offer'
             ),
             Div(
                 InlineRadios('speed')
@@ -214,7 +213,7 @@ class UserReviewForm(forms.ModelForm):
                 'content', rows="5"
                
             ), 
-           StrictButton('Отправить', type='submit', css_class='btn btn-primary')
+           StrictButton('Send', type='submit', css_class='btn btn-primary')
         )
 
     class Meta:
@@ -240,7 +239,7 @@ class ChatMessageForm(forms.ModelForm):
             Field('offer'),
             Field('receiver'),
             Field('content', rows=3),
-            Submit('submit', 'Сохранить')
+            Submit('submit', 'Send')
 
         )
 
@@ -263,5 +262,6 @@ class LocationForm(forms.ModelForm):
             'search_id': forms.HiddenInput,
             'name': forms.TextInput(attrs={'list': 'locations', 'class': 'form-control', 'autocomplete': 'off'}),
         }
+
 
 LocationFormSet = forms.inlineformset_factory(Offer, Location, form=LocationForm, fields=('search_id', 'name'), can_delete=False)
