@@ -1,9 +1,9 @@
 {% extends 'main/layout.html' %}
 
-{% block title %} Активация выполнена {% endblock %}
+{% block title %} Successfully activated {% endblock %}
 
 {% block body %}
-<h2>Актривация пользователя</h2>
-<p>Пользватель с таким именем был активирован ранее</p>
-<p><a href="{% url 'main:login' %}">Войти на сайт</a></p>
+<h2>User activation</h2>
+<p>A user with this name was already activated.</p>
+<p><a href="{% url 'main:login' %}">Login</a></p>
 {% endblock %}

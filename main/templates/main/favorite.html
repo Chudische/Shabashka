@@ -10,45 +10,12 @@
 <div id="page-content" class="index-page">
     <div id="container">
 
-{% for offer in offers %}       
-        <div class="item">            
-            <div class="content-item">
-                {% url 'main:detail' category_pk=offer.category.pk pk=offer.pk as url %}
-                <a href="{% url 'main:by_category' pk=offer.category.pk %}" class="btn btn-small btn-{{offer.category.super_category.order}}">{{offer.category.name}}</a>
-                <div class="time"> {{offer.created}}</div>
-                <h3 class="title-item"><a href="{{url}}{{all}}">{{offer.title}}</a></h3>
-                <p class="info">{% limit_text offer.content %}</p>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><i class="fa fa-eye"></i> {{ offer.reviews }} </li>
-                    <li class="list-inline-item"><i class="fa fa-comment"></i> {{offer.comment_set.count}}</li>
-                    <li class="list-inline-item"><i class="fa fa-heart liked"></i> 
-                        {{ offer.author.followers.count }} </li>
-                    <li class="list-inline-item"><i class="fa fa-share"></i> {{offer.shared}}</li>
-                </ul>
-            </div>
-            <div class="bottom-item">
-                <a href="#" class="btn btn-share share"><i class="fa fa-share-alt"></i> </a>
-                <span class="mx-3"><span class="uah">&#8372</span> {{offer.price}}</span>
-                <span class="user f-right">Размещено 
-                    <a href="{% url 'main:profile_by_id' pk=offer.author.pk %}">
-                        {% if offer.author.first_name and offer.author.last_name %}
-                        {{offer.author.first_name}} {{offer.author.last_name}}
-                        {% else %}
-                        {{offer.author}}
-                        {% endif %}
-                    </a>
-                        {% if offer.author.avatar.image %}
-						<img class="border profile-img rounded-circle" src="{% thumbnail offer.author.avatar.image 'default' %}" alt="">
-						{% else %}
-						<img class="border profile-img rounded-circle" style="background-color: #777;" src="{% static 'main/images/profile-ph.png' %}" alt="">
-						{% endif %}                    
-                </span>
-            </div>
-        </div>
+{% for offer in offers %}
 
+        {% include "main/offer_template.html" %}
 
 {% empty %}
-<p>На данный момент в категории "Избранное" нет активных предложений</p>
+<p>Sorry, there is no active listings in Favorite category</p>
 {% endfor %}
 {% if offers %}
 </div>  

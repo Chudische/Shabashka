@@ -1,9 +1,9 @@
 {% extends 'main/layout.html' %}
 
-{% block title %} Ошибка при активации {% endblock %}
+{% block title %} Activation error {% endblock %}
 
 {% block body %}
-<h2>Актривация пользователя</h2>
-<p>Актривация пользователя с таким именем прошла неудачно</p>
-<p><a href="{% url 'main:register' %}">Зарегистрироваться повторно</a></p>
+<h2>User activation</h2>
+<p>User was not activated</p>
+<p><a href="{% url 'main:register' %}">Register again</a></p>
 {% endblock %}

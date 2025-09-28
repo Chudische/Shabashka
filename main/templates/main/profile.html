@@ -6,7 +6,7 @@
 {% load custom_tags %}
 
 
-{% block title %} Профиль {% endblock %}
+{% block title %} Profile {% endblock %}
 
 {% block body %}
 {% if user == request.user %}
@@ -14,7 +14,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Сменить аватар</h5>
+          <h5 class="modal-title">Change avatar</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -31,11 +31,12 @@
                 {% csrf_token %}
                 {% bootstrap_form avatar_form alert_error_type='all' %}
                 {% bootstrap_form_errors avatar_form %}
+            </form>
                 
         </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <button type="submit" class="btn btn-primary">Сохранить</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
       </div>
@@ -49,19 +50,19 @@
     <div class="alert alert-warning" role="alert">    
         <ul>
         {% if user == request.user and not user.first_name or not user.last_name%}
-            <li>Заполните свой профиль.</li>
+            <li>Fill up your profile.</li>
         {% endif %}
 
         {% if not user.first_name or not user.last_name %}
-            <li>Мы не рекомендуем нашим пользователям доверять людям, с не заполненым профилем.</li>            
+            <li>We do not recommend our users to trust people with an incomplete profile.</li>
         {% endif %}
 
         {% if not user.avatar %}
-            <li>Добавление актуальной фотографии в профиль повышает доверие.</li>
+            <li>Adding a current photo to your profile increases trust.</li>
         {% endif %}
 
         {% if user == request.user and not user.location %}
-            <li>Добавте свой город для корректного поиска предложений</li>
+            <li>Kindly enter your city to ensure a more efficient search for offers.</li>
         {% endif %}
         </ul>
     </div>
@@ -77,18 +78,18 @@
             {% endif %}
         </div>
         <div class="col-lg-9">            
-            <h3>Профиль пользователя {{ user.username }}</h3>
+            <h3>{{ user.username }} profile</h3>
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-6">           
-                    <div><b> Имя:</b>  
+                    <div><b> Name:</b>
                         {% if user.first_name and user.last_name %}
                             {{user.first_name}} {{user.last_name}}
                         {% else %} 
-                            Не указано
-                        {% endif %} 
+                            Wasn't provided
+                        {% endif %}
                     </div>
-                    <div><b>Город:</b> {% if user.location %} {{user.location}} {% else %} Не указан{% endif %}</div>
-                    <div><b>Рейтинг:</b> 
+                    <div><b>City:</b> {% if user.location %} {{user.location}} {% else %} Undefined{% endif %}</div>
+                    <div><b>Score:</b>
                         {% if reviews %}
                         {% show_rating user.average_rating %}
                         {% else %}
@@ -98,23 +99,23 @@
                         <i class="fa fa-star" style="color: #ddad10;"></i>
                         <i class="fa fa-star" style="color: #ddad10;"></i>
                         {% endif %}
-                        <a href="{% url 'main:reviews' user_id=user.id %}">(отзывов - {{reviews|default_if_none:"0"}})</a>
+                        <a href="{% url 'main:reviews' user_id=user.id %}">(reviews - {{reviews|default_if_none:"0"}})</a>
                     </div>            
-                    <div><b>Успешных сделок: </b>{{reviews|default_if_none:"0"}}</div>
+                    <div><b>Successfully finished: </b>{{reviews|default_if_none:"0"}}</div>
                                                
                 </div>
                 
                 <div class="col-lg-4 col-md-4 col-sm 6">
                 {% if user == request.user %}    
-                    <div><a href="#avatarModal" class="mx-1" data-toggle="modal" data-target="#avatarModal"><i class="fa fa-user"></i> Сменить аватар </a></div>
-                    <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-pencil"></i> Редактировать профиль </a></div>
-                    <div><a href="{% url 'main:password_change' %}" class="mx-1"><i class="fa fa-lock"></i> Изменить пароль </a></div>
-                    <div><a href="{% url 'main:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Удалить профиль </a></div>           
+                    <div><a href="#avatarModal" class="mx-1" data-toggle="modal" data-target="#avatarModal"><i class="fa fa-user"></i> Change profile picture </a></div>
+                    <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-pencil"></i> Edit profile </a></div>
+                    <div><a href="{% url 'main:password_change' %}" class="mx-1"><i class="fa fa-lock"></i> Change password </a></div>
+                    <div><a href="{% url 'main:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Delete profile </a></div>
                 {% else %}
                 {% if request.user|in_followers:user %}                                
-                    <a href="#" id="favorite" data-user="{{ user.id }}"><i class="fa fa-user"></i> Убрать из избранного</a>
+                    <a href="#" id="favorite" data-user="{{ user.id }}"><i class="fa fa-user"></i> Add to favorites</a>
                 {% else %}
-                    <a href="#" id="favorite" data-user="{{ user.id }}"><i class="fa fa-user-plus"></i> Добавить в избанное</a>
+                    <a href="#" id="favorite" data-user="{{ user.id }}"><i class="fa fa-user-plus"></i> Remove from favorites </a>
                 {% endif %}	
                 {% endif %}
                 </div>
@@ -149,7 +150,7 @@
             <div class="bottom-item">
                 <a href="#" class="btn btn-share share"><i class="fa fa-share-alt"></i> </a>
                 <span class="mx-3"><span class="uah">&#8372</span> {{offer.price}}</span>
-                <span class="user f-right">Размещено 
+                <span class="user f-right">Posted
                     <a href="{% url 'main:profile_by_id' pk=offer.author.pk %}">
                         {% if offer.author.first_name and offer.author.last_name %}
                         {{offer.author.first_name}} {{offer.author.last_name}}

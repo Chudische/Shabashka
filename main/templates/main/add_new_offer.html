@@ -3,22 +3,22 @@
 {% load static %}
 {% load bootstrap4 %}
 
-{% block title %} Новое предложение {% endblock %}
+{% block title %} New offer {% endblock %}
 
 {% block body %}
 <div class="container p-5">
-    <h2>Добавить новое предложение</h2>
+    <h2>Add new offer</h2>
     <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form layout='horizontal' show_label=False%}
-    <label for="id_location-0-name">Выбор населенного пункта</label>
+    <label for="id_location-0-name">Chose location</label>
     {% bootstrap_formset location layout='horizontal' show_label=False%}
     <datalist id="locations">
     </datalist>
 
-    <h3>Дополнительные фотографии</h3>
+    <h3>Additional photos</h3>
     {% bootstrap_formset formset layout='horizontal' show_label=False%}
-    {% buttons submit="Добавить" %} {% endbuttons %}
+    {% buttons submit="Post" %} {% endbuttons %}
     </form>
 </div>
 <script type="text/javascript" src="{% static 'main/js/location.js' %}"></script>

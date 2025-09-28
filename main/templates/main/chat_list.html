@@ -4,13 +4,13 @@
 {% load custom_tags %}
 {% load thumbnail %}
 
-{% block title %} Список чатов {% endblock %}
+{% block title %} Chat list {% endblock %}
 
 {% block body %}
 <div id="page-content" class="sub-page">
 <div class="containeer mt-5">
     <center><article>
-        <h3 class="center">Список разговоров</h3>
+        <h3 class="center">Chat list</h3>
         
         {% for chat in user_chats %}
         {% ifchanged chat.offer %}

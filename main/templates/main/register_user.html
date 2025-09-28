@@ -3,7 +3,7 @@
 {% load static %}
 {% load crispy_forms_tags %} 
 
-{% block title %} Регистрация {% endblock %}
+{% block title %} Sign up {% endblock %}
 
 
 {% block body %}
@@ -14,7 +14,7 @@
 </header>
 
 {% if user.is_authenticated %}
-<p> Вы уже выполнили вход</p>
+<p> You are already logged in</p>
 {% else %}  
 <!-- Modal HTML -->
 <div id="registerModal" class="modal fade signup-modal">
@@ -24,7 +24,7 @@
 				<div class="avatar">
 					<img src="{% static 'main/images/profile-ph.png' %}" alt="Avatar">
 				</div>				
-				<h4 class="modal-title">Регистрация</h4>	
+				<h4 class="modal-title">Sing Up</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body si">
@@ -38,15 +38,15 @@
 				<p class="small text-center">By clicking the Sign Up button, you agree to our <br><a href="#">Terms &amp; Conditions</a>, and <a href="#">Privacy Policy</a>.</p>
 				
 			</div>
-			<div class="text-center">Уже зарегитрированы? <a href="{% url 'main:login' %}" >Войти</a>.</div>
+			<div class="text-center">Already have an account? <a href="{% url 'main:login' %}" >Login</a>.</div>
 		</div>
 	</div>
 </div>    
 <div class="container">
    
         <center><article class="py-5 center">                  
-			<h1>Мы рады Вас приветствовать!</h1>
-			<a href="{% url 'main:login' %}" class="loginShow mx-2">Вход</a> <a href="#" class="registerShow mx-2">Регистрация</a>
+			<h1>We are happy to welcome you!</h1>
+			<a href="{% url 'main:login' %}" class="loginShow mx-2">Login</a> <a href="#" class="registerShow mx-2">Sign up</a>
     	</article> </center> 
     
 </div>

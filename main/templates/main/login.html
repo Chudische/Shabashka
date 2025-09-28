@@ -3,7 +3,7 @@
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
 
-{% block title %} Вход {% endblock %}
+{% block title %} Login {% endblock %}
 
 
 
@@ -16,7 +16,7 @@
 </header>
 
 {% if user.is_authenticated %}
-<p> Вы уже выполнили вход</p>
+<p> You are currently logged in</p>
 {% else %}       
 <!-- Modal HTML -->
 <div id="loginModal" class="modal fade">
@@ -26,7 +26,7 @@
 				<div class="avatar">
 					<img src="{% static 'main/images/profile-ph.png' %}" alt="Avatar">
 				</div>				
-				<h4 class="modal-title">Вход</h4>	
+				<h4 class="modal-title">Login</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
@@ -37,16 +37,16 @@
 				</form>
 			</div>
 				<div class="modal-social center">
-					<div>Войти с помощью:</div> 					
-						<a href="{% url 'main:social:begin' 'facebook'%}" title="Войти через Facebook" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
-						<a href="{% url 'main:social:begin' 'google-oauth2' %}" title="Войти через Google" class="btn btn-gg"><i class="fa fa-google-plus-square"></i> Google +</a>						
+					<div>Login with:</div>
+						<a href="{% url 'main:social:begin' 'facebook'%}" title="Login with Facebook" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
+						<a href="{% url 'main:social:begin' 'google-oauth2' %}" title="Login with Google" class="btn btn-gg"><i class="fa fa-google-plus-square"></i> Google +</a>
 				</div>
 			<div class="modal-footer">
-				<a href="{% url 'main:password_reset' %}">Забыли пароль?</a>
+				<a href="{% url 'main:password_reset' %}">Forgot password?</a>
 				
 			</div>
 			
-			<div class="text-center modal-register">Еще не зарегистрированы? <a href="{% url 'main:register_user' %}" >Регистрация</a>.</div>
+			<div class="text-center modal-register">Have no account? <a href="{% url 'main:register_user' %}" >Sign up</a>.</div>
 		</div>
 	</div>
 </div> 
@@ -54,8 +54,8 @@
 <div class="container">
    
         <center><article class="py-5 center">                  
-			<h1>Мы рады Вас приветствовать!</h1>
-			<a href="#" class="loginShow mx-2">Вход</a> <a href="{% url 'main:register_user' %}">Регистрация</a>
+			<h1>We are happy to welcome you!</h1>
+			<a href="#" class="loginShow mx-2">Login</a> <a href="{% url 'main:register_user' %}">Sign up</a>
     	</article> </center> 
     
 </div>

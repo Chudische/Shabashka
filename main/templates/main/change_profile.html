@@ -2,16 +2,16 @@
 {% load static %}
 {% load bootstrap4 %}
 
-{% block title %} Настройка профиля {% endblock %}
+{% block title %} Edit profile {% endblock %}
 
 {% block body %}
 <div class="container p-5">
-<h2>Настройка профиля пользователя {{ user.username }}</h2>
+<h2>Edit profile {{ user.username }}</h2>
 <form method="POST">
     {% csrf_token %}
     {% bootstrap_form form layout="vertical"%}
     <div class="form-group">
-    <label for="id_location-0-name">Выбор населенного пункта</label>
+    <label for="id_location-0-name">Choose location</label>
     <!-- <input type="text" list="locations" class="form-control" name="search" id="locationId" placeholder="Введите название населенного пункта"> -->
     {% for formset in inlines %}
     {{ formset }}    
@@ -21,7 +21,7 @@
         </datalist>
     
     </div>
-    {% buttons submit='Сохранить' %}{% endbuttons %}
+    {% buttons submit='Save' %}{% endbuttons %}
     
    
     

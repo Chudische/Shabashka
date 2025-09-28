@@ -106,25 +106,27 @@
 							<div class="center">									
 									<div class="comment-price">
 										{% if comment.price %}
-										<span class="uah">&#8372</span>
+										<span class="uah">&#36</span>
 										{{comment.price}}
 										{% endif %}
 										{% if comment.time_amount and comment.measure %}
-										<span class="comment-time">/ {{comment.time_amount }} {% time_measure pk=comment.pk %}</span>
+										<span class="comment-time">/ {{comment.time_amount }}
+											{{comment.get_measure_display}}{% if comment.time_amount > 1 %}s{% endif %}
+										</span>
 										{% endif %}
 									</div>
 									{% if user == offer.author %}
 									{% if offer.status == 'n' %}									
-										<button class="btn btn-success acceptButton" data-offer="{{offer.id}}" data-winner="{{comment.author.id}}">Принять</button>									
+										<button class="btn btn-success acceptButton" data-offer="{{offer.id}}" data-winner="{{comment.author.id}}">Accept</button>
 									{% elif offer.status == 'a' %}
-									<a href="{% url 'main:chat' offer_pk=offer.id %}" class="btn btn-outline-primary my-2" >Чат</a>
-									<button class="btn btn-outline-danger cancelButton" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Отклонить</button>
-									<a href="{% url 'main:user_review' offer_pk=offer.pk user_pk=comment.author.pk %}"class="btn btn-success">Выполнен</a>								
+									<a href="{% url 'main:chat' offer_pk=offer.id %}" class="btn btn-outline-primary my-2" >Chat</a>
+									<button class="btn btn-outline-danger cancelButton" data-offer="{{offer.id}}" data-winner="{{comment.id}}">Decline</button>
+									<a href="{% url 'main:user_review' offer_pk=offer.pk user_pk=comment.author.pk %}" class="btn btn-success">Done</a>
 
 									{% endif %}
 									{% endif %}
 									{% if user == offer.winner %}
-									<a href="{% url 'main:chat' offer_pk=offer.id %}" class="btn btn-outline-primary my-2" >Чат</a>
+									<a href="{% url 'main:chat' offer_pk=offer.id %}" class="btn btn-outline-primary my-2" >Chat</a>
 									{% endif %}
 							</div>
 						</div>
@@ -136,7 +138,7 @@
 			{% if user.is_authenticated %}
 			{% if user != offer.author or offer.status == 'n'%}
 			<center><article class="my-2">
-				<h3 class="center">Откликнуться</h3>
+				<h3 class="center">Respond</h3>
 				<div class="comment-form p-2">
 					<form method="POST">
 						{% csrf_token %}
@@ -157,16 +159,16 @@
 							{{ form.content|as_crispy_field  }}
 						</div>
 						
-						{% buttons submit="Отправить" %} {% endbuttons %}
+						{% buttons submit="Send" %} {% endbuttons %}
 					</form>
 				</div>			
 			</article></center>
 			{% endif %}
 			{% else %}
 			<center><article class="my-2">
-				<h3 class="center">Откликнуться</h3>
+				<h3 class="center">Respond</h3>
 				<div class="comment-form p-2">
-			<p><a href="{% url 'main:login' %}">Войдите</a> или <a href="{% url 'main:register_user' %}">зарегистрируйтесь</a>, чтобы ответить на предложение </p>
+			<p><a href="{% url 'main:login' %}">Login</a> or <a href="{% url 'main:register_user' %}">Sing up</a> to write a respond</p>
 			</article></center>
 			{% endif %}
 		</div>

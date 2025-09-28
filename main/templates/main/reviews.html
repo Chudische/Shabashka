@@ -5,12 +5,12 @@
 {% load custom_tags %}
 
 
-{% block title %} Отзывы {% endblock %}
+{% block title %} Reviews {% endblock %}
 
 {% block body %}
 <div class="containeer">
     <center><article>
-        <h3>Отызвы о пользователе - 
+        <h3>User reviews -
             {% if user.first_name and user.last_name %}
                 {{user.first_name}} {{user.last_name}}
             {% else %}
@@ -56,9 +56,9 @@
                 <div class="col-lg-9 col-md-9">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm3">
-                            <div>Скорость: </div>
-                            <div>Цена:     </div>
-                            <div>Качество: </div>
+                            <div>Time: </div>
+                            <div>Price:     </div>
+                            <div>Quality: </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col sm-6">
                             <div>{% show_rating review.speed %}</div>

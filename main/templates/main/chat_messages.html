@@ -5,14 +5,14 @@
 {% load crispy_forms_tags %}
 {% load thumbnail %}
 
-{% block title %} Чат: "{{offer.title}}" {% endblock %}
+{% block title %} Chat: "{{offer.title}}" {% endblock %}
 
 {% block body %}
 <div id="page-content" class="sub-page">
 <div class="containeer mt-5">
     <center><article class="p-2">
         
-        <h3 class="center">Чат предложения "{{offer.title}}"</h3>
+        <h3 class="center">"{{offer.title}}" chat</h3>
         {% for message in chat_messages %}
         <div class="comment mt-3"> 
             <div class="comment-head border-bottom-1">	
