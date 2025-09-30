@@ -183,7 +183,8 @@ body .modal{
 	right: -5px;
 }	
 .modal-login .modal-footer {
-	background: #ecf0f1;
+	/*background: #ecf0f1;*/
+	border-top: none;
 	border-color: #dee4e7;
 	text-align: center;
 	justify-content: center;
@@ -193,7 +194,11 @@ body .modal{
 }
 .modal-login .modal-footer a {
 	color: #999;
-}		
+}
+.modal-login .modal-footer a:hover {
+	color: #19aa8d;
+}
+
 .modal-login .avatar {
 	position: absolute;
 	margin: 0 auto;
