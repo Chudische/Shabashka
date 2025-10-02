@@ -91,7 +91,10 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">             
               <a class="dropdown-item" href="{% url 'main:profile' %}">Profile</a>
               <a class="dropdown-item" href="{% url 'main:chat_list' %}">Messages</a>
-              <a class="dropdown-item" href="{% url 'main:logout' %}">Logout</a>
+                <form action="{% url 'main:logout' %}"  method="post">
+                    {% csrf_token %}
+                    <button class="dropdown-item">Logout</button>
+                </form>
             </div>            
           </li>
           {% else %}

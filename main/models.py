@@ -14,6 +14,14 @@ class Category(models.Model):
     super_category = models.ForeignKey('SuperCategory', on_delete=models.PROTECT, null=True, blank=True,
                                         verbose_name="Super category")
 
+    def __str__(self):
+        super = self.super_category if self.super_category else "Super"
+        return f"{super} - {self.name}"
+
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+
 
 class SuperCategoryManager(models.Manager):
     def get_queryset(self):

@@ -10,18 +10,18 @@ from .sitemaps import OfferSitemap
 from . import views
 
 
-app_name ='main'
+app_name = 'main'
 urlpatterns = [
     path('', views.index, name="index"),
     path('accounts/login/', views.ShaLogin.as_view(), name="login"),
     path('accounts/logout/', views.ShaLogout.as_view(), name='logout'),
-    path('accounts/profile/delete', views.DeleteUserView.as_view(), name="profile_delete"),
-    path('accounts/profile/update', views.ChangeProfileView.as_view(), name="profile_change"),
-    path('accounts/profile/change/<int:pk>/', views.offer_change, name="offer_change"),
-    path('accounts/profile/delete/<int:pk>/', views.offer_delete, name="offer_delete"),
-    path('accounts/profile/add/', views.add_new_offer, name="add_new_offer"),
-    path('accounts/profile/<int:pk>', views.profile_by_id, name="profile_by_id"),
-    path('accounts/profile/', views.profile, name="profile"),
+    path('profile/delete', views.DeleteUserView.as_view(), name="profile_delete"),
+    path('profile/update', views.ChangeProfileView.as_view(), name="profile_change"),
+    path('change/<int:pk>/', views.offer_change, name="offer_change"),
+    path('delete/<int:pk>/', views.offer_delete, name="offer_delete"),
+    path('profile/add/', views.add_new_offer, name="add_new_offer"),
+    path('profile/<int:pk>', views.profile_by_id, name="profile_by_id"),
+    path('profile/', views.profile, name="profile"),
     path('accounts/password/change', views.ShaPassChangeView.as_view(), name="password_change"),
     path('accounts/password/reset/', views.ShaPassResetView.as_view(), name="password_reset"),
     path('accounts/password/reset/done/', views.ShaPassResetDoneView.as_view(), name="password_reset_done"),

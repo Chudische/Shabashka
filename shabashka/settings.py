@@ -48,6 +48,7 @@ CORS_URL_REGEX = r'^/api/.*$'
 # Application definition
 
 AUTH_USER_MODEL = 'main.ShaUser'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -111,8 +112,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 ROOT_URLCONF = 'shabashka.urls'
-
-
 
 # Social app settings
 LOGIN_URL = 'main:login'
@@ -245,8 +244,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
-
-
 
 LANGUAGE_CODE = 'en-us'
 

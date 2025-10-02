@@ -1,10 +1,10 @@
 import datetime
 
 from django.contrib import admin
-from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ImportExportModelAdmin, ImportExportMixin
 from import_export import resources
 
-from .models import ShaUser, SubCategory, SuperCategory, Offer, AdditionalImage, Comment, ShaUserAvatar
+from .models import ShaUser, SubCategory, SuperCategory, Offer, AdditionalImage, Comment, ShaUserAvatar, Category
 from .models import UserReview, ChatMessage, Location 
 from .utilities import send_activation_notification
 from .forms import SubCategoryForm
@@ -64,6 +64,10 @@ class SubCategoryInline(admin.TabularInline):
     model = SubCategory
 
 
+class CategoryAdmin(ImportExportModelAdmin):
+    model = Category
+
+
 class SuperCategoryAdmin(admin.ModelAdmin):
     exclude = ('super_category',)
     inlines = (SubCategoryInline,)
@@ -78,7 +82,7 @@ class AdditionalImageInline(admin.TabularInline):
 
 
 class OfferAdmin(admin.ModelAdmin):
-    list_display = ('category', 'title', 'content', 'winner','author', 'created', 'status')
+    list_display = ('category', 'title', 'content', 'winner', 'author', 'created', 'status')
     fields = (('category', 'author', 'status', 'winner'), 'title', 'content', 'price', 'image', 'is_active')
     inlines = (AdditionalImageInline, LocationInline,)
 
@@ -109,6 +113,7 @@ class LocationAdmin(admin.ModelAdmin):
 admin.site.register(ShaUser, ShaUserAdmin)
 admin.site.register(SuperCategory, SuperCategoryAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Offer, OfferAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(ShaUserAvatar)
