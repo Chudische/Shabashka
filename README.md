@@ -83,13 +83,7 @@ Shabashka is an online marketplace that connects people who need to get jobs don
     DB_PASSWORD=<your_db_password>
     DB_IP=<your_db_ip>
     ```
-    
-    For testing purposes you can use Django console backend in `settings.py`:
-
-    ```
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    ```
-    
+  
 
 5.  **Run database migrations:**
 
@@ -119,6 +113,13 @@ Shabashka is an online marketplace that connects people who need to get jobs don
 ### Email Configuration
 
 Shabashka uses Gmail's SMTP server for sending emails. To enable this feature, you will need to configure your Gmail account to allow access for less secure apps.
+
+    
+For testing purposes you can use Django console backend in `settings.py`:
+
+    
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    
 
 ## API Documentation
 
