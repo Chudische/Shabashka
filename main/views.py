@@ -18,7 +18,7 @@ from django.db.models import Q, Avg, fields
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from extra_views import UpdateWithInlinesView, InlineFormSetFactory
 
-from .models import Location, ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview, ChatMessage
+from .models import Location, ShaUser, SubCategory, Offer, Comment, ShaUserAvatar, UserReview, ChatMessage, SuperCategory
 from .forms import ChangeProfileForm, RegisterUserForm, SearchForm, OfferForm, AIFormSet, CommentForm
 from .forms import AvatarForm, LoginUserForm, UserReviewForm, ChatMessageForm, LocationForm, LocationFormSet
 from .utilities import signer
@@ -98,6 +98,14 @@ def detail(request, category_pk, pk):
                'comments': comments, 
                'form': form}
     return render(request, 'main/detail.html', context)
+
+
+def services(request):
+    super_categories = SuperCategory.objects.all().prefetch_related('category_set')
+    context = {
+        'super_categories': super_categories
+    }
+    return render(request, 'main/services.html', context)
 
 
 def other_page(request, page):

@@ -13,6 +13,7 @@ class Category(models.Model):
     order = models.SmallIntegerField(default=0, db_index=True, verbose_name="Order")
     super_category = models.ForeignKey('SuperCategory', on_delete=models.PROTECT, null=True, blank=True,
                                         verbose_name="Super category")
+    image = models.ImageField(blank=True, upload_to=get_timestamp_path, verbose_name="Image")
 
     def __str__(self):
         super = self.super_category if self.super_category else "Super"

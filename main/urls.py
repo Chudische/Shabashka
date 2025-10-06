@@ -38,6 +38,7 @@ urlpatterns = [
     path('chat_list/', views.chat_list, name="chat_list"),
     path('chat/<int:offer_pk>', views.chat, name="chat"),
     path('favorite/', views.favorite, name='favorite'),
+    path('services/', views.services, name='services'),
     path('<str:page>/', views.other_page, name="other"),
     path('sitemap.xml', sitemap, {'sitemaps': {'offer': OfferSitemap}}, name='django.contrib.sitemaps.views.sitemap'),
 ]

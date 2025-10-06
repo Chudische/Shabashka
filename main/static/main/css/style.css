@@ -345,6 +345,41 @@ body .modal{
 
 
 /* ---------------------------------------------------------------------------- */
+/* ----------------------------------Services---------------------------------- */
+/* ---------------------------------------------------------------------------- */
+
+.services-page {
+    background-color: #f9f9f9;
+}
+
+.services-page .card {
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.services-page .card-title a {
+    color: #333;
+    font-weight: bold;
+}
+
+.services-page .card-title a:hover {
+    color: #19aa8d;
+}
+
+.services-page .card-body ul {
+    padding-left: 0;
+}
+
+.services-page .card-body ul li a {
+    color: #666;
+}
+
+.services-page .card-body ul li a:hover {
+    color: #19aa8d;
+}
+
+
+/* ---------------------------------------------------------------------------- */
 /* --------------------------------Image--------------------------------------- */
 /* ---------------------------------------------------------------------------- */
 .additional-image{

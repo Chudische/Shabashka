@@ -1,0 +1,26 @@
+{% extends "main/layout.html" %}
+
+{% block body %}
+<div class="container services-page">
+    <h1 class="my-4">Services</h1>
+    <div class="row">
+        {% for super_category in super_categories %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <a href="#"><img class="card-img-top" src="{% if super_category.image %}{{ super_category.image.url }}{% else %}http://placehold.it/700x400{% endif %}" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="#">{{ super_category.name }}</a>
+                    </h4>
+                    <ul class="list-unstyled">
+                        {% for category in super_category.category_set.all %}
+                        <li><a href="{% url 'main:by_category' pk=category.pk %}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
