@@ -1,202 +1,133 @@
 # Shabashka
 
-## Idea
+Shabashka is an online marketplace that connects people who need to get jobs done with skilled workers who can help. Whether it's home repairs, cleaning, or running errands, Shabashka provides a platform for users to find reliable help for their everyday tasks.
 
-We often need to do certain work in which we may not be very competent. For example:
-home repair, electronics or car repair, computer setup, landscape design.
+## Key Features
 
-Perhaps we need to do something not difficult, but time-consuming, and we don't have a time.
-For example: cleaning, walking pets, caring for the elderly, etc.
+*   **User Authentication:** Secure user registration and login system.
+*   **Offer Creation:** Users can easily create new offers for the jobs they need done.
+*   **Reviews and Ratings:** A comprehensive review and rating system to help users choose the best worker for the job.
+*   **Real-time Chat:** A built-in chat feature for seamless communication between users.
+*   **Categorized Services:** A dedicated services page with a grid of categories, making it easy to find the right service.
 
-Or we don't have the necessary equipment. For example: tow truck services, delivery of large cargo, dry cleaning, well drilling, welding ...
+## User Flow
 
-Of course, there are various large and small companies that are ready to provide all the necessary services. But they are not in every city and their services can cost much more than the services of a private person. On the other hand, there are many people competent in different spheres of life who would like to earn a little extra money and are ready to help us with our problems.
-But where to find them? And how do you know how authoritative they are? This project aims to address these tasks.
+1.  A user registers and logs in to the platform.
+2.  The user creates a new offer, providing a title, description, and price.
+3.  Other users can view the offer and leave comments, ask questions, and offer their services.
+4.  The offer creator can then choose a worker and accept their proposal.
+5.  Once the job is complete, the offer creator can mark the offer as done and leave a review for the worker.
 
-Shabashka is the service for people to find some extra job on the one hand, and it’s a service for a people who have some work to be done on the other hand. Basically  Shabashka is an online extra job marketplace that provides a means for worker and employer. Additionaly, let’s take a look at an example:
-- Someone (an employer) needs to remodel his or her bathroom
-- He/she creates a new offer, provides title, description, expected price, photo, etc.
-- Workers are responding  for this offer, providing their price, time needed to perform this job and comments
-- The employer chooses the worker he/she likes more
-- Now worker and employer can discuss the deal in detail in the chat 
-- Worker does his or her job
-- The employer closes his or her offer and leaves a review for worker
-- Everyone is happy
+## Technologies Used
 
+*   **Backend:**
+    *   Django
+    *   Django REST Framework
+*   **Frontend:**
+    *   HTML
+    *   CSS
+    *   Bootstrap
+    *   JavaScript
+    *   jQuery
+*   **Database:**
+    *   PostgreSQL
+    *   SQLite
+*   **Other Key Libraries:**
+    *   `social-auth-app-django`
+    *   `django-crispy-forms`
+    *   `easy-thumbnails`
+*   **Dependency Management:**
+    *   `uv`
 
+## Installation and Setup
 
-## Installation
+### Prerequisites
 
-- Install project dependencies by running `pip install -r requirements.txt`. Requirements contain:
-    - django
-    - django-bootstrap4
-    - pillow
-    - easy-thumbnails
-    - django-cleanup
-    - djangorestframework
-    - django-cors-headers
-    - django-crispy-forms
-    - python-dotenv
-- Make and apply migrations by running `python manage.py makemigrations` and `python manage.py migrate`.
--  For the project to be more secure I had used Python-dotenv module. So all data that I do not want to share I put into enrivoment variable. Create file `.env` near the `manage.py`. This file should contain enviroment variables, such as:
-    - SECRET - Django secret key 
-    - GMAIL_HOST_USER - mail username for smtp messages 
-    - GMAIL_HOST_PASSWORD - mail password 
-    - DJANGO_DATABASE - in settings.py there are 3 options of this variable (network, remote, local)
-        - network is default. It's  an actual database settings on the server
-        - remote is development settings from my PC to remote database
-        - local is sqlite settings for local testing 
-    - DB_NAME - name of the database for PostgreSQL backend 
-    - DB_USER - user of the database for PostgreSQL backend 
-    - DB_PASSWORD - password of the database for PostgreSQL backend
-    - DB_IP - ip address of the database for PostgreSQL backend
+*   Python 3.10+
+*   `uv`
 
-## Email settings 
+### Instructions
 
-Shabashka uses smtp.gmail.com for sending emails. Make sure you allow django to send emails through gmail by turning on "Access for less secure apps" in your google account. Shabashka sends such notifications:
-- `send_activation_notification()` - after registration a user receives an activation letter;
-- `send_comment_notification()` - after worker posts a comment to an offer, offer author gets an email;
-- `send_chat_message_notification()` - after a user posts a message in a chat, receiver gets an email;
-- `send_review_notification()` - after the offer is closed, an employer makes a review to the worker, the worker gets an email.
+1.  **Clone the repository:**
 
-## Project description
+    ```bash
+    git clone https://github.com/your-username/Shabashka.git
+    cd Shabashka
+    ```
 
-### Authentication and authorization
+2.  **Installing Geospatial libraries:**
 
-ShaUser model is inherited from AbstractUser class with some additional fields:
-- is_activated - for a user to confirm his or her email address
-- send_message - if a user want to receive emails from Shabashka
-- location - the place where user is live (optional, in the future I want to populate my project for all cities in my country)
-- average_rating - calculating when user is gets a review 
-- favorite - m2m field for following to employers
+    ```bash
+    sudo apt-get install binutils libproj-dev gdal-bin
+    sudo apt-get install libgdal-dev
+    pip install gdal==2.2.3 --global-option=build_ext --global-option="-I/usr/include/gdal/"
+    ```
 
-Authentication system has the following functionality:
-- Register user
-- Login user
-- Logout user
+3.  **Install dependencies:**
 
+    ```bash
+    uv sync
+    ```
 
-It is also possible to recover the user password with an email address. It is done with inheritance of such classes:
-- PasswordResetView;
-- PasswordResetDoneView;
-- PasswordResetConfirmView;
-- PasswordResetCompleteView
+4.  **Create and configure the `.env` file:**
 
-### Profile
+    Create a `.env` file in the project root and add the following variables:
 
-After registration user goes to his or her profile page. Profile has the following functionality:
-- Change user profile data (first name, last name, location, etc.);
-- Change user password;
-- Change avatar (by default a user sees only avatar placeholder);
-- Delete profile (when a user delete his or her profile, their offers and all pictures will be deleted to using django-cleanup module);
-- See user rating;
-- See user reviews
+    ```
+    SECRET_KEY=<your_secret_key>
+    GMAIL_HOST_USER=<your_gmail_username>
+    GMAIL_HOST_PASSWORD=<your_gmail_password>
+    DJANGO_DATABASE=local # or network/remote
+    DB_NAME=<your_db_name>
+    DB_USER=<your_db_user>
+    DB_PASSWORD=<your_db_password>
+    DB_IP=<your_db_ip>
+    ```
+    
+    For testing purposes you can use Django console backend in `settings.py`:
 
-On user profile page there are all of his offers with different statuses.
+    ```
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    ```
+    
 
-If user goes to the other user profile page, he or she will see only his or her active offers in status "New". Also they can follow this user by clicking "follow" link. 
+5.  **Run database migrations:**
 
-Additionally an authenticated user in account dropdown(in navbar) can click on to the message list page, where he can see all of his conversations grouped by offers. After clicking on a message he or she is taken to the offer chat. 
+    ```bash
+    uv run python manage.py makemigrations
+    uv run python manage.py migrate
+    ```
 
-### Categories
-
-Categories are devided into two parts:
-- Super Category
-- Sub Category
-
-They are all in one table of database. But you can create an offer only in the sub category. Super category is made only for a good looking(just for now) 
-
-
-### Main page 
-
-On the main page there are all offers in active status . A user can:
-- click on every offer to get to the offer detail page;
-- click on the category to get to the "by_category" page which shows every offer in this particular category
-- click on the user name in every offer to go to the user profile page
-
-Each offer on the main page, the category page or the profile page has the following:
-- category
-- data and time (when an offer was created)
-- title (no more than 64 characters)
-- description (short version of decription which is limited by `limit_text()` function from `custom_tags.py`)
-- number of views
-- number of comments
-- number of followers (and if user follows offer author it marks by red color)
-- number of shares
-- price 
-- offer author
-
-On every page that has an offers there is a bootstrap pagination for speed up page loading and more appealing look of the page
-
-Search and pagination functionalities are provided by `shabashka_context_processor()` from `main.middlewares` module
-The keyword search done through titles and descriptions of the offers.
-
-### Offer detail page 
-
-On the offer detail page in addition to offer look in main page or category page a user sees the following:
-- main photo 
-- additional photos (if exist)
-- comments 
-- comment form (for authenticated users)
-
-### Offer life cycle
-
-- at first user creates a new offer in `Create` tab in the Navbar;
-- an offer is created with status `new` and `is_active`;
-- other users respond to the offer by leaving their comments, offering their price and time needed to complete the job;
-- when an offer author accepts one of responds:
-    - all the other responds `is_active` change to `False`(they aren't shown on the offer page)
-    - offer status change to `accepted`
-- the offer author sees the following buttons: `cancel`, `chat`, `done`:
-    - `cancel`:
-        - all the other responds `is_active` are changed to `True`
-        - the offer status is changed to `new`
-    - `chat` - opens chat between the offer author and a responder
-    - `done`:
-        - the offer author is redirected to the review form
-        - the employer writes a review to the worker
-        - offer status changed to `done` 
-        - `is_active` changed to `False`        
-- for a responder there is only a `chat` button
-- after an offer is closed an employer can delete it in his or her profile page
+6. **Create superuser for Admin interface**
+    
+   ```bash
+   uv run python manage.py createsuperuser
+   ```
+   Provide some username, email and password for superuser
 
 
-## Admin interface
+7. **Run the development server:**
 
-Admin interface makes possible to manage any Shabashka data within the main application interface. The admin interface has the following elements:
-- Users and groups
-- Users avatars
-- Super Categories
-- Sub Categories
-- Offers
-- Comments
-- Chat messages
-- Users reviews
+    ```bash
+    uv run python manage.py runserver
+    ```
+8. **Import services to Database**
+    
+    You can import services in Admin interface at http://127.0.0.1:8000/admin
+    In the Categories table using `IMPORT` button and `categories.json` file.
 
-Additionaly Users admin interface provides filters:
-- user activated 
-- user didn't activate account for more than 3 days
-- user didn't activate account for more than a week
+### Email Configuration
 
-Using these filters and action `send activation notification` admin can send an activation letter to users.
+Shabashka uses Gmail's SMTP server for sending emails. To enable this feature, you will need to configure your Gmail account to allow access for less secure apps.
 
-## API
+## API Documentation
 
-Get first 30 offers:
-    `/api/offers`
+*   **/api/offers/**: Get a list of all offers.
+*   **/api/offers/&lt;pk&gt;/**: Get the details of a specific offer.
+*   **/api/offers/&lt;pk&gt;/comments/**: Get or post comments on a specific offer.
 
-Get offer details:
-    `/api/offers/pk` 
-    (where __pk__ is offer id)
+## TODO List
 
-Get or post offer comments:
-    `/api/offers/pk/comments`
-    (where __pk__ is offer id; User can post comment only if authenticated)
-
-
-##  TODO list
-- Migrate to Django 4
-- Authentication via social media
-- Location via google maps
-- Search by locations
-- Adding photos via Drag and drop
+*   Integrate Google Maps for location-based services
+*   Add search by location functionality
+*   Implement drag-and-drop for image uploads
