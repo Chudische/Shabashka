@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Get variabels from enviroment
+# Get variables from environment
 dotenv_path = os.path.join(BASE_DIR, '.env')
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
@@ -82,7 +82,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'api.apps.ApiConfig',
     'social_django',
-    'mapwidgets',
     'import_export',
     'extra_views',
     'debug_toolbar',
@@ -157,13 +156,13 @@ GOOGLE_MAP_API_KEY = os.getenv("GG_MAP_KEY")
 MAP_WIDGETS = {
     "GooglePointFieldWidget": (
         ("zoom", 15),
-        ("mapCenterLocationName", "kiev"),
-        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'ua'}
+        ("mapCenterLocationName", "toronto"),
+        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'ca'}
         }),
         ("markerFitZoom", 12),
     ),
     "GOOGLE_MAP_API_KEY": GOOGLE_MAP_API_KEY,
-    "LANGUAGE" : "ru"
+    "LANGUAGE" : "en"
     }
 
 
@@ -214,7 +213,7 @@ DATABASES = {
           'PORT': '5537',
     },
     'local': {
-            'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+            'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }

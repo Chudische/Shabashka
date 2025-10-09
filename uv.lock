@@ -367,15 +367,6 @@ wheels = [
 ]
 
 [[package]]
-name = "django-map-widgets"
-version = "0.5.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/78/50/651dae7335fc9c6df7b1ab27c49b1cc98245ac0d61750538a192da19e671/django_map_widgets-0.5.1.tar.gz", hash = "sha256:68e81f9c58c1cd6d180421220a4d100a185c8062ae0ca7be790658fcfd4eda1d", size = 160819, upload-time = "2024-07-09T17:37:50.717Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/6e/75/7f1782c9fa3c07c2ca63ce7b65c4838afb568a5ea71aa119aaa9dc456d8b/django_map_widgets-0.5.1-py3-none-any.whl", hash = "sha256:7307935163b46c6a2a225c85c91c7262a8b47a5c3aefbbc6d8fc7a5fda53b7cd", size = 256008, upload-time = "2024-07-09T17:37:48.941Z" },
-]
-
-[[package]]
 name = "djangorestframework"
 version = "3.16.0"
 source = { registry = "https://pypi.org/simple" }
@@ -701,7 +692,6 @@ dependencies = [
     { name = "django-debug-toolbar" },
     { name = "django-extra-views" },
     { name = "django-import-export" },
-    { name = "django-map-widgets" },
     { name = "djangorestframework" },
     { name = "easy-thumbnails" },
     { name = "exceptiongroup" },
@@ -756,7 +746,6 @@ requires-dist = [
     { name = "django-debug-toolbar", specifier = "==5.2.0" },
     { name = "django-extra-views", specifier = "==0.16.0" },
     { name = "django-import-export", specifier = "==4.3.7" },
-    { name = "django-map-widgets", specifier = "==0.5.1" },
     { name = "djangorestframework", specifier = "==3.16.0" },
     { name = "easy-thumbnails", specifier = "==2.10" },
     { name = "exceptiongroup", specifier = "==1.3.0" },

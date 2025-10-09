@@ -48,28 +48,20 @@ Shabashka is an online marketplace that connects people who need to get jobs don
 
 ### Instructions
 
-1.  **Clone the repository:**
+1. **Clone the repository:**
 
     ```bash
     git clone https://github.com/your-username/Shabashka.git
     cd Shabashka
     ```
 
-2.  **Installing Geospatial libraries:**
-
-    ```bash
-    sudo apt-get install binutils libproj-dev gdal-bin
-    sudo apt-get install libgdal-dev
-    pip install gdal==2.2.3 --global-option=build_ext --global-option="-I/usr/include/gdal/"
-    ```
-
-3.  **Install dependencies:**
+2. **Install dependencies:**
 
     ```bash
     uv sync
     ```
 
-4.  **Create and configure the `.env` file:**
+3. **Create and configure the `.env` file:**
 
     Create a `.env` file in the project root and add the following variables:
 
@@ -85,14 +77,14 @@ Shabashka is an online marketplace that connects people who need to get jobs don
     ```
   
 
-5.  **Run database migrations:**
+4. **Run database migrations:**
 
     ```bash
     uv run python manage.py makemigrations
     uv run python manage.py migrate
     ```
 
-6. **Create superuser for Admin interface**
+5. **Create superuser for Admin interface**
     
    ```bash
    uv run python manage.py createsuperuser
@@ -100,12 +92,12 @@ Shabashka is an online marketplace that connects people who need to get jobs don
    Provide some username, email and password for superuser
 
 
-7. **Run the development server:**
+6. **Run the development server:**
 
     ```bash
     uv run python manage.py runserver
     ```
-8. **Import services to Database**
+7. **Import services to Database**
     
     You can import services in Admin interface at http://127.0.0.1:8000/admin
     In the Categories table using `IMPORT` button and `categories.json` file.
