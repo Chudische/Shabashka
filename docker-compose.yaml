@@ -1,9 +1,28 @@
-version: "3.9"
 services:
   web:
     build: .
-    ports:
-      - "8000:8000"
+    container_name: shabashka_web
     command: uv run python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+  db:
+    image: postgres:15-alpine
+    container_name: shabashka_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+volumes:
+  postgres_data:

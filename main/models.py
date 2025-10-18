@@ -9,7 +9,7 @@ from .utilities import send_chat_message_notification, send_review_notification
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=20, unique=True, db_index=True, verbose_name="Name")
+    name = models.CharField(max_length=50, unique=True, db_index=True, verbose_name="Name")
     order = models.SmallIntegerField(default=0, db_index=True, verbose_name="Order")
     super_category = models.ForeignKey('SuperCategory', on_delete=models.PROTECT, null=True, blank=True,
                                         verbose_name="Super category")
