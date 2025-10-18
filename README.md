@@ -31,73 +31,51 @@ Shabashka is an online marketplace that connects people who need to get jobs don
     *   jQuery
 *   **Database:**
     *   PostgreSQL
-    *   SQLite
 *   **Other Key Libraries:**
     *   `social-auth-app-django`
     *   `django-crispy-forms`
     *   `easy-thumbnails`
 *   **Dependency Management:**
     *   `uv`
+*   **Containerization:**
+    *   `Docker`
+    *   `Docker Compose`
 
 ## Installation and Setup
 
 ### Prerequisites
 
-*   Python 3.10+
-*   `uv`
+*   Docker
+*   Docker Compose
 
 ### Instructions
 
-1. **Clone the repository:**
+1.  **Clone the repository:**
 
     ```bash
     git clone https://github.com/your-username/Shabashka.git
     cd Shabashka
     ```
 
-2. **Install dependencies:**
+2.  **Build and run the containers:**
 
     ```bash
-    uv sync
+    docker compose up -d --build
     ```
 
-3. **Create and configure the `.env` file:**
-
-    Create a `.env` file in the project root and add the following variables:
-
+3.  **Apply database migrations:**
+    ```bash
+    docker compose exec web uv run manage.py makemigrations
+    docker compose exec web uv run manage.py migrate
     ```
-    SECRET_KEY=<your_secret_key>
-    GMAIL_HOST_USER=<your_gmail_username>
-    GMAIL_HOST_PASSWORD=<your_gmail_password>
-    DJANGO_DATABASE=local # or network/remote
-    DB_NAME=<your_db_name>
-    DB_USER=<your_db_user>
-    DB_PASSWORD=<your_db_password>
-    DB_IP=<your_db_ip>
-    ```
-  
 
-4. **Run database migrations:**
+4.  **Create a superuser:**
 
     ```bash
-    uv run python manage.py makemigrations
-    uv run python manage.py migrate
+    docker compose exec web uv run python manage.py createsuperuser
     ```
 
-5. **Create superuser for Admin interface**
-    
-   ```bash
-   uv run python manage.py createsuperuser
-   ```
-   Provide some username, email and password for superuser
-
-
-6. **Run the development server:**
-
-    ```bash
-    uv run python manage.py runserver
-    ```
-7. **Import services to Database**
+5.  **Import services to Database**
     
     You can import services in Admin interface at http://127.0.0.1:8000/admin
     In the Categories table using `IMPORT` button and `categories.json` file.
