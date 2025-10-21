@@ -38,15 +38,15 @@
 			</div>
 				<div class="modal-social center">
 					<div>Login with:</div>
-						<a href="{% url 'main:social:begin' 'facebook'%}" title="Login with Facebook" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
-						<a href="{% url 'main:social:begin' 'google-oauth2' %}" title="Login with Google" class="btn btn-gg"><i class="fa fa-google-plus-square"></i> Google +</a>
+						<a href="{% url 'accounts:social:begin' 'facebook'%}" title="Login with Facebook" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
+						<a href="{% url 'accounts:social:begin' 'google-oauth2' %}" title="Login with Google" class="btn btn-gg"><i class="fa fa-google-plus-square"></i> Google +</a>
 				</div>
 			<div class="modal-footer">
-				<a href="{% url 'main:password_reset' %}">Forgot password?</a>
+				<a href="{% url 'accounts:password_reset' %}">Forgot password?</a>
 				
 			</div>
 			
-			<div class="text-center modal-register">Have no account? <a href="{% url 'main:register_user' %}" >Sign up</a>.</div>
+			<div class="text-center modal-register">Have no account? <a href="{% url 'accounts:register_user' %}" >Sign up</a>.</div>
 		</div>
 	</div>
 </div> 
@@ -55,7 +55,7 @@
    
         <center><article class="py-5 center">                  
 			<h1>We are happy to welcome you!</h1>
-			<a href="#" class="loginShow mx-2">Login</a> <a href="{% url 'main:register_user' %}">Sign up</a>
+			<a href="#" class="loginShow mx-2">Login</a> <a href="{% url 'accounts:register_user' %}">Sign up</a>
     	</article> </center> 
     
 </div>

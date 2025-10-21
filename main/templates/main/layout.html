@@ -87,9 +87,9 @@
               <!-- <i class="fa fa-user"></i> Аккаунт -->
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">             
-              <a class="dropdown-item" href="{% url 'main:profile' %}">Profile</a>
+              <a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a>
               <a class="dropdown-item" href="{% url 'main:chat_list' %}">Messages</a>
-                <form action="{% url 'main:logout' %}"  method="post">
+                <form action="{% url 'accounts:logout' %}"  method="post">
                     {% csrf_token %}
                     <button class="dropdown-item">Logout</button>
                 </form>
@@ -97,7 +97,7 @@
           </li>
           {% else %}
             <li class="nav-item {% if url_name == 'login' %} active {% endif %}">
-              <a class="nav-link mt-lg-2" href="{% url 'main:login' %}">Login</a>
+              <a class="nav-link mt-lg-2" href="{% url 'accounts:login' %}">Login</a>
             </li>               
           {% endif %}
           <li class="nav-item {% if url_name == 'other' %} active {% endif %}">

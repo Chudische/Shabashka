@@ -1,0 +1,10 @@
+Welcome to Shabashka!
+
+Dear {{user.username}}.
+
+You have been successfully signed up!
+
+Please follow the link to activate your profile  {{host}}{% url 'accounts:register_activate' sign=sign %}
+
+Best regards
+Shabashka team

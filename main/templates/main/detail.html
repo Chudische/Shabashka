@@ -46,7 +46,7 @@
 					<a href="#" class="btn btn-share share"><i class="fa fa-share-alt"></i> </a>
 					<span class="mx-3"><span class="uah">&#36</span> {{offer.price}}</span>
 					<span class="user f-right">Posted
-						<a href="{% url 'main:profile_by_id' pk=offer.author.pk %}">
+						<a href="{% url 'accounts:profile_by_id' pk=offer.author.pk %}">
 							{% if offer.author.first_name and offer.author.last_name %}
                         		{{offer.author.first_name}} {{offer.author.last_name}}
                         	{% else %}
@@ -73,7 +73,7 @@
 					<div class="row">
 						<div class="col-lg-3 col-md-3">
 							<div class="d-flex justify-content-center align-item-center ">							
-								<a href="{% url 'main:profile_by_id' pk=comment.author.pk %}">
+								<a href="{% url 'accounts:profile_by_id' pk=comment.author.pk %}">
 									{% if comment.author.avatar.image %}
 									<img src="{{comment.author.avatar.image.url}}" class="comment-img">
 									{% else %}
@@ -168,7 +168,7 @@
 			<center><article class="my-2">
 				<h3 class="center">Respond</h3>
 				<div class="comment-form p-2">
-			<p><a href="{% url 'main:login' %}">Login</a> or <a href="{% url 'main:register_user' %}">Sing up</a> to write a respond</p>
+			<p><a href="{% url 'accounts:login' %}">Login</a> or <a href="{% url 'accounts:register_user' %}">Sing up</a> to write a respond</p>
 			</article></center>
 			{% endif %}
 		</div>

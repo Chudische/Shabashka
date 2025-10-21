@@ -47,7 +47,6 @@ CORS_URL_REGEX = r'^/api/.*$'
 
 # Application definition
 
-AUTH_USER_MODEL = 'main.ShaUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -71,6 +70,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'main.apps.MainConfig',
+    'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -87,6 +87,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'cookie_consent',
 ]
+
+AUTH_USER_MODEL = 'accounts.ShaUser'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -113,11 +115,11 @@ AUTHENTICATION_BACKENDS = [
 ROOT_URLCONF = 'shabashka.urls'
 
 # Social app settings
-LOGIN_URL = 'main:login'
-LOGIN_REDIRECT_URL = 'main:profile'
-LOGOUT_URL = 'main:logout'
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'accounts:profile'
+LOGOUT_URL = 'accounts:logout'
 LOGOUT_REDIRECT_URL = 'main:index'
-SOCIAL_AUTH_URL_NAMESPACE = "main:social"
+SOCIAL_AUTH_URL_NAMESPACE = "accounts:social"
 
 # Facebook settings
 SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("FB_KEY")

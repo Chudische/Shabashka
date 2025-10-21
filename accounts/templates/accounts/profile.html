@@ -108,9 +108,9 @@
                 <div class="col-lg-4 col-md-4 col-sm 6">
                 {% if user == request.user %}    
                     <div><a href="#avatarModal" class="mx-1" data-toggle="modal" data-target="#avatarModal"><i class="fa fa-user"></i> Change profile picture </a></div>
-                    <div><a href="{% url 'main:profile_change' %}" class="mx-1"><i class="fa fa-pencil"></i> Edit profile </a></div>
-                    <div><a href="{% url 'main:password_change' %}" class="mx-1"><i class="fa fa-lock"></i> Change password </a></div>
-                    <div><a href="{% url 'main:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Delete profile </a></div>
+                    <div><a href="{% url 'accounts:profile_change' %}" class="mx-1"><i class="fa fa-pencil"></i> Edit profile </a></div>
+                    <div><a href="{% url 'accounts:password_change' %}" class="mx-1"><i class="fa fa-lock"></i> Change password </a></div>
+                    <div><a href="{% url 'accounts:profile_delete' %}" class="mx-1"><i class="fa fa-close"></i> Delete profile </a></div>
                 {% else %}
                 {% if request.user|in_followers:user %}                                
                     <a href="#" id="favorite" data-user="{{ user.id }}"><i class="fa fa-user"></i> Add to favorites</a>
@@ -151,7 +151,7 @@
                 <a href="#" class="btn btn-share share"><i class="fa fa-share-alt"></i> </a>
                 <span class="mx-3"><span class="uah">&#8372</span> {{offer.price}}</span>
                 <span class="user f-right">Posted
-                    <a href="{% url 'main:profile_by_id' pk=offer.author.pk %}">
+                    <a href="{% url 'accounts:profile_by_id' pk=offer.author.pk %}">
                         {% if offer.author.first_name and offer.author.last_name %}
                         {{offer.author.first_name}} {{offer.author.last_name}}
                         {% else %}
