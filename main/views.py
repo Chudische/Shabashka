@@ -128,7 +128,12 @@ def add_new_offer(request):
             location_formset = LocationFormSet(request.POST, request.FILES, instance=offer) 
             if formset.is_valid() and location_formset.is_valid():
                 messages.add_message(request, messages.SUCCESS, 'Offer has been posted')
-                return redirect('main:profile')
+                return redirect('accounts:profile')
+        else:
+            formset = AIFormSet(request.POST, request.FILES)
+            location_formset = LocationFormSet(request.POST, request.FILES)
+            context = {'form': form, 'formset': formset, 'location': location_formset}
+            return render(request, 'main/add_new_offer.html', context)
     else:
         form = OfferForm(initial={'author': request.user.pk})
         formset = AIFormSet
